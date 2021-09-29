@@ -10,9 +10,16 @@ const routes = [
     name: 'Dashboard',
     component: Dashboard
   },
+  {
+    path: '/signUp',
+    name: 'SignUp',
+    component: () => import('../views/auth/SignUp.vue')
+  },
 ]
 
 const router = new VueRouter({
+  mode: 'history',
+  base: process.env.BASE_URL,
   routes
 })
 
