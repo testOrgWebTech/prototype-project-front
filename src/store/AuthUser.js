@@ -21,6 +21,11 @@ export default new Vuex.Store({
             state.jwt = res.jwt
             state.isAuthen = true
         },
+        logoutSuccess(state) {
+            state.user = ""
+            state.jwt = ""
+            state.isAuthen = false
+        }
     },
     actions: {
         async login({ commit }, { email, password }) {
@@ -33,6 +38,10 @@ export default new Vuex.Store({
                 commit('loginSuccess', res_auth)
             }
             return res
+        },
+        async logout({ commit }) {
+            AuthService.logout()
+            commit('logoutSuccess')
         },
     },
     getters: {

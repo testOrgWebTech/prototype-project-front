@@ -47,12 +47,15 @@ export default {
             } else {
                 //422,401 ?
                 console.error(e)
-                console.log("ERROR  " + e.response.status + "  |  " + e.response.statusText)
+                console.log("ERROR  " + e.response.status + " |   " + e.response.statusText)
                 return {
                     success: false,
                     message: e.response.statusText,
                 }
             }
         }
+    },
+    logout() {
+        localStorage.removeItem(auth_key)
     },
 }

@@ -92,11 +92,15 @@
     </template>
 
     <template #end>
-      <b-button class="is-primary" tag="router-link" to="/signUp">
+      <b-button class="is-primary" v-if="!isAuthen()" tag="router-link" to="/signUp">
         <strong>Sign up</strong>
       </b-button>
 
-      <div>
+      <b-button class="is-primary" v-if="isAuthen()" @click="logout">
+        <strong>Logout</strong>
+      </b-button>
+
+      <div v-if="!isAuthen()">
         <Login />
       </div>
     </template>
@@ -118,6 +122,18 @@ export default {
     };
   },
   methods: {
+    isAuthen() {
+      return AuthUser.getters.isAuthen;
+    },
+    logout() {
+      console.log("Logout");
+      AuthUser.dispatch("logout");
+    },
+    testing() {
+      console.log(AuthUser.getters.user);
+      console.log(AuthUser.getters.jwt);
+      console.log(AuthUser.getters.isAuthen);
+    },
   },
 };
 </script>
