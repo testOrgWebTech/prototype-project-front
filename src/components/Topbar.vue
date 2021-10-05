@@ -97,7 +97,7 @@
       </b-button>
 
       <div>
-        <Login/>
+        <Login />
       </div>
     </template>
   </b-navbar>
@@ -105,6 +105,8 @@
 
 <script>
 import Login from "@/components/auth/Login.vue";
+import AuthUser from "@/store/AuthUser";
+
 export default {
   name: "Topbar",
   components: {
@@ -114,6 +116,8 @@ export default {
     return {
       open: false,
     };
+  },
+  methods: {
   },
 };
 </script>

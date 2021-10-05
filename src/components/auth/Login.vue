@@ -54,6 +54,8 @@
 </template>
 
 <script>
+import AuthUser from "@/store/AuthUser";
+
 export default {
   name: "Login",
   data() {
@@ -65,10 +67,14 @@ export default {
     };
   },
   methods: {
-    login() {
-      console.log("login button");
-      console.log(this.form.email);
-      console.log(this.form.password);
+    async login() {
+      //   let res = await AuthService.login(this.form);
+      let res = await AuthUser.dispatch("login", this.form);
+      if (res.success) {
+        console.log("Login Success!!!");
+      } else {
+        console.log("Login Failed");
+      }
     },
   },
 };
