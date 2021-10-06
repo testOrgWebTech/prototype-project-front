@@ -100,10 +100,6 @@
         <strong>Logout</strong>
       </b-button>
 
-      <b-button class="is-primary" @click="testing">
-        <strong>test</strong>
-      </b-button>
-
       <div v-if="!isAuthen()">
         <Login />
       </div>
@@ -123,6 +119,10 @@ export default {
   data() {
     return {
       open: false,
+      overlay: false,
+      fullheight: true,
+      fullwidth: false,
+      right: false
     };
   },
   methods: {
@@ -130,13 +130,7 @@ export default {
       return AuthUser.getters.isAuthen;
     },
     logout() {
-      console.log("Logout");
       AuthUser.dispatch("logout");
-    },
-    testing() {
-      console.log(AuthUser.getters.user);
-      console.log(AuthUser.getters.jwt);
-      console.log(AuthUser.getters.isAuthen);
     },
   },
 };

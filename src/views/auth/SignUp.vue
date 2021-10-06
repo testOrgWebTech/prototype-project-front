@@ -50,7 +50,7 @@ export default {
     async signUp() {
       let res = await AuthUser.dispatch("register", this.form);
       if (res.success) {
-        //after success registered then login to set the right jwt cuz resigter not response jwt so we have to login to get jwt
+        //after success registered then login to set the right jwt cuz resigter request not response jwt so we have to login to get jwt
         let loginForm = {
           email: this.form.email,
           password: this.form.password,
