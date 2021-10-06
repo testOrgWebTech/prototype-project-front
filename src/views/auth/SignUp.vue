@@ -2,13 +2,10 @@
   <div class="form">
     <section>
       <b-field label="Name" horizontal>
-        <b-input v-model="form.name"></b-input>
+        <b-input v-model="form.name" maxlength="32"></b-input>
       </b-field>
 
-      <b-field
-        label="Email"
-        horizontal
-      >
+      <b-field label="Email" horizontal>
         <b-input type="email" v-model="form.email" maxlength="30"> </b-input>
       </b-field>
 
@@ -35,6 +32,8 @@
 </template>
 
 <script>
+import AuthUser from "@/store/AuthUser";
+
 export default {
   data() {
     return {
@@ -48,11 +47,19 @@ export default {
   },
 
   methods: {
-    signUp() {
-      console.log(this.form.name);
-      console.log(this.form.email);
-      console.log(this.form.password);
-      console.log(this.form.password_confirmation);
+    async signUp() {
+      let res = await AuthUser.dispatch("register", this.form);
+      if (res.success) {
+        //after success registered then login to set the right jwt cuz resigter not response jwt so we have to login to get jwt
+        let loginForm = {
+          email: this.form.email,
+          password: this.form.password,
+        };
+        await AuthUser.dispatch("login", loginForm);
+        this.$router.push("/");
+      } else {
+        console.log("register Failed!");
+      }
     },
   },
 };

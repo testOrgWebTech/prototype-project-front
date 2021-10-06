@@ -43,6 +43,17 @@ export default new Vuex.Store({
             AuthService.logout()
             commit('logoutSuccess')
         },
+        async register({ commit }, { name, email, password, password_confirmation }) {
+            let res = await AuthService.register({ name, email, password, password_confirmation })
+            if (res.success) {
+                let res_auth = {
+                    user: res.user,
+                    jwt: res.jwt
+                }
+                commit('loginSuccess', res_auth)
+            }
+            return res
+        },
     },
     getters: {
         user: (state) => state.user,

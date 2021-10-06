@@ -100,6 +100,10 @@
         <strong>Logout</strong>
       </b-button>
 
+      <b-button class="is-primary" @click="testing">
+        <strong>test</strong>
+      </b-button>
+
       <div v-if="!isAuthen()">
         <Login />
       </div>

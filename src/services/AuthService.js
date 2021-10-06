@@ -58,4 +58,43 @@ export default {
     logout() {
         localStorage.removeItem(auth_key)
     },
+    async register({ name, email, password, password_confirmation }) {
+        try {
+            let url = `${api_endpoint}/api/auth/register`
+            let body = {
+                name: name,
+                email: email,
+                password: password,
+                password_confirmation: password_confirmation
+            }
+            console.log(body)
+            let res = await Axios.post(url, body)
+            if (res.status === 200 || res.status === 201) {
+                localStorage.setItem(auth_key, JSON.stringify(res.data))
+                return {
+                    success: true,
+                    user: res.data.user,
+                    jwt: res.data.access_token
+                }
+            } else {
+                console.log("NOT 200", res)
+            }
+        } catch (e) {
+            if (e.response.status === 400) {
+                console.error(e)
+                console.log("ERROR  " + e.response.status + " |   " + e.response.statusText)
+                return {
+                    success: false,
+                    message: e.response.statusText,
+                }
+            } else {
+                console.error(e)
+                console.log("ERROR  " + e.response.status + " |   " + e.response.statusText)
+                return {
+                    success: false,
+                    message: e.response.statusText,
+                }
+            }
+        }
+    },
 }
