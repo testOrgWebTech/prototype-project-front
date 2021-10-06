@@ -58,8 +58,21 @@ export default {
         await AuthUser.dispatch("login", loginForm);
         this.$router.push("/");
       } else {
+        this.danger(res.message);
         console.log("register Failed!");
       }
+    },
+    danger(message) {
+      const notif = this.$buefy.notification.open({
+        duration: 5000,
+        message: `<b>Failed</b> ${message} `,
+        position: "is-bottom-right",
+        type: "is-danger",
+        hasIcon: true,
+      });
+      // notif.$on("close", () => {
+      //   this.$buefy.notification.open("Custom notification closed!");
+      // });
     },
   },
 };
