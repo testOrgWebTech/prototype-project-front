@@ -1,0 +1,78 @@
+<template>
+  <div class="form">
+    <section>
+      <b-field label="Name" horizontal>
+        <b-input v-model="form.name" maxlength="32"></b-input>
+      </b-field>
+
+      <b-field label="Email" horizontal>
+        <b-input type="email" v-model="form.email" maxlength="30"> </b-input>
+      </b-field>
+
+      <b-field label="Password" horizontal>
+        <b-input v-model="form.password" type="password" password-reveal>
+        </b-input>
+      </b-field>
+
+      <b-field label="Password Confirmation" horizontal>
+        <b-input
+          v-model="form.password_confirmation"
+          type="password"
+          password-reveal
+        >
+        </b-input>
+      </b-field>
+
+      <b-button class="button is-danger" tag="router-link" to="/">
+        Cancel
+      </b-button>
+      <b-button @click="signUp" class="is-success"> Sign Up </b-button>
+    </section>
+  </div>
+</template>
+
+<script>
+import AuthUser from "@/store/AuthUser";
+
+export default {
+  data() {
+    return {
+      form: {
+        name: "",
+        email: "",
+        password: "",
+        password_confirmation: "",
+      },
+    };
+  },
+
+  methods: {
+    async signUp() {
+      let res = await AuthUser.dispatch("register", this.form);
+      if (res.success) {
+        //after success registered then login to set the right jwt cuz resigter request not response jwt so we have to login to get jwt
+        let loginForm = {
+          email: this.form.email,
+          password: this.form.password,
+        };
+        await AuthUser.dispatch("login", loginForm);
+        this.$router.push("/");
+      } else {
+        console.log("register Failed!");
+      }
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+.form {
+  margin: 200px;
+}
+.label {
+  text-align: left;
+}
+.button {
+  margin: 10px;
+}
+</style>
