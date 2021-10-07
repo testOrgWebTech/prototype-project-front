@@ -8,8 +8,10 @@
     >
       <template #trigger>
         <a class="navbar-item" role="button">
-          <span>Login</span>
-          <b-icon icon="menu-down"></b-icon>
+          <span style="color: white">Login</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down icon" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+          </svg>
         </a>
       </template>
 
@@ -72,6 +74,7 @@ export default {
       let res = await AuthUser.dispatch("login", this.form);
       if (res.success) {
         console.log("Login Success!!!");
+        this.$router.push('/')
       } else {
         console.log("Login Failed");
       }
@@ -80,5 +83,8 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+.icon{
+  margin-left: 5px;
+}
 </style>
