@@ -5,11 +5,12 @@
       <div v-for="(name, index) in this.form.users_name" :key="index">
           {{name}}
       </div>
-      
-              
-              
-          
+      <br>
+      <br>
+      <router-link :to="{name: 'EditTeam',params:{ id: this.id}}"> Edit team </router-link>
 
+    
+      
   </div>
 </template>
 
@@ -23,7 +24,7 @@ export default {
 
             form: {
                 name: '',
-                users_name:[],
+                users_name:'',
             },
         }
     },
@@ -34,9 +35,6 @@ export default {
         this.form.name = team.name
         this.form.users_name = team.users_name.split(",")
     },
-    methods:{
-  
-    }
 }
 </script>
 
