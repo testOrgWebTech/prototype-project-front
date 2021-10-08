@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import Axios from "axios"
 import AuthUser from "@/store/AuthUser"
+import swal from 'sweetalert';
 
 const api_endpoint = process.env.VUE_APP_ENDPOINT || "http://localhost:8080";
 Axios.defaults.headers.common = { 'Authorization': `bearer ${AuthUser.getters.jwt}` };
@@ -44,8 +45,11 @@ export default new Vuex.Store({
             let res = await Axios.post(url, body)
             if (res.status === 200) {
                 commit('add', res.data)
+                swal("Create Team Success", "","success")
             } else {
                 console.error(res)
+                
+                swal("Create Team Failed", res.message, "error")
             }
         },
         async editTeam({ commit }, payload) {
@@ -64,9 +68,11 @@ export default new Vuex.Store({
                 }
                 console.log("res", res)
                 commit('edit', resData)
+                swal("Edit Team Success", "","success")
             } else {
                 console.log("test error")
                 console.error(res)
+                swal("Edit Team Failed", res.message, "error")
             }
         },
     },

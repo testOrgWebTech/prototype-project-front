@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     async fetchData() {
-      await TeamApiStore.dispatch("fetchData");
+      await TeamApiStore.dispatch("fetchTeams");
       this.teams = TeamApiStore.getters.teams;
     },
 

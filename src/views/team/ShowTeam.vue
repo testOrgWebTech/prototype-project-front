@@ -2,7 +2,7 @@
   <div>
       <h1 class="title is-1">Team {{form.name}}</h1>
       <h4 class="subtitle is-4">Team member</h4>
-      <div v-for="(name, index) in this.form.users_name" :key="index">
+      <div v-for="(name, index) in this.form.users" :key="index">
           {{name}}
       </div>
       <br>
@@ -24,16 +24,15 @@ export default {
 
             form: {
                 name: '',
-                users_name:'',
+                users:'',
             },
         }
     },
     async created(){
         this.id = this.$route.params.id
         let team = await TeamService.getTeamById(this.id)
-        console.log(team)
         this.form.name = team.name
-        this.form.users_name = team.users_name.split(",")
+        this.form.users = team.users_name.split(",")
     },
 }
 </script>

@@ -12,7 +12,7 @@
         Cancel
       </b-button>
 
-      <b-button @click="create" class="is-success"> Create </b-button>
+      <b-button @click="create()" class="is-success"> Create </b-button>
     </section>
   </div>
       
@@ -22,7 +22,6 @@
 <script>
 import AuthUser from "@/store/AuthUser";
 import TeamApiStore from "@/store/TeamApi";
-import swal from 'sweetalert';
 export default {
       data() {
     return {
@@ -34,13 +33,8 @@ export default {
   },
   methods:{
       async create(){
-          let res = await TeamApiStore.dispatch("addTeam", this.form)
-          if (res.success) {
-                swal("Create Team Success", "","success")
-                this.$router.push('/')   
-            } else {
-                swal("Create Team Failed", res.message, "error")
-            }
+          await TeamApiStore.dispatch("addTeam", this.form)
+          this.$router.push('/')
       }
   }
 }

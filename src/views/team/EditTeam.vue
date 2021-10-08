@@ -7,16 +7,21 @@
         <b-input v-model="form.name"></b-input>
       </b-field>
       <b-field horizontal>
-          Enter a name separated by ","
+          Enter email separated by ","
       </b-field>
       <b-field label="Add Member" horizontal>
-        <b-input v-model="form.users"></b-input>
+        <b-input v-model="form.users_add"></b-input>
       </b-field>
-
-      
-
       <b-button class="is-success" @click="editTeam()"> Edit </b-button>
     </section>
+
+    <b-field horizontal>
+          Enter email separated by ","
+      </b-field>
+    <b-field label="Delete Member" horizontal>
+        <b-input v-model="form.users_delete"></b-input>
+      </b-field>
+      <b-button class="is-danger" @click="deleteMember()"> Delete </b-button>
     </div>
 </div>
 </template>
@@ -32,36 +37,42 @@ export default {
 
             form: {
                 name: '',
-                users:'',
+                users_add:'',
+                users_delete:''
             },
         }
     },
     async created(){
         this.id = this.$route.params.id
         let team = await TeamService.getTeamById(this.id)
-        console.log(team)
         this.form.name = team.name
-        this.form.users = team.users_name
+        
     },
     methods:{
       async editTeam(){
         let payload ={
           id: this.id,
           name: this.form.name,
-          users: this.form.users
+          users: this.form.users_add,
+          option: "add"
         }
-        let res = await TeamApiStore.dispatch("editTeam", payload)
-        if (res.success) {
-                swal("Edit Team Success", "","success")
-                this.$router.push('/showTeam/' + this.id)   
-            } else {
-                swal("Edit Team Failed", res.message, "error")
-            }
+        await TeamApiStore.dispatch("editTeam", payload)
+        this.$router.push('/showTeam/' + this.id)
         
       },
-      cancle(){
-          this.$router.push('/showTeam/'+ this.id)
-      }
+
+      async deleteMember(){
+        let payload ={
+          id: this.id,
+          name: this.form.name,
+          users: this.form.users_delete,
+          option: "delete"
+        }
+        await TeamApiStore.dispatch("editTeam", payload)
+        this.$router.push('/showTeam/' + this.id)
+        
+      },
+      
       
     }
 }
