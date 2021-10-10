@@ -9,8 +9,13 @@
       <MessageCard v-for="(item) in this.messages"
       :sender="item.sender.name" :msg="item.message" class="is-vcentered is-centered"></MessageCard>
     </div>
+
     <div>
       <MessagePost></MessagePost>
+    </div>
+    <div class="container">
+      <MessageCard v-for="(item) in this.sentMessages"
+                   :sender="item.sender.name" :msg="item.message" class="is-vcentered is-centered"></MessageCard>
     </div>
   </div>
 
@@ -33,18 +38,27 @@ export default {
       messages: [
 
       ],
+      sentMessages: [
+
+      ],
     }
   },
   created() {
     this.fetchMessage()
+    this.fetchSentMessage()
   },
   methods: {
     async fetchMessage() {
       await MessageStore.dispatch('fetchMessage')
       this.messages = MessageStore.getters.messages
     },
+    async fetchSentMessage() {
+      await MessageStore.dispatch('fetchSentMessage')
+      this.sentMessages = MessageStore.getters.messages
+    },
     logAll() {
       console.log(this.messages)
+      console.log(this.sentMessages)
     }
   }
 

@@ -31,12 +31,18 @@ export default new Vuex.Store({
             )
             commit("fetch", {res})
         },
+        async fetchSentMessage({ commit }) {
+            let header = AuthService.getApiHeader()
+            let res = await Axios.get("http://localhost:8000/api/messages/getSentMessage",header
+            )
+            commit("fetch", {res})
+        },
         async postMessage({ commit },payload) {
             let header = AuthService.getApiHeader()
             let res = await Axios.post("http://localhost:8000/api/messages",payload,header
             )
-            console.log(res)
-            // commit("add", res.data)
+            console.log(res.data)
+            commit("add", res.data)
             return res
 
         }

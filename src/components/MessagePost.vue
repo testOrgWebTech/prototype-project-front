@@ -22,13 +22,6 @@
               {{ error }}
             </div>
           </div>
-          <div class="level-right">
-            <div class="level-item">
-              <label class="checkbox">
-                <input type="checkbox"> Press enter to submit
-              </label>
-            </div>
-          </div>
         </nav>
       </div>
     </article>
@@ -55,10 +48,9 @@ export default {
     async sendMessage(){
       let payload ={
         message: this.form.message,
-        receiver: ""
+        receiver: 2
       }
       let res = await MessageStore.dispatch("postMessage", payload)
-      console.log(res)
       if (res.status === 201)
       {
         this.clearForm();
@@ -70,7 +62,7 @@ export default {
     },
     clearForm(){
       this.form = {
-        message: ""
+        message: "",
       }
     }
   }
