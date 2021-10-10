@@ -8,6 +8,3 @@ export default {
   name: 'Menu',
 }
 </script>
-
-<style scoped lang="scss">
-

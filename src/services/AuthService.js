@@ -4,20 +4,39 @@ import AuthUser from "../store/AuthUser";
 const auth_key = "auth-account"
 let auth = JSON.parse(localStorage.getItem(auth_key))
 const user = auth ? auth.user : ""
-const jwt = auth ? auth.jwt : ""
+const jwt = auth ? auth.access_token : ""
 
 const api_endpoint = process.env.VUE_APP_ENDPOINT || "http://localhost:8000"
 // const api_endpoint = "http://localhost:8000"
 
 export default {
     isAuthen() {
-        return (user !== "") && (jwt != "")
+        return (user !== "") && (jwt !== "")
     },
     getUser() {
         return user
     },
     getJwt() {
         return jwt
+    },
+    getApiHeader(){
+        if (this.jwt !== "" && this.jwt !== undefined)
+        {
+            return {
+                headers: {
+                    Authorization: `Bearer ${this.jwt}`
+                }
+            }
+        }
+        else
+        {
+            this.jwt = JSON.parse(localStorage.getItem(auth_key)).access_token
+            return {
+                headers: {
+                    Authorization: `Bearer ${this.jwt}`
+                }
+            }
+        }
     },
 
     async login({ email, password }) {

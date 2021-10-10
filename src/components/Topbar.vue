@@ -89,6 +89,7 @@
         <b-navbar-item href="#"> About </b-navbar-item>
         <b-navbar-item href="#"> Contact </b-navbar-item>
       </b-navbar-dropdown>
+      <b-navbar-item href="/message" v-if="isAuthen()">Message</b-navbar-item>
     </template>
 
     <template #end>
