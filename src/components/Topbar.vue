@@ -1,8 +1,8 @@
 <template>
-  <b-navbar>
+  <b-navbar class="topbar">
     <template #brand>
       <section>
-        <b-sidebar
+        <b-sidebar 
           type="is-light"
           :fullheight="fullheight"
           :fullwidth="fullwidth"
@@ -22,12 +22,12 @@
             
           </div>
         </b-sidebar>
-        <b-button @click="open = true">Show sidebar</b-button>
+        <b-button class="text buttonTopbar" @click="open = true">Show sidebar</b-button>
       </section>
     </template>
     <template #start>
-      <b-navbar-item href="#"> Home </b-navbar-item>
-      <b-navbar-item href="#"> Documentation </b-navbar-item>
+      <b-navbar-item class="text" href="#" tag="router-link" to="/"> Home </b-navbar-item>
+      <b-navbar-item class="text" href="#"> Documentation </b-navbar-item>
       <b-navbar-dropdown label="Info">
         <b-navbar-item href="#"> About </b-navbar-item>
         <b-navbar-item href="#"> Contact </b-navbar-item>
@@ -35,20 +35,26 @@
     </template>
 
     <template #end>
-      <b-button
-        class="is-primary"
-        v-if="!isAuthen()"
-        tag="router-link"
-        to="/signUp"
-      >
-        <strong>Sign up</strong>
+      <b-button class="text button buttonTopbar" v-if="!isAuthen()" tag="router-link" to="/signUp">
+        Sign up
       </b-button>
 
-      <b-button class="is-primary" v-if="isAuthen()" @click="logout">
-        <strong>Logout</strong>
-      </b-button>
+      <div class="iconProfile">
+        <router-link v-if="isAuthen()" to="/profile">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-circle personIcon" viewBox="0 0 16 16">
+          <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+          <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+          </svg>
+        </router-link>
+      </div>
+
       
-      <div v-if="!isAuthen()">
+      <b-button class="text buttonTopbar" v-if="isAuthen()" @click="logout">
+        Logout
+      </b-button>
+
+      
+      <div class="buttonTopbar login" v-if="!isAuthen()" >
         <Login />
       </div>
     </template>
@@ -86,4 +92,27 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+.text{
+  color: white;
+}
+.login{
+  border-radius: 7.5%;
+  margin-bottom: 7px;
+}
+.topbar{
+  background-color: #484848;
+}
+.buttonTopbar{
+  margin-top: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+  border: #484848;
+  background-color: #f15858;
+}
+.iconProfile{
+  position: absolute;
+  right: 100px;
+  top: 8.5px;
+}
+</style>

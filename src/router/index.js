@@ -35,6 +35,11 @@ const routes = [
     component: EditTeam
   },
   
+{
+    path: '/profile',
+    name: 'Profile',
+    component: () => import('../views/Profile.vue')
+  },
 ]
 
 const router = new VueRouter({
