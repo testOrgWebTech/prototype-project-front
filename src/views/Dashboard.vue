@@ -2,6 +2,7 @@
   <div>
     <Topbar/>
 
+    <!-- loop tag -->
     <div class="select is-rounded"> 
       <select v-model="tags">
         <option value="">All Tags</option>
@@ -15,7 +16,9 @@
     
 
     <!-- loop post  -->
-    <CardPost/>
+    <div class="gus">
+      <CardPost/><CardPost/><CardPost/><CardPost/><CardPost/><CardPost/><CardPost/><CardPost/>
+    </div>
   </div>
 </template>
 
@@ -40,7 +43,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+div{
+  background: #e8dcd0;
+}
 .select{
   top: 10px;
+}
+.gus{
+  margin-bottom: 100px;
 }
 </style>

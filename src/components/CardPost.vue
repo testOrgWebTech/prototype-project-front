@@ -11,6 +11,7 @@
                 <h1 class="text tagName">Tag : {{ tagName }}</h1>
                 <h1 class="text info">{{ info }}</h1>
                 <h1 class="text location">Location : {{ location }}</h1>
+                <h1 class="text detail">Detail : {{ detail }}</h1>
                 
             </div>
         </div>
@@ -29,7 +30,8 @@ export default {
             time: 'time',
             tagName: 'Football',
             info: 'looking for a 5-a-side',
-            location: '@ Casa Ramkhamhaeng'
+            location: '@ Casa Ramkhamhaeng',
+            detail: 'รับเเต่สาวๆ'
         }
     }
 }
@@ -75,11 +77,16 @@ export default {
     top: 250px;
     left: 60px;
 }
+.detail{
+    position: absolute;
+    top: 300px;
+    left: 60px
+}
 .card{
   background-color: #484848;
   margin-left: 450px;
   margin-right: 450px;
-  padding-bottom: 350px;
+  padding-bottom: 420px;
   margin-bottom: 20px;
 }
 .button{
@@ -90,7 +97,7 @@ export default {
   padding-bottom: 10px;
   padding-left: 50px;
   padding-right: 50px;
-  top: 330px;
+  top: 400px;
   right: 40px;
   font-size: 120%;
 }
