@@ -40,6 +40,8 @@ export default {
             }
         } catch (e) {
             if (e.response.status === 400) {
+                console.error(e)
+                console.log("ERROR  " + e.response.status + " |   " + e.response.statusText)
                 return {
                     success: false,
                     message: e.response.statusText,
@@ -67,7 +69,6 @@ export default {
                 password: password,
                 password_confirmation: password_confirmation
             }
-            console.log(body)
             let res = await Axios.post(url, body)
             if (res.status === 200 || res.status === 201) {
                 localStorage.setItem(auth_key, JSON.stringify(res.data))
@@ -81,18 +82,18 @@ export default {
             }
         } catch (e) {
             if (e.response.status === 400) {
-                console.error(e)
+                console.log(e)
                 console.log("ERROR  " + e.response.status + " |   " + e.response.statusText)
                 return {
                     success: false,
-                    message: e.response.statusText,
+                    message: e.response.data,
                 }
             } else {
                 console.error(e)
                 console.log("ERROR  " + e.response.status + " |   " + e.response.statusText)
                 return {
                     success: false,
-                    message: e.response.statusText,
+                    message: e.response.data,
                 }
             }
         }
