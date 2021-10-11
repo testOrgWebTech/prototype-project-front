@@ -1,7 +1,6 @@
 <template>
     <div>
         <Topbar/>
-        <h1>Profile</h1>
 
         <div class="card">
           <div class="card-content">
@@ -51,6 +50,7 @@ export default {
   color: white;
 }
 .card{
+  margin-top: 30px;
   margin-left: 500px;
   margin-right: 500px;
   background-color: #484848;
