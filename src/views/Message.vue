@@ -14,7 +14,7 @@
       <MessagePost></MessagePost>
     </div>
     <div class="container">
-      <MessageCard v-for="(item) in this.sentMessages"
+      <MessageCard v-for="(item) in this.sentMessages.data"
                    :sender="item.sender.name" :msg="item.message" class="is-vcentered is-centered"></MessageCard>
     </div>
   </div>
