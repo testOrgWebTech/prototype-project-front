@@ -1,40 +1,49 @@
 <template>
-  <div class="form">
-    <section>
-      <b-field label="Name" horizontal>
-        <b-input v-model="form.name" maxlength="32"></b-input>
-      </b-field>
+  <div>
+    <Topbar/>
+    <div class="form">
+      <h1 class="text"> Register </h1>
+      <br>
+      <br>
+      <section>
+        <b-field label="Name" horizontal>
+          <b-input v-model="form.name" maxlength="32"></b-input>
+        </b-field>
 
-      <b-field label="Email" horizontal>
-        <b-input type="email" v-model="form.email" maxlength="30"> </b-input>
-      </b-field>
+        <b-field label="Email" horizontal>
+          <b-input type="email" v-model="form.email" maxlength="30"> </b-input>
+        </b-field>
 
-      <b-field label="Password" horizontal>
-        <b-input v-model="form.password" type="password" password-reveal>
-        </b-input>
-      </b-field>
+        <b-field label="Password" horizontal>
+          <b-input v-model="form.password" type="password" password-reveal>
+          </b-input>
+        </b-field>
 
-      <b-field label="Password Confirmation" horizontal>
-        <b-input
-          v-model="form.password_confirmation"
-          type="password"
-          password-reveal
-        >
-        </b-input>
-      </b-field>
+        <b-field label="Password Confirmation" horizontal>
+          <b-input
+            v-model="form.password_confirmation"
+            type="password"
+            password-reveal
+          >
+          </b-input>
+        </b-field>
 
-      <b-button class="button is-danger" tag="router-link" to="/">
-        Cancel
-      </b-button>
-      <b-button @click="signUp" class="is-success"> Sign Up </b-button>
-    </section>
+        <b-button class="button is-danger" tag="router-link" to="/">
+          Cancel
+        </b-button>
+        <b-button @click="signUp" class="is-success"> Sign Up </b-button>
+      </section>
+    </div>
   </div>
 </template>
 
 <script>
 import AuthUser from "@/store/AuthUser";
-
+import Topbar from "@/components/Topbar.vue"
 export default {
+  components: {
+    Topbar
+  },
   data() {
     return {
       form: {
@@ -58,16 +67,34 @@ export default {
         await AuthUser.dispatch("login", loginForm);
         this.$router.push("/");
       } else {
+        this.danger(res.message);
         console.log("register Failed!");
       }
+    },
+    danger(message) {
+      const notif = this.$buefy.notification.open({
+        duration: 5000,
+        message: `<b>Failed</b> ${message} `,
+        position: "is-bottom-right",
+        type: "is-danger",
+        hasIcon: true,
+      });
+      // notif.$on("close", () => {
+      //   this.$buefy.notification.open("Custom notification closed!");
+      // });
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.text{
+  font-size: 300%;
+}
 .form {
-  margin: 200px;
+  margin-top: 100px;
+  margin-left: 200px;
+  margin-right: 200px;
 }
 .label {
   text-align: left;
