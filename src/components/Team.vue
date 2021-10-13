@@ -5,7 +5,7 @@
           <table class="team_table">
               <tbody v-if="isAuthen()">
                   <tr v-for="(team, index) in teams" :key="index">
-                      <td v-if="checkTeam(team.users_id.split(','))">
+                      <td v-if="checkTeam(team.users_id)">
                         <button class="teamName" @click="link(team.id)" 
                         >{{team.name}}</button>
                       </td>
