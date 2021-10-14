@@ -66,6 +66,7 @@ export default {
         };
         await AuthUser.dispatch("login", loginForm);
         this.$router.push("/");
+        this.$router.go(0);
       } else {
         this.danger(res.message);
         console.log("register Failed!");
