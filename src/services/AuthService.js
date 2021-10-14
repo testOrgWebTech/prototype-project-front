@@ -4,7 +4,7 @@ import AuthUser from "../store/AuthUser";
 const auth_key = "auth-account"
 let auth = JSON.parse(localStorage.getItem(auth_key))
 const user = auth ? auth.user : ""
-const jwt = auth ? auth.jwt : ""
+const jwt = auth ? auth.access_token : ""
 
 const api_endpoint = process.env.VUE_APP_ENDPOINT || "http://localhost:8000"
 // const api_endpoint = "http://localhost:8000"
