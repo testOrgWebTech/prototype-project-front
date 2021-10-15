@@ -12,7 +12,7 @@
       </select>
     </div>
 
-    <CreatePost/>
+    <CreatePost v-if="isAuthen()"/>
     
 
     <!-- loop post  -->
@@ -26,6 +26,7 @@
 import Topbar from '@/components/Topbar.vue'
 import CreatePost from '@/components/CreatePost.vue'
 import CardPost from '../components/CardPost.vue'
+import AuthUser from '@/store/AuthUser.js'
 export default {
   name: 'Dashboard',
   components: {
@@ -38,7 +39,11 @@ export default {
       tags: ''
     }
   },
-  
+  methods:{
+    isAuthen(){    
+      return AuthUser.getters.isAuthen;
+    }
+  }
 }
 </script>
 

@@ -88,6 +88,7 @@ export default {
   margin-right: 450px;
   padding-bottom: 420px;
   margin-bottom: 20px;
+  margin-top: 20px;
 }
 .button{
   position: absolute;
