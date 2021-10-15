@@ -4,13 +4,14 @@
 
         <div class="card">
           <div class="card-content">
-            <figure class="image is-128x128">
-              <img class="is-rounded"  src="https://bulma.io/images/placeholders/128x128.png">
+            <figure class="is-128x128 is-rounded">
+              <img class="image is-rounded"  :src="image">
             </figure>
             <div class="content">
-              <h1 class="text">{{ user.name }}</h1>
+              <h1 class="text">{{ this.user.name }}</h1>
               <br>
-              <h1 class="text">{{ user.email }}</h1>
+              <h1 class="text">{{ this.user.email }}</h1>
+              
             </div>
           </div>
         </div>
@@ -23,7 +24,7 @@
 
 <script>
 import Topbar from '@/components/Topbar.vue'
-import AuthService from '@/services/AuthService.js'
+import AuthUser from '@/store/AuthUser.js'
 export default {
   name: 'Dashboard',
   components: {
@@ -31,7 +32,8 @@ export default {
   },
   data(){
     return{
-      user:[]
+      user:[],
+      image: '',
     }
   },
   created(){
@@ -39,7 +41,10 @@ export default {
   },
   methods:{
     showUser(){
-      this.user = AuthService.getUser()
+      this.user = AuthUser.getters.user
+      this.image = "http://localhost:8000" + this.user.imagePath
+     
+      console.log(this.user);
     }
   }
 }
@@ -59,10 +64,12 @@ export default {
 .image{
   width: 180px;
   margin-left: 20px;
+  height: 180px;
+  border-radius: 50%;
 }
 .content{
-  position: relative;
-  top: -115px;
+  position: absolute;
+  top: 40px;
   margin-left: 250px;
   margin-right: 20px;
   text-align: left;

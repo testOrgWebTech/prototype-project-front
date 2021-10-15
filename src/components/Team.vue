@@ -5,7 +5,7 @@
           <table class="team_table">
               <tbody v-if="isAuthen()">
                   <tr v-for="(team, index) in teams" :key="index">
-                      <td v-if="checkTeam(team.users_id.split(','))">
+                      <td v-if="checkTeam(team.users_id)">
                         <router-link :to="{name: 'ShowTeam',params:{ id: team.id}}"
                         >{{team.name}}</router-link>
                       </td>
@@ -23,12 +23,10 @@
 <script>
 import AuthUser from "@/store/AuthUser";
 import TeamApiStore from "@/store/TeamApi";
-
 export default {
     data() {
     return {
       teams: [],
-
       form: {
         name: "",
         
@@ -43,11 +41,9 @@ export default {
       await TeamApiStore.dispatch("fetchTeams");
       this.teams = TeamApiStore.getters.teams;
     },
-
     isAuthen() {
         return AuthUser.getters.isAuthen
     },
-
     checkTeam(id){
       let user_id = AuthUser.getters.user.id.toString()
       if(id.includes(user_id)){
@@ -61,11 +57,8 @@ export default {
       this.$router.push('/createTeam')
     }
   },
-
 }
 </script>
 
 <style scoped lang="scss">
-
-
 </style>

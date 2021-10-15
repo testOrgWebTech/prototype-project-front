@@ -28,10 +28,16 @@
           </b-input>
         </b-field>
 
+        <img class="image" :src="urlImage">
+        <b-field label="Upload Your Image" horizontal>
+          <input class="inputFile" type="file" @change="onFileSelected">
+        </b-field>
+
         <b-button class="button is-danger" tag="router-link" to="/">
           Cancel
         </b-button>
         <b-button @click="signUp" class="is-success"> Sign Up </b-button>
+        
       </section>
     </div>
   </div>
@@ -39,7 +45,8 @@
 
 <script>
 import AuthUser from "@/store/AuthUser";
-import Topbar from "@/components/Topbar.vue"
+import Topbar from "@/components/Topbar.vue";
+import axios from "axios";
 export default {
   components: {
     Topbar
@@ -50,12 +57,20 @@ export default {
         name: "",
         email: "",
         password: "",
-        password_confirmation: "",
+        password_confirmation: ""
       },
+      selectedFile: null,
+      urlImage: ''
     };
   },
-
   methods: {
+    onFileSelected(event){
+      console.log(event);
+      this.selectedFile = event.target.files[0];
+      console.log(this.selectedFile);
+      
+      this.urlImage = URL.createObjectURL(this.selectedFile);
+    },
     async signUp() {
       let res = await AuthUser.dispatch("register", this.form);
       if (res.success) {
@@ -65,7 +80,22 @@ export default {
           password: this.form.password,
         };
         await AuthUser.dispatch("login", loginForm);
+
+        //upload
+        const fd = new FormData();
+        fd.append('image', this.selectedFile, this.selectedFile.name)
+        
+        axios.post('http://127.0.0.1:8000/api/upload-image', fd, {
+          headers: {Authorization:`Bearer ${AuthUser.getters.jwt}`}
+          }).then(res=>{
+          console.log(res);
+        })
+
+        await AuthUser.dispatch("login", loginForm);
         this.$router.push("/");
+
+        this.$router.go(0);
+
       } else {
         this.danger(res.message);
         console.log("register Failed!");
@@ -101,5 +131,12 @@ export default {
 }
 .button {
   margin: 10px;
+}
+.inputFile{
+  margin-left: -210px;
+}
+.image{
+  margin-left: 675px;
+  width: 10%;
 }
 </style>

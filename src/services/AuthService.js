@@ -86,7 +86,7 @@ export default {
                 name: name,
                 email: email,
                 password: password,
-                password_confirmation: password_confirmation
+                password_confirmation: password_confirmation,
             }
             let res = await Axios.post(url, body)
             if (res.status === 200 || res.status === 201) {
