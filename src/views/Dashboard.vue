@@ -12,27 +12,18 @@
       </select>
     </div>
 
-    <CreatePost v-if="isAuthen()"/>
     
 
-    <!-- loop post  -->
-    <div class="gus">
-      <CardPost/><CardPost/><CardPost/><CardPost/><CardPost/><CardPost/><CardPost/><CardPost/>
-    </div>
   </div>
 </template>
 
 <script>
 import Topbar from '@/components/Topbar.vue'
-import CreatePost from '@/components/CreatePost.vue'
-import CardPost from '../components/CardPost.vue'
 import AuthUser from '@/store/AuthUser.js'
 export default {
   name: 'Dashboard',
   components: {
     Topbar,
-    CardPost,
-    CreatePost
   },
   data(){
     return{
