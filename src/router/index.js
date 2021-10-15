@@ -4,6 +4,7 @@ import Dashboard from '@/views/Dashboard'
 import ShowTeam from '@/views/team/ShowTeam'
 import CreateTeam from '@/views/team/CreateTeam'
 import EditTeam from '@/views/team/EditTeam'
+import Message from "../views/Message";
 
 
 Vue.use(VueRouter)

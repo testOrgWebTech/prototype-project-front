@@ -55,7 +55,7 @@ export default {
       {
         this.clearForm();
       }
-      else if (res.status === 200)
+      else
       {
         this.error = res.data;
       }
