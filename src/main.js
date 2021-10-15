@@ -6,7 +6,7 @@ import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-
+// internal icons
 
 Vue.use(Buefy)
 Vue.use(VueAxios, axios)
