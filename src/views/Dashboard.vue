@@ -30,6 +30,7 @@
         :datetime="post.created_at"
         :email="post.user.email"
         :message="post.message"
+        :ownerId="post.user.id"
         @click="showPost"
         @delete="(id) => deletePost(id)"
         @showEdit="

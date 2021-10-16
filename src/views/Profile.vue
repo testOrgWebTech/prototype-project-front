@@ -8,9 +8,9 @@
               <img class="image is-rounded"  :src="image">
             </figure>
             <div class="content">
-              <h1 class="text">{{ this.user.name }}</h1>
+              <h1 class="text">{{ this.user.data.name }}</h1>
               <br>
-              <h1 class="text">{{ this.user.email }}</h1>
+              <h1 class="text">{{ this.user.data.email }}</h1>
               
             </div>
           </div>
@@ -25,6 +25,7 @@
 <script>
 import Topbar from '@/components/Topbar.vue'
 import AuthUser from '@/store/AuthUser.js'
+import Axios from "axios";
 export default {
   name: 'Dashboard',
   components: {
@@ -36,12 +37,14 @@ export default {
       image: '',
     }
   },
-  created(){
-    this.showUser()
+  async created() {
+    this.id = this.$route.params.id
+    this.user = await Axios.get("http://localhost:8000/api/users/" + this.id);
+    this.showUser();
   },
   methods:{
     showUser(){
-      this.user = AuthUser.getters.user
+      // this.user = AuthUser.getters.user
       this.image = "http://localhost:8000" + this.user.imagePath
      
       console.log(this.user);

@@ -3,8 +3,12 @@
     <div class="card-content">
       <div class="media">
         <div class="media-content">
-          <p class="title is-4">{{ name }}</p>
-          <p class="subtitle is-6">{{ email }}</p>
+          <router-link :to="`/profile/${ownerId}`">
+            <p class="title is-4">{{ name }}</p>
+            <p class="subtitle is-6">{{ email }}</p>
+          </router-link>
+
+
         </div>
         <b-dropdown v-model="option" append-to-body aria-role="menu" v-if="AuthUser.getters.user">
           <template #trigger>
@@ -88,6 +92,7 @@ export default {
     showCreateModal: false,
     message: null,
     user: null,
+    ownerId: '',
   },
   methods: {
     onClickJoin() {
