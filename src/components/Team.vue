@@ -6,16 +6,16 @@
               <tbody v-if="isAuthen()">
                   <tr v-for="(team, index) in teams" :key="index">
                       <td v-if="checkTeam(team.users_id)">
-                        <router-link :to="{name: 'ShowTeam',params:{ id: team.id}}"
-                        >{{team.name}}</router-link>
+
+                        <button class="teamName" @click="link(team.id)" 
+                        >{{team.name}}</button>
+
                       </td>
                   </tr>
               </tbody>
           </table>
           </b-menu-list>
-          <b-button class="is-primary" v-if="isAuthen()" @click="createTeamBtn()">
-        <strong>Create Team</strong>
-      </b-button>
+      <button class="button text" v-if="isAuthen()" @click="createTeamBtn()">Create Team</button>
       </div>
     </div>
 </template>
@@ -55,10 +55,37 @@ export default {
     },
     createTeamBtn(){
       this.$router.push('/createTeam')
+    },
+    link(id){
+      this.$router.push({name:'ShowTeam', params: {id: id}})
+      this.$router.go('/showTeam/' + id)
     }
   },
 }
 </script>
 
 <style scoped lang="scss">
+
+
+.button{
+  background-color: #f15858;
+  left: 23%;
+  top: 30px;
+}
+
+.text{
+    color: white;
+}
+
+.teamName:hover{
+  color: #f15858;
+}
+.teamName{
+  border: none;
+  font-size: 20px;
+  margin: 10px;
+}
+
+
+
 </style>
