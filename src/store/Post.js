@@ -37,6 +37,7 @@ export default new Vuex.Store({
             const res = await axios.post(api_endpoint + '/api/posts', payload, /*header*/);
             console.log(res)
             commit('newPost', res);
+            return res;
         },
         async editPost({ commit }, payload) {
             const res = await axios.put(api_endpoint + '/api/posts/' + payload.id, payload, /*header*/);
