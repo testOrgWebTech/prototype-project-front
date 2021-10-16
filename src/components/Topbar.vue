@@ -2,7 +2,7 @@
   <b-navbar class="topbar">
     <template #brand>
       <section>
-        <b-sidebar 
+        <b-sidebar
           type="is-light"
           :fullheight="fullheight"
           :fullwidth="fullwidth"
@@ -87,12 +87,15 @@ export default {
     },
     logout() {
       AuthUser.dispatch("logout");
+      this.$router.push('/')
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+$sidebar-background: #484848;
+
 .text{
   color: white;
 }
