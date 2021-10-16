@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import Axios from "axios"
 import AuthUser from "@/store/AuthUser"
 
-const api_endpoint = process.env.VUE_APP_ENDPOINT || "http://localhost:8080";
+const api_endpoint = process.env.VUE_APP_ENDPOINT || "http://localhost:8000";
 Axios.defaults.headers.common = { 'Authorization': `bearer ${AuthUser.getters.jwt}` };
 
 Vue.use(Vuex)
