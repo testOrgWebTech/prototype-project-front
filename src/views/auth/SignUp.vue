@@ -33,11 +33,12 @@
           <input class="inputFile" type="file" @change="onFileSelected">
         </b-field>
 
-        <b-button class="button is-danger" tag="router-link" to="/">
-          Cancel
-        </b-button>
-        <b-button @click="signUp" class="is-success"> Sign Up </b-button>
-        
+        <div class="Btn">
+          <b-button class="button is-danger" tag="router-link" to="/">
+            Cancel
+          </b-button>
+          <b-button @click="signUp" class="is-success"> Sign Up </b-button>
+        </div>
       </section>
     </div>
   </div>
@@ -80,7 +81,6 @@ export default {
           password: this.form.password,
         };
         await AuthUser.dispatch("login", loginForm);
-
         //upload
         const fd = new FormData();
         fd.append('image', this.selectedFile, this.selectedFile.name)
@@ -90,12 +90,9 @@ export default {
           }).then(res=>{
           console.log(res);
         })
-
         await AuthUser.dispatch("login", loginForm);
         this.$router.push("/");
-
         this.$router.go(0);
-
       } else {
         this.danger(res.message);
         console.log("register Failed!");
@@ -120,6 +117,7 @@ export default {
 <style lang="scss" scoped>
 .text{
   font-size: 300%;
+  text-align: center;
 }
 .form {
   margin-top: 100px;
@@ -132,11 +130,11 @@ export default {
 .button {
   margin: 10px;
 }
-.inputFile{
-  margin-left: -210px;
-}
 .image{
   margin-left: 675px;
   width: 10%;
+}
+.Btn{
+  text-align: center;
 }
 </style>
