@@ -6,8 +6,10 @@
               <tbody v-if="isAuthen()">
                   <tr v-for="(team, index) in teams" :key="index">
                       <td v-if="checkTeam(team.users_id)">
+
                         <button class="teamName" @click="link(team.id)" 
                         >{{team.name}}</button>
+
                       </td>
                   </tr>
               </tbody>
@@ -21,12 +23,10 @@
 <script>
 import AuthUser from "@/store/AuthUser";
 import TeamApiStore from "@/store/TeamApi";
-
 export default {
     data() {
     return {
       teams: [],
-
       form: {
         name: "",
         
@@ -41,11 +41,9 @@ export default {
       await TeamApiStore.dispatch("fetchTeams");
       this.teams = TeamApiStore.getters.teams;
     },
-
     isAuthen() {
         return AuthUser.getters.isAuthen
     },
-
     checkTeam(id){
       let user_id = AuthUser.getters.user.id.toString()
       if(id.includes(user_id)){
@@ -63,11 +61,11 @@ export default {
       this.$router.go('/showTeam/' + id)
     }
   },
-
 }
 </script>
 
 <style scoped lang="scss">
+
 
 .button{
   background-color: #f15858;
@@ -87,6 +85,7 @@ export default {
   font-size: 20px;
   margin: 10px;
 }
+
 
 
 </style>

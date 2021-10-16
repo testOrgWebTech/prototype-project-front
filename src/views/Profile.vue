@@ -1,17 +1,17 @@
 <template>
     <div>
         <Topbar/>
-        <h1>Profile</h1>
 
         <div class="card">
           <div class="card-content">
-            <figure class="image is-128x128">
-              <img class="is-rounded"  src="https://bulma.io/images/placeholders/128x128.png">
+            <figure class="is-128x128 is-rounded">
+              <img class="image is-rounded"  :src="image">
             </figure>
             <div class="content">
-              <h1 class="text">Name : </h1>
+              <h1 class="text">{{ this.user.name }}</h1>
               <br>
-              <h1 class="text">Email : </h1>
+              <h1 class="text">{{ this.user.email }}</h1>
+              
             </div>
           </div>
         </div>
@@ -48,22 +48,29 @@
 
 <script>
 import Topbar from '@/components/Topbar.vue'
+
 import ChallengeApiStore from '@/store/ChallengeApi'
 import AuthUser from "@/store/AuthUser"
+
+import AuthUser from '@/store/AuthUser.js'
+
 export default {
   name: 'Dashboard',
   components: {
     Topbar,
   },
-  
+
   data() {
     return {
       challenges:[],
+      user:[],
+      image: '',
       
     };
   },
   created() {
     this.fetchData()
+    this.showUser()
   },
   methods: {
     async fetchData() {
@@ -80,8 +87,13 @@ export default {
         return false
       }
     },
-    
   
+    showUser(){
+      this.user = AuthUser.getters.user
+      this.image = "http://localhost:8000" + this.user.imagePath
+     
+      console.log(this.user);
+    }
   }
 }
 </script>
@@ -91,6 +103,7 @@ export default {
   color: white;
 }
 .card{
+  margin-top: 30px;
   margin-left: 500px;
   margin-right: 500px;
   background-color: #484848;
@@ -99,10 +112,12 @@ export default {
 .image{
   width: 180px;
   margin-left: 20px;
+  height: 180px;
+  border-radius: 50%;
 }
 .content{
-  position: relative;
-  top: -115px;
+  position: absolute;
+  top: 40px;
   margin-left: 250px;
   margin-right: 20px;
   text-align: left;

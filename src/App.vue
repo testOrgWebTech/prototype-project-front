@@ -1,15 +1,22 @@
 <template>
-  <div id="app" style="background-color: #e8dcd0">
+  <div id="app" style="">
     <router-view/>
   </div>
 </template>
 
 <style lang="scss">
+body, html{
+  background-color: #e8dcd0;
+  margin: auto 10px;
+  width: 100%;
+  height: 100%;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  //text-align: center;
 }
 
 #nav {
