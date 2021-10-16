@@ -63,4 +63,11 @@ pre {
   overflow-wrap: break-word;
   overflow: hidden;
 }
+.card{
+  background-color: #484848;
+  color: white;
+}
+strong{
+  color: white;
+}
 </style>

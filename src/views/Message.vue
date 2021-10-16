@@ -4,23 +4,27 @@
 <!--    {{ messages }}-->
 <!--    <b-table :data="messages" :columns="columns"></b-table>-->
     <div>
-      <button @click="logAll()">LOG</button>
-      <button @click="currentMenu = 0">Inbox</button>
-      <button @click="currentMenu = 1">Sent</button>
+        <div class="container">
+          <button @click="logAll()">LOG</button>
+          <b-button class="level-right b-buttoncolor"
+                    label="New +"
+                    size="is-medium"
+                    @click="showCreateModal = true" />
+        </div>
+
+
+
+
+      <b-modal
+          :active.sync="showCreateModal"
+          :can-cancel="['escape', 'x', 'outside']"
+      >
+        <MessagePost></MessagePost>
+      </b-modal>
     </div>
 
-<!--    <b-tabs v-model="activeTab" :multiline="multiline">-->
-<!--      <template v-for="tab in tabs">-->
-<!--        <b-tab-item-->
-<!--            v-if="tab.displayed"-->
-<!--            :key="tab.id"-->
-<!--            :value="tab.id"-->
-<!--            :label="tab.label">-->
-<!--          {{ tab.content }}-->
-<!--        </b-tab-item>-->
-<!--      </template>-->
-<!--    </b-tabs>-->
-    <b-tabs v-model="activeTab" position="is-centered">
+
+    <b-tabs v-model="activeTab"  position="is-centered">
       <b-tab-item label="Inbox">
         <div class="container">
           <MessageCard v-for="(item) in this.messages"
@@ -36,20 +40,8 @@
           </MessageCard>
         </div>
       </b-tab-item>
-
     </b-tabs>
-
-
-
-
-
-    <div>
-      <MessagePost></MessagePost>
-    </div>
-
   </div>
-
-
 </template>
 
 <script>
@@ -71,6 +63,8 @@ export default {
       sentMessages: [],
       currentMenu: 0,
         activeTab: 0,
+      showCreateModal: false,
+
       //   showMusic: true,
       //   showBooks: false,
       //   multiline: true
@@ -103,4 +97,13 @@ export default {
 .wow {
   width: 66%;
 }
+.b-buttoncolor {
+  margin-top: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+  border: #484848;
+  background-color: #f15858;
+  color: white;
+}
+
 </style>
