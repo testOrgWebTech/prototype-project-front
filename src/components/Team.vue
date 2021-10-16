@@ -15,7 +15,6 @@
           </b-menu-list>
       <button class="button text" v-if="isAuthen()" @click="createTeamBtn()">Create Team</button>
       </div>
-      <router-link ></router-link>
     </div>
 </template>
 
