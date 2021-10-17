@@ -2,7 +2,7 @@
 <div>
   <Topbar/>
   <h1>Edit Team</h1>
-     <div>
+     <div class="form">
       <section>
       <b-field label="Name" horizontal>
         <b-input v-model="form.name" class="in" ></b-input>
@@ -130,5 +130,9 @@ export default {
 h1{
   font-size: 50px;
   padding: 10px;
+  text-align: center;
+}
+.form{
+  text-align: center;
 }
 </style>

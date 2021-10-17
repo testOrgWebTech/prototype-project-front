@@ -17,14 +17,20 @@
         </div>
 
         <br>
-        <h1>Challenges History</h1>
+        <h1 class="chText">Challenges History</h1>
 
-        <table class="styled-table">
+        <div class="divBtn">
+        <button class="button text" @click="showHistory()">Show</button>
+        </div>
+
+        <br>
+        <br>
+        <table class="styled-table" v-if="this.show">
           <thead>
             <tr>
               <th>Location</th>
-              <th>Team A</th>
-              <th>Team B</th>
+              <th>Players Team A</th>
+              <th>Players Team B</th>
               <th>Mode</th>
               <th>Victory Team</th>
               <th>Date</th>
@@ -33,11 +39,11 @@
           <tbody v-for="(cha, index) in challenges" :key="index">
             <tr v-if="checkCha(cha.users_id,cha.match_progress)">
               <td>{{cha.location}}</td>
-              <td>{{cha.teamA_name.toString()}}</td>
-              <td>{{cha.teamB_name.toString()}}</td>
+              <td>{{cha.teamA_players_name}}</td>
+              <td>{{cha.teamB_players_name}}</td>
               <td>{{cha.mode}}</td>
               <td>{{cha.victory_team}}</td>
-              <td>{{cha.updated_at.slice(0,10)}}</td>
+              <td >{{showDate(cha.updated_at)}}</td>
             </tr>
           </tbody>
         </table>
@@ -48,11 +54,10 @@
 
 <script>
 import Topbar from '@/components/Topbar.vue'
-
 import ChallengeApiStore from '@/store/ChallengeApi'
 import AuthUser from "@/store/AuthUser"
 
-import AuthUser from '@/store/AuthUser.js'
+
 
 export default {
   name: 'Dashboard',
@@ -65,7 +70,7 @@ export default {
       challenges:[],
       user:[],
       image: '',
-      
+      show: false,
     };
   },
   created() {
@@ -93,21 +98,32 @@ export default {
       this.image = "http://localhost:8000" + this.user.imagePath
      
       console.log(this.user);
-    }
+    },
+    showDate(date){
+      let d = new Date(date)
+      return d.toString().slice(4,24);
+    },
+
+    showHistory(){
+        if(this.show === false){
+            this.show = true
+        }
+        else{
+            this.show = false
+        }      
+    },
   }
 }
 </script>
 
-<style lang="scss" scoped>
-.text{
-  color: white;
-}
+<style scoped lang="scss">
 .card{
   margin-top: 30px;
-  margin-left: 500px;
-  margin-right: 500px;
+  //margin-left: 500px;
+  //margin-right: 500px;
   background-color: #484848;
   height: 225px;
+  text-align: center;
 }
 .image{
   width: 180px;
@@ -145,10 +161,27 @@ export default {
     border-bottom: 2px solid #484848;
 }
 
-h1{
+.chText{
     font-size: 30px;
     margin-top: 10px;
     margin-bottom: 10px;
+    text-align: center;
+}
+
+.button{
+  background-color: #f15858;
+}
+.button:hover{
+  color: #484848;
+  cursor: pointer;
+}
+.text{
+  color: white;
+}
+
+.divBtn{
+    text-align: center;
+    padding-top: 30px;
 }
 
 </style>
