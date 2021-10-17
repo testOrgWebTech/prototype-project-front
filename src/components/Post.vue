@@ -49,32 +49,36 @@
           })
         }}</time>
       </div>
+      
+      <b-modal
+        :active.sync="showJoinModal"
+        :can-cancel="['escape', 'x', 'outside']"
+      >
+        <JoinChallenge @closeCreate="showJoinModal = false"
+        :id="id"
+        :challenge_id="this.challenge_id">
+        </JoinChallenge>
+      </b-modal>
+      
       <b-button
         type="is-primary is-light"
         class="join-button"
-        v-if="AuthUser.getters.user"
-        @click="onClickJoin"
-        >Join</b-button
-      >
-    </div>
-
-    <!--create post-->
-    <!--<b-modal v-if="isDraft" :active.sync="showCreateModal" @close="$emit('closeCreateModal')">
-            <div class="card-content draft" style="background-color: white;">
-                <b-field label="create-post">
-                  <b-input maxlength="300" type="textarea"></b-input>
-                </b-field>
-                <b-button type="is-primary is-light" @click="newPost">Create Post</b-button>
-            </div>
-        </b-modal>-->
+        v-if="AuthUser.getters.user && checkOwnPost()"
+        @click="showJoinModal = true"
+        >Join
+      </b-button>
+    </div>  
   </div>
 </template>
 
 <script>
 import AuthUser from "@/store/AuthUser";
-import ChallengeStore from "@/store/ChallengeApi";
+import JoinChallenge from '@/components/JoinChallenge.vue'
 
 export default {
+  components:{
+    JoinChallenge
+  },
   name: "Post",
   data() {
     return {
@@ -83,9 +87,7 @@ export default {
       option: null,
       AuthUser,
       chellenge_form: {
-        location: "",
         teamB_id: "",
-        victory_team: "",
         players: "",
       },
     };
@@ -97,29 +99,14 @@ export default {
     name: null,
     datetime: null,
     isDraft: null,
-    showCreateModal: false,
+    showJoinModal: false,
     message: null,
     user: null,
     challenge_id: null,
   },
   methods: {
-    async onClickJoin() {
-      this.$buefy.dialog.confirm({
-        message: "Join this activity?",
-        onConfirm: async () => {
-          let payload = {
-            id: this.challenge_id,
-            teamB_id: challenge_form.teamB_id,
-            match_progress: "ENDED",
-            players: challenge_form.players,
-            player_team: "teamB",
-            //victory team rand on backend so we dont have to pass vcitory team
-            // victory_team: challenge_form.victory_team,
-          };
-          await ChallengeStore.dispatch("editChallenge", payload);
-          this.$buefy.toast.open("Join Success");
-        },
-      });
+    checkOwnPost(){
+      return !(AuthUser.getters.user.id === this.$props.user.id);
     },
   },
   created() {
