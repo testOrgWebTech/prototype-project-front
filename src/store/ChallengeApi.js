@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import Axios from "axios"
 import AuthUser from "@/store/AuthUser"
 
-const api_endpoint = process.env.VUE_APP_ENDPOINT || "http://localhost:8080";
+const api_endpoint = process.env.VUE_APP_ENDPOINT || "http://localhost:8000";
 Axios.defaults.headers.common = { 'Authorization': `bearer ${AuthUser.getters.jwt}` };
 
 Vue.use(Vuex)
@@ -54,11 +54,8 @@ export default new Vuex.Store({
         async editChallenge({ commit }, payload) {
             let url = api_endpoint + '/api/challenges/' + payload.id
             let body = {
-                location: payload.location,
                 teamB_id: payload.teamB_id,
-                victory_team: payload.victory_team,
                 match_progress: payload.match_progress,
-                mode: payload.mode,
                 players: payload.players,
                 player_team: payload.player_team
             }
