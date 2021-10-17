@@ -11,12 +11,14 @@
             {{ category.name }}
           </option>
         </b-select>
+
         <b-select required v-model="challenge_form.selectMode" placeholder="Mode">
           <option value="1v1">1 vs 1</option>
           <option value="2v2">2 vs 2</option>
           <option value="5v5">5 vs 5</option>
           <option value="6v6">6 vs 6</option>
           <option value="7v7">7 vs 7</option>
+
         </b-select>
       </b-field>
 
@@ -64,6 +66,7 @@ import AuthUser from "@/store/AuthUser";
 import ChallengeStore from "@/store/ChallengeApi";
 import TeamApiStore from "@/store/TeamApi";
 
+
 export default {
   data() {
     return {
@@ -93,6 +96,7 @@ export default {
   created() {
     this.fetchCategory();
     this.fetchTeam();
+
   },
   methods: {
     async fetchCategory() {
@@ -122,6 +126,7 @@ export default {
       });
     },
     async newPost() {
+
       if(this.selectedPlayer.length > this.challenge_form.selectMode[0]){
         this.$buefy.dialog.alert({
           title: 'Error',
@@ -188,7 +193,6 @@ export default {
         this.$emit("fetchPost");
         this.$emit("closeCreate");
       }
-      
     },
     async editPost() {
       const payload = {
@@ -204,7 +208,6 @@ export default {
       this.$emit("closeEdit");
     },
   },
-  
   mounted() {},
 };
 </script>
