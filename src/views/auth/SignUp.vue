@@ -65,9 +65,7 @@ export default {
   },
   methods: {
     onFileSelected(event){
-      console.log(event);
       this.selectedFile = event.target.files[0];
-      console.log(this.selectedFile);
       
       this.urlImage = URL.createObjectURL(this.selectedFile);
     },

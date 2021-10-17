@@ -6,21 +6,26 @@
       <section>
       <b-field label="Name" horizontal>
         <b-input v-model="form.name" class="in" ></b-input>
+
       </b-field>
       <b-button class="is-success" @click="editTeamName()"> Edit </b-button>
       <b-field horizontal>
           Enter email separated by ","
       </b-field>
       <b-field label="Add Member" horizontal>
+
         <b-input v-model="form.users_add" class="in" placeholder="example1@gmail.com,example2@gmail.com"></b-input>
       </b-field>
       <b-button class="is-success" @click="addMember()"> Add </b-button>
+
 
       <b-field horizontal>
           Enter email separated by ","
       </b-field>
     <b-field label="Delete Member" horizontal>
+
         <b-input v-model="form.users_delete" class="in" placeholder="example1@gmail.com,example2@gmail.com"></b-input>
+
       </b-field>
       <b-button class="is-danger" @click="deleteMember()"> Delete </b-button>
     </section>

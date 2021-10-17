@@ -29,7 +29,9 @@
         :name="post.user.name"
         :datetime="post.created_at"
         :email="post.user.email"
+        :user="post.user"
         :message="post.message"
+        :challenge_id="post.challenge_id"
         :ownerId="post.user.id"
         @click="showPost"
         @delete="(id) => deletePost(id)"
@@ -75,7 +77,7 @@ export default {
       showPostModal: false,
       showEditModal: null,
       selectedPost: null,
-      AuthUser
+      AuthUser,
     };
   },
   methods: {

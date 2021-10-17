@@ -10,7 +10,12 @@
 
 
         </div>
-        <b-dropdown v-model="option" append-to-body aria-role="menu" v-if="AuthUser.getters.user">
+        <b-dropdown
+          v-model="option"
+          append-to-body
+          aria-role="menu"
+          v-if="AuthUser.getters.user"
+        >
           <template #trigger>
             <a class="navbar-item" role="button">
               <h2>...</h2>
@@ -48,20 +53,32 @@
           })
         }}</time>
       </div>
+
+      <b-modal
+        :active.sync="showJoinModal"
+        :can-cancel="['escape', 'x', 'outside']"
+      >
+        <JoinChallenge @closeCreate="showJoinModal = false"
+        :id="id"
+        :challenge_id="this.challenge_id">
+        </JoinChallenge>
+      </b-modal>
+
       <b-button
           type="is-primary is-light"
           label="Direct Message"
           class="msg-button"
           v-if="AuthUser.getters.user"
           @click="showPostModal=true"
-      >Message</b-button>
+      >Message
+      </b-button>
       <b-button
-        type="is-primary is-light"
-        class="join-button"
-        v-if="AuthUser.getters.user"
-        @click="onClickJoin"
-        >Join</b-button
-      >
+          type="is-primary is-light"
+          class="join-button"
+          v-if="AuthUser.getters.user && checkOwnPost()"
+          @click="showJoinModal = true"
+          >Join
+      </b-button>
     </div>
     <div>
       <b-modal
@@ -87,11 +104,13 @@
 <script>
 import AuthUser from "@/store/AuthUser";
 import MessagePost from "./MessagePost";
+import JoinChallenge from '@/components/JoinChallenge.vue'
 
 export default {
   name: "Post",
   components: {
-    MessagePost
+    MessagePost,
+    JoinChallenge
   },
   data() {
     return {
@@ -99,7 +118,11 @@ export default {
       category: null,
       option: null,
       showPostModal: false,
-      AuthUser
+      AuthUser,
+      chellenge_form: {
+        teamB_id: "",
+        players: "",
+      },
     };
   },
   props: {
@@ -110,19 +133,15 @@ export default {
     datetime: null,
     isDraft: null,
     showCreateModal: false,
-
+    showJoinModal: false,
     message: null,
     user: null,
     ownerId: '',
+    challenge_id: null,
   },
   methods: {
-    onClickJoin() {
-      this.$buefy.dialog.confirm({
-        message: "Join this activity?",
-        onConfirm: async () => {
-          this.$buefy.toast.open("Join Success");
-        },
-      });
+    checkOwnPost(){
+      return !(AuthUser.getters.user.id === this.$props.user.id);
     },
   },
   created() {
