@@ -3,8 +3,10 @@
     <div class="card-content">
       <div class="media">
         <div class="media-content">
-          <p class="title is-4">{{ post.user.name }}</p>
-          <p class="subtitle is-6">{{ post.email }}</p>
+          <router-link :to="`/profile/${ownerId}`">
+            <p class="title is-4">{{ post.user.name }}</p>
+            <p class="subtitle is-6">{{ post.email }}</p>
+          </router-link>
         </div>
         <b-dropdown
           v-model="option"
@@ -61,7 +63,6 @@
         >
         </JoinChallenge>
       </b-modal>
-
       <b-button
         type="is-primary is-light"
         class="comment-button"
@@ -71,29 +72,48 @@
       >
       <b-button
         type="is-primary is-light"
+        label="Direct Message"
+        class="msg-button"
+        v-if="AuthUser.getters.user"
+        @click="showPostModal = true"
+        >Message
+      </b-button>
+      <b-button
+        type="is-primary is-light"
         class="join-button"
-        v-if="AuthUser.getters.user && AuthUser.getters.user.id != post.user_id"
+        v-if="AuthUser.getters.user && checkOwnPost()"
         @click="showJoinModal = true"
         >Join
       </b-button>
+    </div>
+    <div>
+      <b-modal
+        :active.sync="showPostModal"
+        :can-cancel="['escape', 'x', 'outside']"
+      >
+        <MessagePost :receiver_id="ownerId" :username="name"></MessagePost>
+      </b-modal>
     </div>
   </div>
 </template>
 
 <script>
 import AuthUser from "@/store/AuthUser";
-import JoinChallenge from "@/components/JoinChallenge.vue";
+import MessagePost from "./MessagePost";
+import JoinChallenge from '@/components/JoinChallenge.vue'
 
 export default {
-  components: {
-    JoinChallenge,
-  },
   name: "Post",
+  components: {
+    MessagePost,
+    JoinChallenge
+  },
   data() {
     return {
       categories: null,
       category: null,
       option: null,
+      showPostModal: false,
       AuthUser,
       chellenge_form: {
         teamB_id: "",
@@ -105,6 +125,17 @@ export default {
   // edit send post send each prop
   props: {
     post: null,
+    /*id: null,
+    email: null,
+    imageUrl: null,
+    name: null,
+    datetime: null,
+    isDraft: null,
+    showCreateModal: false,
+    showJoinModal: false,
+    message: null,*/
+    user: null,
+    ownerId: '',
     challenge_id: null,
   },
   methods: {
@@ -117,9 +148,9 @@ export default {
       });
       console.log(this.post);
     },
-    /*checkOwnPost() {
+    checkOwnPost() {
       return !(AuthUser.getters.user.id === this.$props.user.id);
-    },*/
+    },
   },
   created() {
     console.log(this.post);
@@ -136,5 +167,8 @@ export default {
 }
 .join-button {
   margin-left: 85%;
+}
+.msg-button {
+  margin-left: 550px;
 }
 </style>

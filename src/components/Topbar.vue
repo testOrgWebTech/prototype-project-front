@@ -31,6 +31,7 @@
       <b-navbar-item class="text" href="#" tag="router-link" to="/contract">
         Contract
       </b-navbar-item>
+      <b-navbar-item href="/message" v-if="isAuthen()">Message</b-navbar-item>
     </template>
 
     <template #end>
@@ -44,20 +45,10 @@
       </b-button>
 
       <div class="iconProfile">
-        <router-link v-if="isAuthen()" to="/profile">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="30"
-            height="30"
-            fill="currentColor"
-            class="bi bi-person-circle personIcon"
-            viewBox="0 0 16 16"
-          >
-            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-            <path
-              fill-rule="evenodd"
-              d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"
-            />
+        <router-link v-if="isAuthen()" :to="`/profile/${userId}`">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-circle personIcon" viewBox="0 0 16 16">
+          <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+          <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
           </svg>
         </router-link>
       </div>
@@ -85,6 +76,7 @@ export default {
     Login,
     Team,
   },
+  props: ['id'],
   data() {
     return {
       open: false,
@@ -94,6 +86,7 @@ export default {
       right: false,
       teams: null,
       isLoading: false,
+      userId: AuthUser.getters.user.id,
     };
   },
   methods: {

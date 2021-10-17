@@ -5,6 +5,8 @@ import ShowTeam from '@/views/team/ShowTeam'
 import CreateTeam from '@/views/team/CreateTeam'
 import EditTeam from '@/views/team/EditTeam'
 import Home from '@/views/Home'
+import Message from "../views/Message";
+
 
 Vue.use(VueRouter)
 
@@ -40,8 +42,18 @@ const routes = [
     component: EditTeam
   },
   {
+    path: '/message',
+    name: 'Message Check',
+    component: Message
+  },
+  {
     path: '/profile',
     name: 'Profile',
+    component: () => import('../views/Profile.vue')
+  },
+  {
+    path: '/profile/:id',
+    name: 'ProfileById',
     component: () => import('../views/Profile.vue')
   },
   {

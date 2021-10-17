@@ -28,11 +28,20 @@
           @fetchPost="fetchPost"
         ></Comment>
       </b-modal>
+      <!--Change props-->
       <Post
         v-for="(post, index) in posts"
         class="post"
         :key="index"
         :post="post"
+        :id="post.id"
+        :name="post.user.name"
+        :datetime="post.created_at"
+        :email="post.user.email"
+        :user="post.user"
+        :message="post.message"
+        :challenge_id="post.challenge_id"
+        :ownerId="post.user.id"
         @click="showPost"
         @delete="(id) => deletePost(id)"
         @showEdit="
@@ -79,6 +88,7 @@ export default {
       posts: null,
       comments: null,
       showCreateModal: false,
+      showPostModal: false,
       showEditModal: null,
       selectedPost: null,
       showCommentModal: false,
