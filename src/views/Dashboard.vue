@@ -31,7 +31,7 @@
         :email="post.user.email"
         :user="post.user"
         :message="post.message"
-        :challenge_id="post.challenge_id"
+        :challenge="post.challenge"
         @click="showPost"
         @delete="(id) => deletePost(id)"
         @showEdit="

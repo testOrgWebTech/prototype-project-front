@@ -1,7 +1,7 @@
 <template>
   <div class="card draft">
     <div class="card-content">
-     this challenge mode is {{challengeMode}}
+     this challenge mode is {{this.challenge.mode}}
     
     <b-field v-if="checkMode()">
         <b-select placeholder="Select Your Team"
@@ -24,6 +24,8 @@
      <b-button type="is-primary is-light" @click="join">
         Join
      </b-button>
+     <b-button @click="showData">data</b-button>
+     <b-loading v-model="isLoading"></b-loading>
     </div>
   </div>
 </template>
@@ -36,14 +38,15 @@ import ChallengeStore from '@/store/ChallengeApi'
 export default {
     data(){
         return{
-            challengeMode: "",
             teams: [],
             teamWithUser: [],
             selectedTeam: null,
             selectedTeamPlayer: [],
             selectedPlayer: [
                 AuthUser.getters.user.email
-            ]
+            ],
+            isLoading: true,
+            challenge: null,
         }
     },
     props:{
@@ -51,19 +54,25 @@ export default {
         challenge_id: null,
     },
     methods:{
+        showData(){
+            console.log(this.challenge);
+        },
         async findChallenge(){
-            let challenge = await ChallengeService.getChallengeById(this.$props.challenge_id)
-            this.challengeMode = challenge.mode
+            this.isLoading = true
+            this.challenge = await ChallengeService.getChallengeById(this.$props.challenge_id)
+            this.isLoading = false
         },
         async fetchTeam(){
+            this.isLoading = true
             await TeamApiStore.dispatch("fetchTeams");
             this.teams = TeamApiStore.getters.teams;
             let user_id = AuthUser.getters.user.id.toString();
             this.teams.forEach(team =>{
-                if(team.users_id.includes(user_id)){
+                if(team.users_id.includes(user_id) && team.id !== this.challenge.teamA_id){
                     this.teamWithUser.push(team);
                 }
             })
+            this.isLoading = false
         },
         selectTeam(){
             this.selectedTeamPlayer = []
@@ -75,13 +84,13 @@ export default {
             });
         },
         checkMode(){
-            if(this.challengeMode[0] === "1"){
+            if(this.challenge.mode[0] === "1"){
                 return false;
             }
             return true;
         },
         async join(){
-            if(this.selectedPlayer.length > this.challengeMode[0]){
+            if(this.selectedPlayer.length > this.challenge.mode[0]){
                 this.$buefy.dialog.alert({
                 title: 'Error',
                 message: 'The selected player is more than the limit.',
@@ -93,7 +102,7 @@ export default {
                 ariaModal: true
                 })
             }
-            else if(this.selectedPlayer.length < this.challengeMode[0]){
+            else if(this.selectedPlayer.length < this.challenge.mode[0]){
                 this.$buefy.dialog.alert({
                 title: 'Error',
                 message: 'The selected player is less than the limit.',
@@ -109,7 +118,7 @@ export default {
                 //update challenge and delete post
                 let player = this.selectedPlayer.join(', ')
                 let payload
-                if(this.challengeMode[0] === '1'){
+                if(this.challenge.mode[0] === '1'){
                     payload = {
                         id: this.$props.challenge_id,
                         teamB_id: "",
@@ -128,6 +137,7 @@ export default {
                     };
                 }
                 await ChallengeStore.dispatch("editChallenge", payload);
+                this.$emit("closeCreate");
             }
         }
     },

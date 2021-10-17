@@ -56,14 +56,15 @@
       >
         <JoinChallenge @closeCreate="showJoinModal = false"
         :id="id"
-        :challenge_id="this.challenge_id">
+        :challenge_id="challenge.id">
         </JoinChallenge>
       </b-modal>
+      
       
       <b-button
         type="is-primary is-light"
         class="join-button"
-        v-if="AuthUser.getters.user && checkOwnPost()"
+        v-if="AuthUser.getters.user && checkOwnPost() && checkUserInTeamA() && checkChallengeIsFull()"
         @click="showJoinModal = true"
         >Join
       </b-button>
@@ -86,10 +87,6 @@ export default {
       category: null,
       option: null,
       AuthUser,
-      chellenge_form: {
-        teamB_id: "",
-        players: "",
-      },
     };
   },
   props: {
@@ -102,16 +99,23 @@ export default {
     showJoinModal: false,
     message: null,
     user: null,
-    challenge_id: null,
+    challenge: null,
   },
   methods: {
     checkOwnPost(){
       return !(AuthUser.getters.user.id === this.$props.user.id);
     },
-  },
-  created() {
-    if (this.isDraft) {
-      this.fetchCategory();
+    checkUserInTeamA(){
+      if(this.challenge.teamA_players_id.includes(AuthUser.getters.user.id)){
+        return false;
+      }
+      return true;
+    },
+    checkChallengeIsFull(){
+      if(this.$props.challenge.teamB_players_id !== ""){
+        return false
+      }
+      return true;
     }
   },
 };
