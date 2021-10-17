@@ -72,6 +72,7 @@ export default {
     return {
       posts: null,
       showCreateModal: false,
+      showPostModal: false,
       showEditModal: null,
       selectedPost: null,
       AuthUser

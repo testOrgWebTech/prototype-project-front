@@ -2,19 +2,35 @@
     <div>
         <Topbar/>
 
+      <div class="modal">
+        <b-modal
+            :active.sync="showCreateModal"
+            :can-cancel="['escape', 'x', 'outside']"
+        >
+          <MessagePost :receiver_id="this.$route.params.id" :username="this.user.data.name"></MessagePost>
+        </b-modal>
+      </div>
+
         <div class="card">
           <div class="card-content">
             <figure class="is-128x128 is-rounded">
               <img class="image is-rounded"  :src="image">
             </figure>
             <div class="content">
-              <h1 class="text">{{ this.user.name }}</h1>
+              <h1 class="text">{{ this.user.data.name }}</h1>
               <br>
-              <h1 class="text">{{ this.user.email }}</h1>
-              
+              <h1 class="text">{{ this.user.data.email }}</h1>
+
             </div>
           </div>
         </div>
+
+      <div class="container" v-if="notMyself()">
+        <b-button class="b-buttoncolor"
+                  label="Send a Message"
+                  size="is-medium"
+                  @click="showCreateModal=true"/>
+      </div>
 
         <br>
         <h1>Challenges History</h1>
@@ -42,7 +58,6 @@
           </tbody>
         </table>
 
-
     </div>
 </template>
 
@@ -51,14 +66,15 @@ import Topbar from '@/components/Topbar.vue'
 
 import ChallengeApiStore from '@/store/ChallengeApi'
 import AuthUser from "@/store/AuthUser"
+import MessagePost from "../components/MessagePost";
 
-import AuthUser from '@/store/AuthUser.js'
 
 import Axios from "axios";
 export default {
   name: 'Dashboard',
   components: {
     Topbar,
+    MessagePost
   },
 
   data() {
@@ -66,6 +82,7 @@ export default {
       challenges:[],
       user:[],
       image: '',
+      showCreateModal: false,
 
     };
   },
@@ -95,8 +112,10 @@ export default {
     showUser(){
       // this.user = AuthUser.getters.user
       this.image = "http://localhost:8000" + this.user.imagePath
-     
-      console.log(this.user);
+
+    },
+    notMyself(){
+      return this.id != AuthUser.getters.user.id;
     }
   }
 }
@@ -153,6 +172,14 @@ h1{
     font-size: 30px;
     margin-top: 10px;
     margin-bottom: 10px;
+}
+.b-buttoncolor {
+  margin-top: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+  border: #484848;
+  background-color: #f15858;
+  color: white;
 }
 
 </style>

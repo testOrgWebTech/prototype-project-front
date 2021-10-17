@@ -35,7 +35,7 @@
       <b-tab-item label="Sent">
         <div class="container">
           <MessageCard v-for="(item) in this.sentMessages"
-                       :sender="item.sender" :msg="item.message" class="is-vcentered is-centered">
+                       :sender="item.sender" :msg="item.message" :ago="item.ago" class="is-vcentered is-centered">
 
           </MessageCard>
         </div>
