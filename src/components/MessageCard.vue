@@ -4,17 +4,15 @@
       <article class="media card-content">
         <figure class="media-left">
           <p class="image is-64x64">
-            <img src="https://bulma.io/images/placeholders/128x128.png">
+            <img :src="`http://localhost:8000${sender.imagePath}`">
           </p>
         </figure>
         <div class="media-content">
           <div class="content">
-
               <p>
               <strong>{{ sender.name }}</strong> <small> <{{ sender.email }}></small> <small>{{ ago }}</small>
               <br>
                 <span style="white-space: pre;">{{ msg }}</span>
-
             </p>
 
           </div>
