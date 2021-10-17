@@ -7,6 +7,7 @@ export default {
         try {
             let res = await Axios.get(`${api_endpoint}/api/challenges/${id}`)
             return res.data
+
         } catch (e) {
 
         }

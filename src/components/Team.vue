@@ -66,7 +66,6 @@ export default {
 
 <style scoped lang="scss">
 
-
 .button{
   background-color: #f15858;
   left: 23%;
@@ -85,7 +84,6 @@ export default {
   font-size: 20px;
   margin: 10px;
 }
-
 
 
 </style>
