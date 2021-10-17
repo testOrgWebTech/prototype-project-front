@@ -15,16 +15,12 @@ export default new Vuex.Store({
             state.posts = res.data;
         },
         newPost(state, res) {
-            console.log(res)
-            state.posts.push(res.data);
-            console.log(state.posts)
+            state.posts.push(res.data);        
         },
         editPost(state, res) {
-            console.log(res)
             state.posts = res.data;
         },
         deletePost(state, res) {
-            console.log(res)
             state.posts = res.data;
         }
     },
@@ -46,6 +42,11 @@ export default new Vuex.Store({
         async deletePost({ commit }, id) {
             const res = await axios.delete(api_endpoint + '/api/posts/' + id, /*header*/);
             commit('deletePost', res);
+        },
+        async getOne(id) {
+            const res = await axios.post(api_endpoint + '/api/posts/', id, /*header*/);
+            console.log(res)
+            return res;
         },
     },
     getters: {

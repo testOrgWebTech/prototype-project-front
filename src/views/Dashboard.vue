@@ -1,13 +1,7 @@
 <template>
   <div class="content">
     <Topbar />
-
-    <!-- loop post  -->
     <div class="post-zone">
-      <!--<Post class="post"
-        :isDraft="true"
-      >
-      </Post>-->
       <b-modal
         :active.sync="showCreateModal"
         :can-cancel="['escape', 'x', 'outside']"
@@ -19,19 +13,26 @@
         :active.sync="showEditModal"
         :can-cancel="['escape', 'x', 'outside']"
       >
-        <DraftPost class="post" :selectedPost="selectedPost"> </DraftPost>
+        <DraftPost class="post" :selectedPost="selectedPost" :isEdit="true">
+        </DraftPost>
+      </b-modal>
+      <b-modal
+        :active.sync="showCommentModal"
+        :can-cancel="['escape', 'x', 'outside']"
+        full-screen
+      >
+        <Comment
+          class="comment"
+          :post="selectedPost"
+          @closeComment="showCommentModal = false"
+          @fetchPost="fetchPost"
+        ></Comment>
       </b-modal>
       <Post
         v-for="(post, index) in posts"
         class="post"
         :key="index"
-        :id="post.id"
-        :name="post.user.name"
-        :datetime="post.created_at"
-        :email="post.user.email"
-        :user="post.user"
-        :message="post.message"
-        :challenge_id="post.challenge_id"
+        :post="post"
         @click="showPost"
         @delete="(id) => deletePost(id)"
         @showEdit="
@@ -41,17 +42,19 @@
           }
         "
         @closeEdit="showEditModal = false"
+        @showComment="(e) => showComment(e)"
       >
       </Post>
       <b-button
         type="is-danger is-light"
         id="create-button"
         @click="showCreateModal = true"
-        v-if="AuthUser.getters.user"
+        v-if="auth.getters.user"
       >
         สร้างโพส
       </b-button>
     </div>
+    <b-loading v-model="isLoading"></b-loading>
   </div>
 </template>
 
@@ -61,6 +64,7 @@ import Post from "@/components/Post.vue";
 import DraftPost from "@/components/DraftPost.vue";
 import PostStore from "@/store/Post";
 import AuthUser from "@/store/AuthUser";
+import Comment from "@/components/Comment.vue";
 
 export default {
   name: "Dashboard",
@@ -68,37 +72,53 @@ export default {
     Topbar,
     Post,
     DraftPost,
+    Comment,
   },
   data() {
     return {
       posts: null,
+      comments: null,
       showCreateModal: false,
       showEditModal: null,
       selectedPost: null,
-      AuthUser,
+      showCommentModal: false,
+      auth: AuthUser,
+      isLoading: false,
     };
   },
   methods: {
     async fetchPost() {
       await PostStore.dispatch("fetchPost");
       this.posts = await PostStore.getters.posts;
+      console.log(this.posts);
     },
+    /*async fetchComment(id) {
+      await CommentStore.dispatch("fetchComment", id);
+      this.comments = await CommentStore.getters.comments;
+    },*/
     showPost() {
       console.log("hey");
+    },
+    async showComment(post_id) {
+      await this.fetchPost();
+      this.selectedPost = await this.posts.find((e) => e.id == post_id);
+      this.showCommentModal = true;
     },
     async deletePost(id) {
       this.$buefy.dialog.confirm({
         message: "Delete?",
         onConfirm: async () => {
+          this.isLoading = true;
           await PostStore.dispatch("deletePost", id);
           await this.fetchPost();
+          this.isLoading = false;
           this.$buefy.toast.open("Delete Success");
         },
       });
     },
   },
-  created() {
-    this.fetchPost();
+  async created() {
+    await this.fetchPost();
   },
 };
 </script>
@@ -118,5 +138,8 @@ export default {
   position: fixed;
   bottom: 20px;
   right: 20px;
+}
+.modal-close {
+  background: black;
 }
 </style>

@@ -48,11 +48,8 @@
 
 <script>
 import Topbar from '@/components/Topbar.vue'
-
 import ChallengeApiStore from '@/store/ChallengeApi'
 import AuthUser from "@/store/AuthUser"
-
-import AuthUser from '@/store/AuthUser.js'
 
 export default {
   name: 'Dashboard',

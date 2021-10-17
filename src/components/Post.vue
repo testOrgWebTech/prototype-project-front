@@ -3,8 +3,8 @@
     <div class="card-content">
       <div class="media">
         <div class="media-content">
-          <p class="title is-4">{{ name }}</p>
-          <p class="subtitle is-6">{{ email }}</p>
+          <p class="title is-4">{{ post.user.name }}</p>
+          <p class="subtitle is-6">{{ post.email }}</p>
         </div>
         <b-dropdown
           v-model="option"
@@ -25,59 +25,68 @@
           <b-dropdown-item
             value="edit"
             aria-role="menuitem"
-            @click="$emit('showEdit', id)"
+            @click="$emit('showEdit', post)"
           >
             Edit
           </b-dropdown-item>
           <b-dropdown-item
             value="delete"
             aria-role="menuitem"
-            @click="$emit('delete', id)"
+            @click="$emit('delete', post.id)"
           >
             Delete
           </b-dropdown-item>
         </b-dropdown>
       </div>
       <div>
-        {{ message }}
+        {{ post.message }}
         <br /><br />
         <time>{{
-          new Date(datetime).toLocaleDateString("en-EN", {
+          new Date(post.created_at).toLocaleDateString("en-EN", {
             day: "numeric",
             month: "long",
             year: "numeric",
           })
         }}</time>
       </div>
-      
+
       <b-modal
         :active.sync="showJoinModal"
         :can-cancel="['escape', 'x', 'outside']"
       >
-        <JoinChallenge @closeCreate="showJoinModal = false"
-        :id="id"
-        :challenge_id="this.challenge_id">
+        <JoinChallenge
+          @closeCreate="showJoinModal = false"
+          :id="post.id"
+          :challenge_id="this.challenge_id"
+        >
         </JoinChallenge>
       </b-modal>
-      
+
+      <b-button
+        type="is-primary is-light"
+        class="comment-button"
+        v-if="AuthUser.getters.user && post.comments.length > 0"
+        @click="$emit('showComment', post.id)"
+        >Comment</b-button
+      >
       <b-button
         type="is-primary is-light"
         class="join-button"
-        v-if="AuthUser.getters.user && checkOwnPost()"
+        v-if="AuthUser.getters.user && AuthUser.getters.user.id != post.user_id"
         @click="showJoinModal = true"
         >Join
       </b-button>
-    </div>  
+    </div>
   </div>
 </template>
 
 <script>
 import AuthUser from "@/store/AuthUser";
-import JoinChallenge from '@/components/JoinChallenge.vue'
+import JoinChallenge from "@/components/JoinChallenge.vue";
 
 export default {
-  components:{
-    JoinChallenge
+  components: {
+    JoinChallenge,
   },
   name: "Post",
   data() {
@@ -90,29 +99,30 @@ export default {
         teamB_id: "",
         players: "",
       },
+      showJoinModal: null,
     };
   },
+  // edit send post send each prop
   props: {
-    id: null,
-    email: null,
-    imageUrl: null,
-    name: null,
-    datetime: null,
-    isDraft: null,
-    showJoinModal: false,
-    message: null,
-    user: null,
+    post: null,
     challenge_id: null,
   },
   methods: {
-    checkOwnPost(){
-      return !(AuthUser.getters.user.id === this.$props.user.id);
+    onClickJoin() {
+      this.$buefy.dialog.confirm({
+        message: "Join this activity?",
+        onConfirm: async () => {
+          this.$buefy.toast.open("Join Success");
+        },
+      });
+      console.log(this.post);
     },
+    /*checkOwnPost() {
+      return !(AuthUser.getters.user.id === this.$props.user.id);
+    },*/
   },
   created() {
-    if (this.isDraft) {
-      this.fetchCategory();
-    }
+    console.log(this.post);
   },
 };
 </script>
@@ -125,6 +135,6 @@ export default {
   word-wrap: break-word;
 }
 .join-button {
-  margin-left: 630px;
+  margin-left: 85%;
 }
 </style>
