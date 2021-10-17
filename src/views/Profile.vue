@@ -2,19 +2,35 @@
     <div>
         <Topbar/>
 
+      <div class="modal">
+        <b-modal
+            :active.sync="showCreateModal"
+            :can-cancel="['escape', 'x', 'outside']"
+        >
+          <MessagePost :receiver_id="this.$route.params.id" :username="this.user.data.name"></MessagePost>
+        </b-modal>
+      </div>
+
         <div class="card">
           <div class="card-content">
             <figure class="is-128x128 is-rounded">
               <img class="image is-rounded"  :src="image">
             </figure>
             <div class="content">
-              <h1 class="text">{{ this.user.name }}</h1>
+              <h1 class="text">{{ this.user.data.name }}</h1>
               <br>
-              <h1 class="text">{{ this.user.email }}</h1>
-              
+              <h1 class="text">{{ this.user.data.email }}</h1>
+
             </div>
           </div>
         </div>
+
+      <div class="container" v-if="notMyself()">
+        <b-button class="b-buttoncolor"
+                  label="Send a Message"
+                  size="is-medium"
+                  @click="showCreateModal=true"/>
+      </div>
 
         <br>
         <h1 class="chText">Challenges History</h1>
@@ -48,7 +64,6 @@
           </tbody>
         </table>
 
-
     </div>
 </template>
 
@@ -56,13 +71,13 @@
 import Topbar from '@/components/Topbar.vue'
 import ChallengeApiStore from '@/store/ChallengeApi'
 import AuthUser from "@/store/AuthUser"
-
-
-
+import MessagePost from "../components/MessagePost";
+import Axios from "axios";
 export default {
   name: 'Dashboard',
   components: {
     Topbar,
+    MessagePost
   },
 
   data() {
@@ -71,11 +86,17 @@ export default {
       user:[],
       image: '',
       show: false,
+      showCreateModal: false,
+
+
     };
   },
-  created() {
+  async created() {
+    this.id = this.$route.params.id
+    this.user = await Axios.get("http://localhost:8000/api/users/" + this.id);
     this.fetchData()
-    this.showUser()
+    this.showUser();
+
   },
   methods: {
     async fetchData() {
@@ -83,7 +104,7 @@ export default {
       this.challenges = ChallengeApiStore.getters.challenges;
     },
 
-    checkCha(id,match_progress){ 
+    checkCha(id,match_progress){
       let user_id = AuthUser.getters.user.id.toString()
       if(id.includes(user_id) && match_progress == "ENDED"){
         return true
@@ -92,11 +113,10 @@ export default {
         return false
       }
     },
-  
+
     showUser(){
-      this.user = AuthUser.getters.user
+      // this.user = AuthUser.getters.user
       this.image = "http://localhost:8000" + this.user.imagePath
-     
       console.log(this.user);
     },
     showDate(date){
@@ -112,6 +132,12 @@ export default {
             this.show = false
         }      
     },
+
+    },
+    notMyself(){
+      return this.id != AuthUser.getters.user.id;
+    }
+
   }
 }
 </script>
@@ -154,7 +180,7 @@ export default {
 .styled-table th, .styled-table td {
     padding: 12px 15px;
     text-align: center;
-    
+
 }
 
 .styled-table tbody tr:last-of-type {
@@ -182,6 +208,14 @@ export default {
 .divBtn{
     text-align: center;
     padding-top: 30px;
+}
+.b-buttoncolor {
+  margin-top: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+  border: #484848;
+  background-color: #f15858;
+  color: white;
 }
 
 </style>

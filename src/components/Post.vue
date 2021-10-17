@@ -3,10 +3,19 @@
     <div class="card-content">
       <div class="media">
         <div class="media-content">
-          <p class="title is-4">{{ name }}</p>
-          <p class="subtitle is-6">{{ email }}</p>
+          <router-link :to="`/profile/${ownerId}`">
+            <p class="title is-4">{{ name }}</p>
+            <p class="subtitle is-6">{{ email }}</p>
+          </router-link>
+
+
         </div>
-        <b-dropdown v-model="option" append-to-body aria-role="menu" v-if="AuthUser.getters.user">
+        <b-dropdown
+          v-model="option"
+          append-to-body
+          aria-role="menu"
+          v-if="AuthUser.getters.user"
+        >
           <template #trigger>
             <a class="navbar-item" role="button">
               <h2>...</h2>
@@ -44,13 +53,40 @@
           })
         }}</time>
       </div>
-      <b-button
-        type="is-primary is-light"
-        class="join-button"
-        v-if="AuthUser.getters.user"
-        @click="onClickJoin"
-        >Join</b-button
+
+      <b-modal
+        :active.sync="showJoinModal"
+        :can-cancel="['escape', 'x', 'outside']"
       >
+        <JoinChallenge @closeCreate="showJoinModal = false"
+        :id="id"
+        :challenge_id="this.challenge_id">
+        </JoinChallenge>
+      </b-modal>
+
+      <b-button
+          type="is-primary is-light"
+          label="Direct Message"
+          class="msg-button"
+          v-if="AuthUser.getters.user"
+          @click="showPostModal=true"
+      >Message
+      </b-button>
+      <b-button
+          type="is-primary is-light"
+          class="join-button"
+          v-if="AuthUser.getters.user && checkOwnPost()"
+          @click="showJoinModal = true"
+          >Join
+      </b-button>
+    </div>
+    <div>
+      <b-modal
+          :active.sync="showPostModal"
+          :can-cancel="['escape', 'x', 'outside']"
+      >
+        <MessagePost :receiver_id="ownerId" :username="name"></MessagePost>
+      </b-modal>
     </div>
 
     <!--create post-->
@@ -67,15 +103,26 @@
 
 <script>
 import AuthUser from "@/store/AuthUser";
+import MessagePost from "./MessagePost";
+import JoinChallenge from '@/components/JoinChallenge.vue'
 
 export default {
   name: "Post",
+  components: {
+    MessagePost,
+    JoinChallenge
+  },
   data() {
     return {
       categories: null,
       category: null,
       option: null,
-      AuthUser
+      showPostModal: false,
+      AuthUser,
+      chellenge_form: {
+        teamB_id: "",
+        players: "",
+      },
     };
   },
   props: {
@@ -86,17 +133,15 @@ export default {
     datetime: null,
     isDraft: null,
     showCreateModal: false,
+    showJoinModal: false,
     message: null,
     user: null,
+    ownerId: '',
+    challenge_id: null,
   },
   methods: {
-    onClickJoin() {
-      this.$buefy.dialog.confirm({
-        message: "Join this activity?",
-        onConfirm: async () => {
-          this.$buefy.toast.open("Join Success");
-        },
-      });
+    checkOwnPost(){
+      return !(AuthUser.getters.user.id === this.$props.user.id);
     },
   },
   created() {
@@ -116,5 +161,8 @@ export default {
 }
 .join-button {
   margin-left: 630px;
+}
+.msg-button {
+  margin-left: 550px;
 }
 </style>
