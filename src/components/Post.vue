@@ -6,7 +6,12 @@
           <p class="title is-4">{{ name }}</p>
           <p class="subtitle is-6">{{ email }}</p>
         </div>
-        <b-dropdown v-model="option" append-to-body aria-role="menu" v-if="AuthUser.getters.user">
+        <b-dropdown
+          v-model="option"
+          append-to-body
+          aria-role="menu"
+          v-if="AuthUser.getters.user"
+        >
           <template #trigger>
             <a class="navbar-item" role="button">
               <h2>...</h2>
@@ -67,6 +72,7 @@
 
 <script>
 import AuthUser from "@/store/AuthUser";
+import ChallengeStore from "@/store/ChallengeApi";
 
 export default {
   name: "Post",
@@ -75,7 +81,13 @@ export default {
       categories: null,
       category: null,
       option: null,
-      AuthUser
+      AuthUser,
+      chellenge_form: {
+        location: "",
+        teamB_id: "",
+        victory_team: "",
+        players: "",
+      },
     };
   },
   props: {
@@ -88,12 +100,23 @@ export default {
     showCreateModal: false,
     message: null,
     user: null,
+    challenge_id: null,
   },
   methods: {
-    onClickJoin() {
+    async onClickJoin() {
       this.$buefy.dialog.confirm({
         message: "Join this activity?",
         onConfirm: async () => {
+          let payload = {
+            id: this.challenge_id,
+            teamB_id: challenge_form.teamB_id,
+            match_progress: "ENDED",
+            players: challenge_form.players,
+            player_team: "teamB",
+            //victory team rand on backend so we dont have to pass vcitory team
+            // victory_team: challenge_form.victory_team,
+          };
+          await ChallengeStore.dispatch("editChallenge", payload);
           this.$buefy.toast.open("Join Success");
         },
       });

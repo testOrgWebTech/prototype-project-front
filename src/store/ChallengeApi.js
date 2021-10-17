@@ -54,11 +54,8 @@ export default new Vuex.Store({
         async editChallenge({ commit }, payload) {
             let url = api_endpoint + '/api/challenges/' + payload.id
             let body = {
-                location: payload.location,
                 teamB_id: payload.teamB_id,
-                victory_team: payload.victory_team,
                 match_progress: payload.match_progress,
-                mode: payload.mode,
                 players: payload.players,
                 player_team: payload.player_team
             }
