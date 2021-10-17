@@ -30,6 +30,7 @@
         :datetime="post.created_at"
         :email="post.user.email"
         :message="post.message"
+        :challenge_id="post.challenge_id"
         @click="showPost"
         @delete="(id) => deletePost(id)"
         @showEdit="
@@ -73,7 +74,7 @@ export default {
       showCreateModal: false,
       showEditModal: null,
       selectedPost: null,
-      AuthUser
+      AuthUser,
     };
   },
   methods: {
