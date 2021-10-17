@@ -41,7 +41,6 @@ export default {
       message: null,
       isLoading: false,
       comments: null,
-      isLoading: false,
     };
   },
   props: {

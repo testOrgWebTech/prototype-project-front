@@ -88,9 +88,10 @@ export default {
   },
   methods: {
     async fetchPost() {
+      this.isLoading = true;
       await PostStore.dispatch("fetchPost");
       this.posts = await PostStore.getters.posts;
-      console.log(this.posts);
+      this.isLoading = false;
     },
     /*async fetchComment(id) {
       await CommentStore.dispatch("fetchComment", id);
@@ -124,15 +125,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.content {
+/*.content {
   background: #e8dcd0;
-}
+}*/
 .select {
   top: 10px;
 }
 .post {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 #create-button {
   position: fixed;

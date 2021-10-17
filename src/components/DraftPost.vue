@@ -242,7 +242,6 @@ export default {
   created() {
     this.fetchCategory();
     if (this.isEdit) {
-      console.log(this.selectedPost);
       this.message = this.selectedPost.message;
       this.id = this.selectedPost.id;
       //this.challenge_form.location = this.selectedPost.location;
