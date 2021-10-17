@@ -62,25 +62,31 @@ export default {
           name: this.form.name,
         }
         let res = await TeamApiStore.dispatch("editTeam", payload)
-        if(res.success){
-          swal("Edit Team Name Success", "","success")
-          this.$router.push('/showTeam/' + this.id)
+        if(this.form.name === ''){
+          swal("Edit Team Name Failed", "Name field is required.", "error")
         }
         else{
-          swal("Edit Team Name Failed", res.message, "error")
+          if(res.success){
+            swal("Edit Team Name Success", "","success")
+            this.$router.push('/showTeam/' + this.id)
+          }
+          else{
+            swal("Edit Team Name Failed", "The name has already been taken.", "error")
+          }
         }
+        
         
       },
 
       async addMember(){
-        let payload ={
+        let payload = {
           id: this.id,
           name: this.form.name,
           users: this.form.users_add,
           option: "add"
         }
         if(this.form.users_add === ''){
-          swal("Add Member Failed", "Please fill in the blanks", "error")
+          swal("Add Member Failed", "Add Member field is required.", "error")
         }
         else{
           let res = await TeamApiStore.dispatch("editTeam", payload)
@@ -103,7 +109,7 @@ export default {
           option: "delete"
         }
         if(this.form.users_delete === ''){
-          swal("Delete Member Failed", "Please fill in the blanks", "error")
+          swal("Delete Member Failed", "Delete Member field is required.", "error")
         }
         else{
           let res = await TeamApiStore.dispatch("editTeam", payload)

@@ -43,13 +43,19 @@ export default {
   methods:{
       async create(){
           let res = await TeamApiStore.dispatch("addTeam", this.form)
-          if(res.success){
-            swal("Create Team Success", "","success")
-            this.$router.push('/')
+          if(this.form.name === ''){
+            swal("Create Team Failed", "Name field is required.", "error")
           }
           else{
-            swal("Create Team Failed", res.message, "error")
+            if(res.success){
+              swal("Create Team Success", "","success")
+              this.$router.push('/')
+            }
+            else{
+              swal("Create Team Failed", "The name has already been taken.", "error")
+            }
           }
+          
           
       },
   }
