@@ -5,21 +5,27 @@
      <div>
       <section>
       <b-field label="Name" horizontal>
-        <b-input v-model="form.name" class="in"></b-input>
+        <b-input v-model="form.name" class="in" ></b-input>
+
       </b-field>
+      <b-button class="is-success" @click="editTeamName()"> Edit </b-button>
       <b-field horizontal>
           Enter email separated by ","
       </b-field>
       <b-field label="Add Member" horizontal>
-        <b-input v-model="form.users_add" class="in"></b-input>
+
+        <b-input v-model="form.users_add" class="in" placeholder="example1@gmail.com,example2@gmail.com"></b-input>
       </b-field>
-      <b-button class="is-success" @click="editTeam()"> Edit </b-button>
+      <b-button class="is-success" @click="addMember()"> Add </b-button>
+
 
       <b-field horizontal>
           Enter email separated by ","
       </b-field>
     <b-field label="Delete Member" horizontal>
-        <b-input v-model="form.users_delete" class="in"></b-input>
+
+        <b-input v-model="form.users_delete" class="in" placeholder="example1@gmail.com,example2@gmail.com"></b-input>
+
       </b-field>
       <b-button class="is-danger" @click="deleteMember()"> Delete </b-button>
     </section>
@@ -31,6 +37,7 @@
 import Topbar from '@/components/Topbar.vue'
 import TeamService from "@/services/TeamService"
 import TeamApiStore from "@/store/TeamApi";
+import swal from 'sweetalert'
 export default {
   components:{
         Topbar,
@@ -54,15 +61,42 @@ export default {
         
     },
     methods:{
-      async editTeam(){
+      async editTeamName(){
+        let payload ={
+          id: this.id,
+          name: this.form.name,
+        }
+        let res = await TeamApiStore.dispatch("editTeam", payload)
+        if(res.success){
+          swal("Edit Team Name Success", "","success")
+          this.$router.push('/showTeam/' + this.id)
+        }
+        else{
+          swal("Edit Team Name Failed", res.message, "error")
+        }
+        
+      },
+
+      async addMember(){
         let payload ={
           id: this.id,
           name: this.form.name,
           users: this.form.users_add,
           option: "add"
         }
-        await TeamApiStore.dispatch("editTeam", payload)
-        this.$router.push('/showTeam/' + this.id)
+        if(this.form.users_add === ''){
+          swal("Add Member Failed", "Please fill in the blanks", "error")
+        }
+        else{
+          let res = await TeamApiStore.dispatch("editTeam", payload)
+          if(res.success){
+            swal("Add Member Success", "","success")
+            this.$router.push('/showTeam/' + this.id)
+        }
+          else{
+            swal("Add Member Failed", "Please fill in the blanks correctly.", "error")
+          }
+        }
         
       },
 
@@ -73,9 +107,20 @@ export default {
           users: this.form.users_delete,
           option: "delete"
         }
-        await TeamApiStore.dispatch("editTeam", payload)
-        this.$router.push('/showTeam/' + this.id)
-        
+        if(this.form.users_delete === ''){
+          swal("Delete Member Failed", "Please fill in the blanks", "error")
+        }
+        else{
+          let res = await TeamApiStore.dispatch("editTeam", payload)
+          if(res.success){
+            swal("Delete Member Success", "","success")
+            this.$router.push('/showTeam/' + this.id)
+          }
+          else{
+            swal("Delete Member Failed", "Please fill in the blanks correctly.", "error")
+          }
+        }
+      
       },
       
       

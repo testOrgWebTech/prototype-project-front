@@ -88,6 +88,8 @@ export default {
     logout() {
       AuthUser.dispatch("logout");
       this.$router.push('/')
+
+      this.$router.go(0)
     },
   },
 };
