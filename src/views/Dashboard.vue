@@ -32,6 +32,7 @@
         :user="post.user"
         :message="post.message"
         :challenge_id="post.challenge_id"
+        :ownerId="post.user.id"
         @click="showPost"
         @delete="(id) => deletePost(id)"
         @showEdit="
@@ -73,6 +74,7 @@ export default {
     return {
       posts: null,
       showCreateModal: false,
+      showPostModal: false,
       showEditModal: null,
       selectedPost: null,
       AuthUser,

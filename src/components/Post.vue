@@ -3,8 +3,12 @@
     <div class="card-content">
       <div class="media">
         <div class="media-content">
-          <p class="title is-4">{{ name }}</p>
-          <p class="subtitle is-6">{{ email }}</p>
+          <router-link :to="`/profile/${ownerId}`">
+            <p class="title is-4">{{ name }}</p>
+            <p class="subtitle is-6">{{ email }}</p>
+          </router-link>
+
+
         </div>
         <b-dropdown
           v-model="option"
@@ -49,7 +53,7 @@
           })
         }}</time>
       </div>
-      
+
       <b-modal
         :active.sync="showJoinModal"
         :can-cancel="['escape', 'x', 'outside']"
@@ -59,32 +63,61 @@
         :challenge_id="this.challenge_id">
         </JoinChallenge>
       </b-modal>
-      
+
       <b-button
-        type="is-primary is-light"
-        class="join-button"
-        v-if="AuthUser.getters.user && checkOwnPost()"
-        @click="showJoinModal = true"
-        >Join
+          type="is-primary is-light"
+          label="Direct Message"
+          class="msg-button"
+          v-if="AuthUser.getters.user"
+          @click="showPostModal=true"
+      >Message
       </b-button>
-    </div>  
+      <b-button
+          type="is-primary is-light"
+          class="join-button"
+          v-if="AuthUser.getters.user && checkOwnPost()"
+          @click="showJoinModal = true"
+          >Join
+      </b-button>
+    </div>
+    <div>
+      <b-modal
+          :active.sync="showPostModal"
+          :can-cancel="['escape', 'x', 'outside']"
+      >
+        <MessagePost :receiver_id="ownerId" :username="name"></MessagePost>
+      </b-modal>
+    </div>
+
+    <!--create post-->
+    <!--<b-modal v-if="isDraft" :active.sync="showCreateModal" @close="$emit('closeCreateModal')">
+            <div class="card-content draft" style="background-color: white;">
+                <b-field label="create-post">
+                  <b-input maxlength="300" type="textarea"></b-input>
+                </b-field>
+                <b-button type="is-primary is-light" @click="newPost">Create Post</b-button>
+            </div>
+        </b-modal>-->
   </div>
 </template>
 
 <script>
 import AuthUser from "@/store/AuthUser";
+import MessagePost from "./MessagePost";
 import JoinChallenge from '@/components/JoinChallenge.vue'
 
 export default {
-  components:{
+  name: "Post",
+  components: {
+    MessagePost,
     JoinChallenge
   },
-  name: "Post",
   data() {
     return {
       categories: null,
       category: null,
       option: null,
+      showPostModal: false,
       AuthUser,
       chellenge_form: {
         teamB_id: "",
@@ -99,9 +132,11 @@ export default {
     name: null,
     datetime: null,
     isDraft: null,
+    showCreateModal: false,
     showJoinModal: false,
     message: null,
     user: null,
+    ownerId: '',
     challenge_id: null,
   },
   methods: {
@@ -126,5 +161,8 @@ export default {
 }
 .join-button {
   margin-left: 630px;
+}
+.msg-button {
+  margin-left: 550px;
 }
 </style>
