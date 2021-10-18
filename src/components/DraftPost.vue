@@ -125,11 +125,10 @@ export default {
     selectedPost: null,
     isEdit: null,
   },
-  created() {
-    this.fetchCategory();
-    this.fetchTeam();
-  },
   methods: {
+    showData(){
+      console.log();
+    },
     async fetchCategory() {
       this.isLoading = true;
       await CategoryStore.dispatch("fetchCategory");
@@ -247,6 +246,7 @@ export default {
   },
   created() {
     this.fetchCategory();
+    this.fetchTeam();
     if (this.isEdit) {
       this.message = this.selectedPost.message;
       this.id = this.selectedPost.id;
