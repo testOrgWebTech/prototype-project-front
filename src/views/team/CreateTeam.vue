@@ -38,30 +38,32 @@ export default {
       },
     };
   },
-  methods:{
-      async create(){
-          let res = await TeamApiStore.dispatch("addTeam", this.form)
-          if(this.form.name === ''){
-            swal("Create Team Failed", "Name field is required.", "error")
-          }
-          else if(this.form.name.length > 100){
-            swal("Create Team Name Failed", "The name must be between 1 and 100 characters.", "error")
-          }
-          else{
-            if(res.success){
-              swal("Create Team Success", "","success")
-              this.$router.push('/')
-            }
-            else{
-              swal("Create Team Failed","The name has already been taken.", "error")
-            }
-          }
-          
-          
-      },
-  }
-}
-
+  methods: {
+    async create() {
+      let res = await TeamApiStore.dispatch("addTeam", this.form);
+      if (this.form.name === "") {
+        swal("Create Team Failed", "Name field is required.", "error");
+      } else if (this.form.name.length > 100) {
+        swal(
+          "Create Team Name Failed",
+          "The name must be between 1 and 100 characters.",
+          "error"
+        );
+      } else {
+        if (res.success) {
+          swal("Create Team Success", "", "success");
+          this.$router.push("/");
+        } else {
+          swal(
+            "Create Team Failed",
+            "The name has already been taken.",
+            "error"
+          );
+        }
+      }
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

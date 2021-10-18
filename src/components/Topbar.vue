@@ -11,9 +11,7 @@
           :key="index"
           @click="link(team.id)"
         >
-        
           {{ team.name }}
-        
         </b-navbar-item>
       </b-navbar-dropdown>
       <b-navbar-item class="text" href="#" tag="router-link" to="/aboutUs">
@@ -98,7 +96,6 @@ export default {
   methods: {
     isAuthen() {
       return AuthUser.getters.isAuthen;
-      
     },
     async logout() {
       this.isLoading = true;
@@ -113,11 +110,11 @@ export default {
       await TeamApiStore.dispatch("fetchTeams");
       this.teams = await TeamApiStore.getters.teams;
       let user_id = AuthUser.getters.user.id.toString();
-      this.teams.forEach(team =>{
-                if(team.users_id.includes(user_id)){
-                    this.teamSelected.push(team);
-                }
-            })
+      this.teams.forEach((team) => {
+        if (team.users_id.includes(user_id)) {
+          this.teamSelected.push(team);
+        }
+      });
       this.isLoading = false;
     },
 
