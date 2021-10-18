@@ -95,7 +95,7 @@ export default {
               });
 
             await AuthUser.dispatch("login", loginForm);*/
-            
+
             this.isLoading = false;
             await this.$buefy.toast.open("Register Success!!");
             this.$router.push("/");
@@ -127,6 +127,7 @@ export default {
 <style lang="scss" scoped>
 /*.text{
   font-size: 300%;
+  text-align: center;
 }
 .form {
   margin-top: 100px;
@@ -138,9 +139,6 @@ export default {
 }
 .button {
   margin: 10px;
-}
-.inputFile{
-  margin-left: -210px;
 }
 .image{
   margin-left: 675px;
@@ -169,5 +167,8 @@ export default {
 }
 .inside-btn {
   margin-right: 10px;
+}
+.Btn {
+  text-align: center;
 }
 </style>

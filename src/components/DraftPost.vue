@@ -125,11 +125,10 @@ export default {
     selectedPost: null,
     isEdit: null,
   },
-  created() {
-    this.fetchCategory();
-    this.fetchTeam();
-  },
   methods: {
+    showData() {
+      console.log();
+    },
     async fetchCategory() {
       this.isLoading = true;
       await CategoryStore.dispatch("fetchCategory");
@@ -227,6 +226,7 @@ export default {
         await ChallengeStore.dispatch("addChallenge", payload);
         this.$emit("fetchPost");
         this.$emit("closeCreate");
+        this.$router.go(0);
       }
     },
     async editPost() {
@@ -241,10 +241,12 @@ export default {
       await this.$buefy.toast.open("Edit Success");
       this.$emit("fetchPost");
       this.$emit("closeEdit");
+      this.$router.go(0);
     },
   },
   created() {
     this.fetchCategory();
+    this.fetchTeam();
     if (this.isEdit) {
       this.message = this.selectedPost.message;
       this.id = this.selectedPost.id;

@@ -35,36 +35,38 @@
     </div>
 
     <br />
-    <h1 class="chText">Challenges History</h1>
 
-    <div class="divBtn">
-      <button class="button text" @click="showHistory()">Show</button>
+
+    <br />
+    <div class="card">
+      <div class="card-content">
+        <h1 class="title">Challenges History</h1>
+        <section>
+        <table  align="center">
+          <thead>
+            <tr>
+              <th>Location</th>
+              <th>Players Team A</th>
+              <th>Players Team B</th>
+              <th>Mode</th>
+              <th>Victory Team</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody v-for="(cha, index) in challenges" :key="index">
+            <tr v-if="checkCha(cha.users_id, cha.match_progress)">
+              <td>{{ cha.location }}</td>
+              <td>{{ cha.teamA_players_name }}</td>
+              <td>{{ cha.teamB_players_name }}</td>
+              <td>{{ cha.mode }}</td>
+              <td>{{ cha.victory_team }}</td>
+              <td>{{ showDate(cha.updated_at) }}</td>
+            </tr>
+          </tbody>
+        </table>
+        </section>
+      </div>
     </div>
-
-    <br />
-    <br />
-    <table class="styled-table" v-if="this.show">
-      <thead>
-        <tr>
-          <th>Location</th>
-          <th>Players Team A</th>
-          <th>Players Team B</th>
-          <th>Mode</th>
-          <th>Victory Team</th>
-          <th>Date</th>
-        </tr>
-      </thead>
-      <tbody v-for="(cha, index) in challenges" :key="index">
-        <tr v-if="checkCha(cha.users_id, cha.match_progress)">
-          <td>{{ cha.location }}</td>
-          <td>{{ cha.teamA_players_name }}</td>
-          <td>{{ cha.teamB_players_name }}</td>
-          <td>{{ cha.mode }}</td>
-          <td>{{ cha.victory_team }}</td>
-          <td>{{ showDate(cha.updated_at) }}</td>
-        </tr>
-      </tbody>
-    </table>
   </div>
 </template>
 
@@ -141,9 +143,17 @@ export default {
   margin-top: 30px;
   //margin-left: 500px;
   //margin-right: 500px;
-  background-color: #484848;
-  height: 225px;
+  //background-color: #484848;
+  height: 40%;
+  width: 80%;
   text-align: center;
+
+}
+.title{
+  width: 100%;
+  text-align: center;
+  margin-bottom: 30px;
+  margin-top: 30px;
 }
 .image {
   width: 180px;
@@ -158,7 +168,7 @@ export default {
   margin-right: 20px;
   text-align: left;
 }
-.styled-table {
+/*.styled-table {
   width: 80%;
   border-collapse: collapse;
   margin-bottom: 30px;
@@ -179,6 +189,14 @@ export default {
 
 .styled-table tbody tr:last-of-type {
   border-bottom: 2px solid #484848;
+}*/
+
+ tr th{
+  padding: 20px;
+}
+table {
+    table-layout: fixed;
+    width: 100%;
 }
 
 .chText {
@@ -196,7 +214,7 @@ export default {
   cursor: pointer;
 }
 .text {
-  color: white;
+  color:black;
 }
 
 .divBtn {
