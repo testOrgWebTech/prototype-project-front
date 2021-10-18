@@ -85,7 +85,7 @@
         :active.sync="showCreateTeamModal"
         :can-cancel="['escape', 'x', 'outside']"
       >
-        <CreateTeam class="post" @closeCreate="showCreateTeamModal = false">
+        <CreateTeam class="post" @closeCreateTeam="showCreateTeamModal = false">
         </CreateTeam>
       </b-modal>
       <b-button
