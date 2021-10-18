@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <h1>Edit Team</h1>
+    <h1 class="title">Edit Team</h1>
     <div class="form">
       <section>
         <b-field label="Name" horizontal>
@@ -185,5 +185,11 @@ h1 {
 }
 .form {
   text-align: center;
+}
+.title{
+  width: 100%;
+  text-align: center;
+  margin-bottom: 30px;
+  margin-top: 30px;
 }
 </style>

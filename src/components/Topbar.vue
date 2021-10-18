@@ -5,7 +5,6 @@
         Home
       </b-navbar-item>
       <b-navbar-dropdown type="success" label="Teams" v-if="userId">
-        <b-navbar-item href="/createTeam"> Create </b-navbar-item>
         <b-navbar-item
           v-for="(team, index) in teamSelected"
           :key="index"
@@ -14,9 +13,6 @@
           {{ team.name }}
         </b-navbar-item>
       </b-navbar-dropdown>
-      <b-navbar-item class="text" href="#" tag="router-link" to="/aboutUs">
-        About us
-      </b-navbar-item>
       <b-navbar-item class="text" href="#" tag="router-link" to="/contract">
         Contract
       </b-navbar-item>
