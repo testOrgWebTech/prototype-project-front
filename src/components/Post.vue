@@ -3,6 +3,11 @@
     <div class="card-content">
       <div class="media">
         <div class="media-content">
+          <figure class="media-left">
+            <p class="image is-64x64">
+              <img :src="`http://localhost:8000${post.user.imagePath}`">
+            </p>
+          </figure>
           <router-link :to="`/profile/${post.user.id}`">
             <p class="title is-4">{{ post.user.name }}</p>
             <p class="subtitle is-6">{{ post.email }}</p>
@@ -136,6 +141,7 @@ export default {
         players: "",
       },
       showJoinModal: null,
+      isLoading: false
     };
   },
   // edit send post send each prop

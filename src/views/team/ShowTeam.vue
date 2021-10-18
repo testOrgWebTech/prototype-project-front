@@ -5,11 +5,11 @@
       <h1 class="title">Team {{form.name}}</h1>
       <h2>Member</h2>
 
-      <div class="name">
-          <div v-for="(name, index) in this.form.users" :key="index">
-          {{name}}
-            </div>
+    <div class="name">
+      <div v-for="(name, index) in this.form.users" :key="index">
+        {{ name }}
       </div>
+
       <br> 
       <div class="divBtn">
       <router-link class="editTeamBtn" :to="{name: 'EditTeam',params:{ id: this.id}}"> Edit Team </router-link>
@@ -46,13 +46,14 @@
       </div>
       </div>
         <b-loading v-model="isLoading"></b-loading>
+
   </div>
 </template>
 
 <script>
-import Topbar from '@/components/Topbar.vue'
-import TeamService from "@/services/TeamService"
-import ChallengeApiStore from '@/store/ChallengeApi'
+import Topbar from "@/components/Topbar.vue";
+import TeamService from "@/services/TeamService";
+import ChallengeApiStore from "@/store/ChallengeApi";
 export default {
     components:{
         Topbar,
@@ -143,23 +144,24 @@ table {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
     border-radius: 5%;
     color: white;
+
 }
-.editTeamBtn:hover{
+.editTeamBtn:hover {
   color: black;
   cursor: pointer;
 }
-.name{
-    font-size: 130%;
-    padding-top: 10px;
-    text-align: center;
+.name {
+  font-size: 130%;
+  padding-top: 10px;
+  text-align: center;
 }
-h1{
-    font-size: 50px;
-    text-align: center;
+h1 {
+  font-size: 50px;
+  text-align: center;
 }
-h2{
-    font-size: 35px;
-    text-align: center;
+h2 {
+  font-size: 35px;
+  text-align: center;
 }
 
 /*.styled-table {
@@ -170,31 +172,32 @@ h2{
   margin-right: auto;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
-.styled-table thead tr th{
-    background-color: #484848;
-    text-align: center;
-    color: white;
+.styled-table thead tr th {
+  background-color: #484848;
+  text-align: center;
+  color: white;
 }
-.styled-table th, .styled-table td {
-    padding: 12px 15px;
-    text-align: center;
-    
+.styled-table th,
+.styled-table td {
+  padding: 12px 15px;
+  text-align: center;
 }
 
 .styled-table tbody tr:last-of-type {
+
     border-bottom: 2px solid #484848;
 }*/
 
-.button{
+
+.button {
   background-color: #f15858;
   position: relative;
 }
-.text{
-    color: white;
+.text {
+  color: white;
 }
 .divBtn{
     text-align: center;
     padding-top: 30px;
-
 }
 </style>

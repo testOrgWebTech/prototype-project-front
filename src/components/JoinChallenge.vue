@@ -137,7 +137,9 @@ export default {
                     };
                 }
                 await ChallengeStore.dispatch("editChallenge", payload);
+                this.$emit('fetchPost');
                 this.$emit("closeCreate");
+                this.$router.go(0)
             }
         }
     },
