@@ -14,9 +14,6 @@
           {{ team.name }}
         </b-navbar-item>
       </b-navbar-dropdown>
-      <b-navbar-item class="text" href="#" tag="router-link" to="/aboutUs">
-        About us
-      </b-navbar-item>
       <b-navbar-item class="text" href="#" tag="router-link" to="/contract">
         Contract
       </b-navbar-item>
