@@ -95,7 +95,7 @@ export default {
               });
 
             await AuthUser.dispatch("login", loginForm);*/
-            
+
             this.isLoading = false;
             await this.$buefy.toast.open("Register Success!!");
             this.$router.push("/");
@@ -168,7 +168,7 @@ export default {
 .inside-btn {
   margin-right: 10px;
 }
-.Btn{
+.Btn {
   text-align: center;
 }
 </style>

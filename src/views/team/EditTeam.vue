@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="card">
     <h1>Edit Team</h1>
     <div class="form">
       <section>
@@ -12,33 +12,27 @@
 
         <b-field label="Add Member" horizontal>
           <b-input
-              v-model="form.users_add"
-              class="in"
-              placeholder="example1@gmail.com,example2@gmail.com"
+            v-model="form.users_add"
+            class="in"
+            placeholder="example1@gmail.com,example2@gmail.com"
           ></b-input>
         </b-field>
         <b-button class="is-success" @click="addMember()"> Add </b-button>
 
-        <b-field horizontal> Enter email separated by "," </b-field>
-        <b-field label="Delete Member" horizontal>
+        <b-field label="Delete Member">
           <b-checkbox
-              v-model="form.checkbox_users_delete"
-              v-for="(player, index) in teamPlayers"
-              :key="index"
-              :native-value="player.email"
+            v-model="form.checkbox_users_delete"
+            v-for="(player, index) in teamPlayers"
+            :key="index"
+            :native-value="player.email"
           >
             {{ player.email }}
           </b-checkbox>
-
-          <!-- <b-input
-            v-model="form.users_delete"
-            class="in"
-            placeholder="example1@gmail.com,example2@gmail.com"
-          ></b-input> -->
         </b-field>
         <b-button class="is-danger" @click="deleteMember()"> Delete </b-button>
       </section>
     </div>
+    <b-loading v-model="isLoading"></b-loading>
   </div>
 </template>
 
@@ -57,6 +51,7 @@ export default {
       id: "",
       team: null,
       teamPlayers: [],
+      isLoading: false,
       form: {
         name: "",
         users_add: "",
@@ -66,10 +61,12 @@ export default {
     };
   },
   async created() {
+    this.isLoading = true;
     this.id = this.$route.params.id;
     this.team = await TeamService.getTeamById(this.id);
     this.form.name = this.team.name;
     this.teamPlayers = this.team.users;
+    this.isLoading = false;
   },
   methods: {
     async editTeamName() {
@@ -86,9 +83,9 @@ export default {
           this.$router.push("/showTeam/" + this.id);
         } else {
           swal(
-              "Edit Team Name Failed",
-              "The name has already been taken.",
-              "error"
+            "Edit Team Name Failed",
+            "The name has already been taken.",
+            "error"
           );
         }
       }
@@ -110,9 +107,9 @@ export default {
           this.$router.push("/showTeam/" + this.id);
         } else {
           swal(
-              "Add Member Failed",
-              "Please fill in the blanks correctly.",
-              "error"
+            "Add Member Failed",
+            "Please fill in the blanks correctly.",
+            "error"
           );
         }
       }
@@ -129,9 +126,9 @@ export default {
       };
       if (this.form.users_delete === "") {
         swal(
-            "Delete Member Failed",
-            "Delete Member field is required.",
-            "error"
+          "Delete Member Failed",
+          "Delete Member checked box is required.",
+          "error"
         );
       } else {
         let res = await TeamApiStore.dispatch("editTeam", payload);
@@ -140,9 +137,9 @@ export default {
           this.$router.push("/showTeam/" + this.id);
         } else {
           swal(
-              "Delete Member Failed",
-              "Please fill in the blanks correctly.",
-              "error"
+            "Delete Member Failed",
+            "Please fill in the checkbox correctly.",
+            "error"
           );
         }
       }
@@ -159,6 +156,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 70%;
+  height: 70%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+}
 .in {
   width: 85%;
 }
