@@ -61,6 +61,10 @@
         }}</time>
       </div>
 
+      <div>
+        <h1>{{ post.category.name }}</h1>
+      </div>
+
       <b-modal
         :active.sync="showJoinModal"
         :can-cancel="['escape', 'x', 'outside']"
@@ -179,7 +183,8 @@ export default {
       return true;
     },
   },
-  created() {},
+  created() {
+  },
 };
 </script>
 

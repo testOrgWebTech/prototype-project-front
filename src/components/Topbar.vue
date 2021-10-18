@@ -4,20 +4,6 @@
       <b-navbar-item class="text" href="#" tag="router-link" to="/">
         Home
       </b-navbar-item>
-      <b-navbar-dropdown type="success" label="Categories" v-if="userId">
-        <b-navbar-item
-          v-for="(category, index) in categories"
-          :key="index"
-          @click="
-            $router.push({
-              name: 'Category',
-              params: { id: category.id },
-            })
-          "
-        >
-          {{ category.name }}
-        </b-navbar-item>
-      </b-navbar-dropdown>
       <b-navbar-dropdown type="success" label="Teams" v-if="userId">
         <b-navbar-item href="/createTeam"> Create </b-navbar-item>
         <b-navbar-item
@@ -104,6 +90,7 @@ export default {
       teams: null,
       isLoading: false,
       userId: AuthUser.getters.user.id,
+
       categories: null,
       teamSelected: [],
     };
@@ -133,12 +120,7 @@ export default {
             })
       this.isLoading = false;
     },
-    async fetchCategory() {
-      this.isLoading = true;
-      await CategoryStore.dispatch("fetchCategory");
-      this.categories = await CategoryStore.getters.categories;
-      this.isLoading = false;
-    },
+
     link(id) {
       this.$router.push({ name: "ShowTeam", params: { id: id } });
       this.$router.go("/showTeam/" + id);
@@ -146,7 +128,6 @@ export default {
   },
   created() {
     this.fetchTeam();
-    this.fetchCategory();
   },
 };
 </script>
