@@ -31,16 +31,16 @@
 
       <b-field class="selectCategory">
         <b-select
-            v-model="selectedCategory"
-            placeholder="Select a Category"
-            rounded
-            @input="selectCategory"
+          v-model="selectedCategory"
+          placeholder="Select a Category"
+          rounded
+          @input="selectCategory"
         >
           <option value="all">All Categories</option>
           <option
-              v-for="(category, index) in categories"
-              :key="index"
-              :value="category"
+            v-for="(category, index) in categories"
+            :key="index"
+            :value="category"
           >
             {{ category.name }}
           </option>
@@ -63,11 +63,21 @@
         @showComment="(e) => showComment(e)"
       >
       </Post>
+      <div style="text-align: center">
+        <b-button
+          class="load-more-btn"
+          type="is-primary"
+          @click="onClickLoadMore"
+          v-if="page < last_page"
+          >Load more</b-button
+        >
+      </div>
+
       <b-button
         type="is-primary is-light"
         id="create-button"
         @click="showCreateModal = true"
-        v-if="auth.getters.user"
+        v-if="auth.getters.user && !isLoading"
       >
         Create challenge
       </b-button>
@@ -83,7 +93,7 @@ import DraftPost from "@/components/DraftPost.vue";
 import PostStore from "@/store/Post";
 import AuthUser from "@/store/AuthUser";
 import Comment from "@/components/Comment.vue";
-import CategoryStore from '@/store/Category'
+import CategoryStore from "@/store/Category";
 
 export default {
   name: "Dashboard",
@@ -105,17 +115,20 @@ export default {
       auth: AuthUser,
       isLoading: false,
       selectedCategory: "all",
-      categories: null
+      categories: null,
+      page: 1,
+      last_page: null,
     };
   },
   methods: {
-    async selectCategory(){
+    async selectCategory() {
       this.isLoading = true;
-      if (this.selectedCategory === 'all'){
+      if (this.selectedCategory === "all") {
+        this.page = 1;
         await this.fetchPost();
-      }
-      else{
-        await this.fetchPostByCategory(this.selectedCategory.id)
+      } else {
+        this.page = 1;
+        await this.fetchPostByCategory(this.selectedCategory.id);
       }
       this.isLoading = false;
     },
@@ -125,16 +138,17 @@ export default {
       this.categories = await CategoryStore.getters.categories;
       this.isLoading = false;
     },
-    async fetchPostByCategory(category_id){
+    async fetchPostByCategory(category_id) {
       this.isLoading = true;
-      await PostStore.dispatch("fetchPostByCategory", category_id);
+      await PostStore.dispatch("fetchPostByCategory", { category_id, page: this.page });
       this.posts = await PostStore.getters.posts;
       this.isLoading = false;
     },
     async fetchPost() {
       this.isLoading = true;
-      await PostStore.dispatch("fetchPost");
+      await PostStore.dispatch("fetchPost", this.page);
       this.posts = await PostStore.getters.posts;
+      this.last_page = await PostStore.getters.paginate.last_page;
       this.isLoading = false;
     },
     /*async fetchComment(id) {
@@ -160,6 +174,13 @@ export default {
           this.$buefy.toast.open("Delete Success");
         },
       });
+    },
+    async onClickLoadMore() {
+      this.page += 1;
+      this.isLoading = true;
+      await PostStore.dispatch("fetchPost", this.page);
+      //this.posts = await PostStore.getters.posts;
+      this.isLoading = false;
     },
   },
   async created() {
@@ -188,9 +209,15 @@ export default {
 .modal-close {
   background: black;
 }
-.selectCategory{
+.selectCategory {
   width: 10%;
   margin: auto;
   margin-top: 10px;
+}
+.load-more-btn {
+  margin-bottom: 15px;
+}
+.post-zone {
+  margin-bottom: 15px;
 }
 </style>

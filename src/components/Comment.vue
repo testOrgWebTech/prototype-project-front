@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-content">
-      <div v-for="(comment, index) in comments" :key="index" v-if="comments.length != 0">
+      <div v-for="(comment, index) in comments" :key="index">
         <div class="comment media">
           <div class="media-content">
             <figure class="image is-64x64 media-left is-inline-block">
