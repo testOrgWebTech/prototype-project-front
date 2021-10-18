@@ -65,7 +65,9 @@
       </div>
 
       <div>
-        <h1>{{ post.category.name }}</h1>
+        <b-taglist>
+          <b-tag type="is-info">{{ post.category.name }}</b-tag>
+        </b-taglist>
       </div>
 
       <b-modal

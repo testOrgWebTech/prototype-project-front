@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <div class="container">
+      <div class="container is-centered" id="create-button">
         <b-button
           class="level-right b-buttoncolor"
           label="New +"
@@ -137,5 +137,10 @@ export default {
   border: #484848;
   background-color: #f15858;
   color: white;
+}
+#create-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
 }
 </style>

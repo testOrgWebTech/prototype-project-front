@@ -29,8 +29,15 @@
           >
           </b-input>
 
-          <div class="uploadImg">
-            <input class="inputFile" type="file" @change="onFileSelected" />
+          <div class="uploadImg file">
+            <label class="file-label">
+              <input class="file-input" type="file" @change="onFileSelected" />
+              <span class="file-cta">
+              <span class="file-label">Upload a File</span>
+            </span>
+            </label>
+
+
             <img class="image" :src="urlImage" />
           </div>
         </div>
@@ -63,12 +70,16 @@ export default {
         password: "",
         password_confirmation: "",
       },
-      selectedFile: null,
+      file: {},
+      selectedFile: {},
       urlImage: "",
       isLoading: false,
     };
   },
   methods: {
+    logSomething(){
+      console.log(this.file)
+    },
     onFileSelected(event) {
       this.selectedFile = event.target.files[0];
       this.urlImage = URL.createObjectURL(this.selectedFile);

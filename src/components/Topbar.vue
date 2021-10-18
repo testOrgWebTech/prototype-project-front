@@ -91,6 +91,7 @@ export default {
   },
   methods: {
     isAuthen() {
+      console.log(this.userId)
       return AuthUser.getters.isAuthen;
     },
     async logout() {
