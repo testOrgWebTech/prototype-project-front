@@ -14,6 +14,7 @@
       <div class="divBtn">
       <router-link class="editTeamBtn" :to="{name: 'EditTeam',params:{ id: this.id}}"> Edit Team </router-link>
       </div>
+      </div>
       <br>
       </div>
     </div>
@@ -46,7 +47,7 @@
       </div>
       </div>
         <b-loading v-model="isLoading"></b-loading>
-
+    
   </div>
 </template>
 
