@@ -1,7 +1,8 @@
 <template>
   <div>
-    <h1>Create Team</h1>
-
+    <div class="card">
+      <div class="card-content">
+    <h1 class="title">Create Team</h1>
     <div class="form">
       <section>
         <b-field label="Name" horizontal>
@@ -16,6 +17,8 @@
           <b-button @click="create()" class="is-success"> Create </b-button>
         </div>
       </section>
+    </div>
+      </div>
     </div>
   </div>
 </template>
@@ -85,5 +88,25 @@ h1 {
 .divBtn {
   text-align: center;
   padding-top: 20px;
+}
+.card {
+  margin-top: 30px;
+  height: 40%;
+  width: 80%;
+  text-align: center;
+  
+}
+.title{
+  width: 100%;
+  text-align: center;
+  margin-bottom: 30px;
+  margin-top: 30px;
+}
+.content {
+  position: absolute;
+  top: 40px;
+  margin-left: 250px;
+  margin-right: 20px;
+  text-align: left;
 }
 </style>

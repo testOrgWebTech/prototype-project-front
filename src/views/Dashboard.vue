@@ -53,6 +53,21 @@
       >
         Create challenge
       </b-button>
+      <b-modal
+        :active.sync="showCreateTeamModal"
+        :can-cancel="['escape', 'x', 'outside']"
+      >
+        <CreateTeam class="post" @closeCreate="showCreateTeamModal = false">
+        </CreateTeam>
+      </b-modal>
+      <b-button
+        type="is-primary is-light"
+        id="team-button" @click="showCreateTeamModal = true"
+        v-if="auth.getters.user"
+      >
+        Create Team
+      </b-button>
+      
     </div>
     <b-loading v-model="isLoading"></b-loading>
   </div>
@@ -65,6 +80,7 @@ import DraftPost from "@/components/DraftPost.vue";
 import PostStore from "@/store/Post";
 import AuthUser from "@/store/AuthUser";
 import Comment from "@/components/Comment.vue";
+import CreateTeam from "@/components/CreateTeam";
 
 export default {
   name: "Dashboard",
@@ -73,6 +89,7 @@ export default {
     Post,
     DraftPost,
     Comment,
+    CreateTeam,
   },
   data() {
     return {
@@ -85,6 +102,7 @@ export default {
       showCommentModal: false,
       auth: AuthUser,
       isLoading: false,
+      showCreateTeamModal: false,
     };
   },
   methods: {
@@ -118,6 +136,9 @@ export default {
         },
       });
     },
+    createTeam(){
+      this.$router.push("/createTeam")
+    },
   },
   async created() {
     await this.fetchPost();
@@ -139,6 +160,11 @@ export default {
 #create-button {
   position: fixed;
   bottom: 20px;
+  right: 20px;
+}
+#team-button {
+  position: fixed;
+  bottom: 80px;
   right: 20px;
 }
 .modal-close {
