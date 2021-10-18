@@ -1,7 +1,5 @@
 <template>
   <div>
-    <Topbar />
-
     <div class="modal">
       <b-modal
         :active.sync="showCreateModal"

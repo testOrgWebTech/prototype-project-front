@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <Topbar />
+    <!--<Topbar />-->
     <div class="post-zone">
       <b-modal
         :active.sync="showCreateModal"
@@ -28,20 +28,11 @@
           @fetchPost="fetchPost"
         ></Comment>
       </b-modal>
-      <!--Change props-->
       <Post
         v-for="(post, index) in posts"
         class="post"
         :key="index"
         :post="post"
-        :id="post.id"
-        :name="post.user.name"
-        :datetime="post.created_at"
-        :email="post.user.email"
-        :user="post.user"
-        :message="post.message"
-        :challenge_id="post.challenge_id"
-        :ownerId="post.user.id"
         @click="showPost"
         @delete="(id) => deletePost(id)"
         @showEdit="
@@ -55,12 +46,12 @@
       >
       </Post>
       <b-button
-        type="is-danger is-light"
+        type="is-primary is-light"
         id="create-button"
         @click="showCreateModal = true"
         v-if="auth.getters.user"
       >
-        สร้างโพส
+        Create challenge
       </b-button>
     </div>
     <b-loading v-model="isLoading"></b-loading>

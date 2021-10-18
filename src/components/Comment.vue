@@ -16,12 +16,12 @@
         <div class="comment">
           <textarea
             class="textarea comment-input"
-            placeholder="เขียนคอมเม่น"
+            placeholder="Comment!!"
             v-model="message"
           ></textarea>
           <b-button
             type="is-primary"
-            class="comment-button"
+            class="create-comment-button"
             @click="onClickComment"
             >Comment</b-button
           >
@@ -63,6 +63,7 @@ export default {
           await this.$buefy.toast.open("Comment Success");
           this.isLoading = false;
           this.$emit("closeEdit");
+          this.message = null;
         },
       });
     },
@@ -85,7 +86,8 @@ export default {
 .comment-input {
   margin: 10px;
 }
-.comment-button {
-  margin-left: 80%;
+.create-comment-button {
+  margin-top: 3%;
+  margin-left: 83%;
 }
 </style>

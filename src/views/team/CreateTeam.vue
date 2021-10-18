@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Topbar/>
       <h1>Create Team</h1>
 
       <div class="form">

@@ -82,7 +82,7 @@
       </b-field>
 
       <b-button v-if="!selectedPost" type="is-primary is-light" @click="newPost"
-        >Create Post</b-button
+        >Create challenge</b-button
       >
       <b-button v-if="selectedPost" type="is-primary is-light" @click="editPost"
         >Edit Post</b-button
@@ -131,13 +131,17 @@ export default {
   },
   methods: {
     async fetchCategory() {
+      this.isLoading = true;
       await CategoryStore.dispatch("fetchCategory");
       this.categories = await CategoryStore.getters.categories;
+      this.isLoading = false;
     },
     async fetchTeam() {
+      this.isLoading = true;
       await TeamApiStore.dispatch("fetchTeams");
       this.teams = TeamApiStore.getters.teams;
       this.checkTeam();
+      this.isLoading = false;
     },
     checkTeam() {
       let user_id = AuthUser.getters.user.id.toString();

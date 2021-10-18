@@ -3,7 +3,7 @@
     <div class="card-content">
       <div class="media">
         <div class="media-content">
-          <router-link :to="`/profile/${ownerId}`">
+          <router-link :to="`/profile/${post.user.id}`">
             <p class="title is-4">{{ post.user.name }}</p>
             <p class="subtitle is-6">{{ post.email }}</p>
           </router-link>
@@ -57,41 +57,57 @@
         :can-cancel="['escape', 'x', 'outside']"
       >
         <JoinChallenge
+          v-if="post.challenge"
           @closeCreate="showJoinModal = false"
           :id="post.id"
-          :challenge_id="this.challenge_id"
+          :challenge_id="post.challenge.id"
         >
         </JoinChallenge>
       </b-modal>
-      <b-button
-        type="is-primary is-light"
-        class="comment-button"
-        v-if="AuthUser.getters.user && post.comments.length > 0"
-        @click="$emit('showComment', post.id)"
-        >Comment</b-button
-      >
-      <b-button
-        type="is-primary is-light"
-        label="Direct Message"
-        class="msg-button"
-        v-if="AuthUser.getters.user"
-        @click="showPostModal = true"
-        >Message
-      </b-button>
-      <b-button
-        type="is-primary is-light"
-        class="join-button"
-        v-if="AuthUser.getters.user && checkOwnPost()"
-        @click="showJoinModal = true"
-        >Join
-      </b-button>
+      <section id="btn">
+        <b-button
+          type="is-primary is-light"
+          class="post-btn"
+          v-if="AuthUser.getters.user && post.comments.length > 0"
+          @click="$emit('showComment', post.id)"
+          >Comment</b-button
+        >
+        <b-button
+          type="is-primary is-light"
+          label="Direct Message"
+          class="post-btn"
+          v-if="AuthUser.getters.user"
+          @click="showPostModal = true"
+          >Message
+        </b-button>
+        <b-button
+          type="is-primary is-light"
+          class="post-btn"
+          v-if="
+            AuthUser.getters.user &&
+            checkOwnPost() &&
+            checkUserInTeamA() &&
+            checkChallengeIsFull()
+          "
+          @click="
+            () => {
+              isLoading;
+              showJoinModal = true;
+            }
+          "
+          >Join
+        </b-button>
+      </section>
     </div>
     <div>
       <b-modal
         :active.sync="showPostModal"
         :can-cancel="['escape', 'x', 'outside']"
       >
-        <MessagePost :receiver_id="ownerId" :username="name"></MessagePost>
+        <MessagePost
+          :receiver_id="post.user.id"
+          :username="post.name"
+        ></MessagePost>
       </b-modal>
     </div>
   </div>
@@ -100,13 +116,13 @@
 <script>
 import AuthUser from "@/store/AuthUser";
 import MessagePost from "./MessagePost";
-import JoinChallenge from '@/components/JoinChallenge.vue'
+import JoinChallenge from "@/components/JoinChallenge.vue";
 
 export default {
   name: "Post",
   components: {
     MessagePost,
-    JoinChallenge
+    JoinChallenge,
   },
   data() {
     return {
@@ -125,18 +141,6 @@ export default {
   // edit send post send each prop
   props: {
     post: null,
-    /*id: null,
-    email: null,
-    imageUrl: null,
-    name: null,
-    datetime: null,
-    isDraft: null,
-    showCreateModal: false,
-    showJoinModal: false,
-    message: null,*/
-    user: null,
-    ownerId: '',
-    challenge_id: null,
   },
   methods: {
     onClickJoin() {
@@ -146,15 +150,27 @@ export default {
           this.$buefy.toast.open("Join Success");
         },
       });
-      console.log(this.post);
     },
     checkOwnPost() {
-      return !(AuthUser.getters.user.id === this.$props.user.id);
+      return AuthUser.getters.user.id !== this.post.user.id;
+    },
+    checkUserInTeamA() {
+      if (
+        this.post.challenge &&
+        this.post.challenge.teamA_players_id.includes(AuthUser.getters.user.id)
+      ) {
+        return false;
+      }
+      return true;
+    },
+    checkChallengeIsFull() {
+      if (this.post.challenge && this.post.challenge.teamB_players_id !== "") {
+        return false;
+      }
+      return true;
     },
   },
-  created() {
-    console.log(this.post);
-  },
+  created() {},
 };
 </script>
 
@@ -165,10 +181,11 @@ export default {
   margin-top: 30px;
   word-wrap: break-word;
 }
-.join-button {
-  margin-left: 85%;
+.post-btn {
+  margin-left: 10px;
 }
-.msg-button {
-  margin-left: 550px;
+#btn {
+  margin-top: 10px;
+  padding-left: 50%;
 }
 </style>

@@ -1,6 +1,5 @@
 <template>
   <div>
-      <Topbar/>
       <h1>Team {{form.name}}</h1>
       <h2>Member</h2>
 

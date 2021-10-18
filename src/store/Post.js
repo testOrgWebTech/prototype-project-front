@@ -45,6 +45,10 @@ export default new Vuex.Store({
         },
         async getOne(id) {
             const res = await axios.post(api_endpoint + '/api/posts/', id, /*header*/);
+            return res;
+        },
+        async fetchPostByCategory(cate_id) {
+            const res = await axios.post(api_endpoint + '/api/posts-by-cate-id/' + cate_id, /*header*/);
             console.log(res)
             return res;
         },

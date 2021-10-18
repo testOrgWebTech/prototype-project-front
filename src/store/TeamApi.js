@@ -11,20 +11,20 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        data: []
+        teams: []
     },
     getters: {
-        teams: (state) => state.data,
+        teams: (state) => state.teams,
     },
     mutations: {
         fetch(state, { res }) {
-            state.data = res.data
+            state.teams = res.data
         },
         add(state, { payload }) {
-            state.data.push(payload)
+            state.teams.push(payload)
         },
         edit(state, res) {
-            state.data[res.index] = res.data
+            state.teams[res.index] = res.data
         },
     },
     actions: {
