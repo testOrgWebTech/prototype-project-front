@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-content">
-      <div v-for="(comment, index) in comments" :key="index">
+      <div v-for="(comment, index) in comments" :key="index" v-if="comments.length != 0">
         <div class="comment media">
           <div class="media-content">
             <figure class="image is-64x64 media-left is-inline-block">
@@ -38,7 +38,7 @@
         <!--user profile pic-->
       </div>
     </div>
-    <b-loading v-model="isLoading"></b-loading>
+    <b-loading v-model="isLoading" v-if="comments.length != 0"></b-loading>
   </div>
 </template>
 
@@ -55,8 +55,9 @@ export default {
   props: {
     post: null,
   },
-  created() {
-    this.fetchCommentsByPostId(this.post.id);
+  async created() {
+    await this.fetchCommentsByPostId(this.post.id);
+    this.comments = CommentStore.getters.comments;
     console.log(this.comments)
   },
   methods: {
