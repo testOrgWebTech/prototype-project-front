@@ -4,11 +4,18 @@ import Dashboard from '@/views/Dashboard'
 import ShowTeam from '@/views/team/ShowTeam'
 import CreateTeam from '@/views/team/CreateTeam'
 import EditTeam from '@/views/team/EditTeam'
+//import Home from '@/views/Home'
+import Message from "../views/Message";
 
 
 Vue.use(VueRouter)
 
 const routes = [
+  /*{
+    path: '/',
+    name: 'Home',
+    component: Home
+  },*/
   {
     path: '/',
     name: 'Dashboard',
@@ -34,11 +41,35 @@ const routes = [
     name: 'EditTeam',
     component: EditTeam
   },
-  
-{
+  {
+    path: '/message',
+    name: 'Message Check',
+    component: Message
+  },
+  {
     path: '/profile',
     name: 'Profile',
     component: () => import('../views/Profile.vue')
+  },
+  {
+    path: '/profile/:id',
+    name: 'ProfileById',
+    component: () => import('../views/Profile.vue')
+  },
+  {
+    path: '/aboutUs',
+    name: 'AboutUs',
+    component: () => import('../views/AboutUs.vue')
+  },
+  {
+    path: '/contract',
+    name: 'Contract',
+    component: () => import('../views/Contract.vue')
+  },
+  {
+    path: '/category/:id',
+    name: 'Category',
+    component: () => import('../views/Category.vue')
   },
 ]
 

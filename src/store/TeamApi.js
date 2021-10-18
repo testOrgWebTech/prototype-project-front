@@ -11,20 +11,20 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        data: []
+        teams: []
     },
     getters: {
-        teams: (state) => state.data,
+        teams: (state) => state.teams,
     },
     mutations: {
         fetch(state, { res }) {
-            state.data = res.data
+            state.teams = res.data
         },
         add(state, { payload }) {
-            state.data.push(payload)
+            state.teams.push(payload)
         },
         edit(state, res) {
-            state.data[res.index] = res.data
+            state.teams[res.index] = res.data
         },
     },
     actions: {
@@ -37,6 +37,7 @@ export default new Vuex.Store({
             commit('fetch', { res })
         },
         async addTeam({ commit }, payload) {
+            try{
             let url = api_endpoint + '/api/teams'
             let body = {
                 name: payload.name,
@@ -45,14 +46,32 @@ export default new Vuex.Store({
             let res = await Axios.post(url, body)
             if (res.status === 200) {
                 commit('add', res.data)
-                swal("Create Team Success", "","success")
+                return {
+                    success: true
+                }
             } else {
-                console.error(res)
-                
-                swal("Create Team Failed", res.message, "error")
+                console.log("NOT 200", res)
             }
+        } catch (e) {
+            if (e.response.status === 400) {
+                console.log(e)
+                console.log("ERROR  " + e.response.status + " |   " + e.response.statusText)
+                return {
+                    success: false,
+                    message: e.response.data,
+                }
+            } else {
+                console.error(e)
+                console.log("ERROR  " + e.response.status + " |   " + e.response.statusText)
+                return {
+                    success: false,
+                    message: e.response.data,
+                }
+            }
+        }
         },
         async editTeam({ commit }, payload) {
+            try{
             let url = api_endpoint + '/api/teams/' + payload.id
             let body = {
                 name: payload.name,
@@ -68,13 +87,32 @@ export default new Vuex.Store({
                 }
                 console.log("res", res)
                 commit('edit', resData)
-                swal("Edit Team Success", "","success")
+                return {
+                    success: true
+                }
+                
             } else {
-                console.log("test error")
-                console.error(res)
-                swal("Edit Team Failed", res.message, "error")
+                console.log("NOT 200", res)
+                
             }
-        },
+        } catch (e) {
+            if (e.response.status === 400) {
+                console.log(e)
+                console.log("ERROR  " + e.response.status + " |   " + e.response.statusText)
+                return {
+                    success: false,
+                    message: e.response.data,
+                }
+            } else {
+                console.error(e)
+                console.log("ERROR  " + e.response.status + " |   " + e.response.statusText)
+                return {
+                    success: false,
+                    message: e.response.data,
+                }
+            }
+        }
+    }
     },
     modules: {}
 })

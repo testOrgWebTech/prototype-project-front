@@ -11,13 +11,32 @@ const api_endpoint = process.env.VUE_APP_ENDPOINT || "http://localhost:8000"
 
 export default {
     isAuthen() {
-        return (user !== "") && (jwt != "")
+        return (user !== "") && (jwt !== "")
     },
     getUser() {
         return user
     },
     getJwt() {
         return jwt
+    },
+    getApiHeader(){
+        if (this.jwt !== "" && this.jwt !== undefined)
+        {
+            return {
+                headers: {
+                    Authorization: `Bearer ${this.jwt}`
+                }
+            }
+        }
+        else
+        {
+            this.jwt = JSON.parse(localStorage.getItem(auth_key)).access_token
+            return {
+                headers: {
+                    Authorization: `Bearer ${this.jwt}`
+                }
+            }
+        }
     },
 
     async login({ email, password }) {
