@@ -28,6 +28,24 @@
           @fetchPost="fetchPost"
         ></Comment>
       </b-modal>
+
+      <b-field class="selectCategory">
+        <b-select
+            v-model="selectedCategory"
+            placeholder="Select a Category"
+            rounded
+            @input="selectCategory"
+        >
+          <option value="all">All Categories</option>
+          <option
+              v-for="(category, index) in categories"
+              :key="index"
+              :value="category"
+          >
+            {{ category.name }}
+          </option>
+        </b-select>
+      </b-field>
       <Post
         v-for="(post, index) in posts"
         class="post"
@@ -65,6 +83,7 @@ import DraftPost from "@/components/DraftPost.vue";
 import PostStore from "@/store/Post";
 import AuthUser from "@/store/AuthUser";
 import Comment from "@/components/Comment.vue";
+import CategoryStore from '@/store/Category'
 
 export default {
   name: "Dashboard",
@@ -85,9 +104,33 @@ export default {
       showCommentModal: false,
       auth: AuthUser,
       isLoading: false,
+      selectedCategory: "all",
+      categories: null
     };
   },
   methods: {
+    async selectCategory(){
+      this.isLoading = true;
+      if (this.selectedCategory === 'all'){
+        await this.fetchPost();
+      }
+      else{
+        await this.fetchPostByCategory(this.selectedCategory.id)
+      }
+      this.isLoading = false;
+    },
+    async fetchCategory() {
+      this.isLoading = true;
+      await CategoryStore.dispatch("fetchCategory");
+      this.categories = await CategoryStore.getters.categories;
+      this.isLoading = false;
+    },
+    async fetchPostByCategory(category_id){
+      this.isLoading = true;
+      await PostStore.dispatch("fetchPostByCategory", category_id);
+      this.posts = await PostStore.getters.posts;
+      this.isLoading = false;
+    },
     async fetchPost() {
       this.isLoading = true;
       await PostStore.dispatch("fetchPost");
@@ -120,6 +163,7 @@ export default {
     },
   },
   async created() {
+    await this.fetchCategory();
     await this.fetchPost();
   },
 };
@@ -143,5 +187,10 @@ export default {
 }
 .modal-close {
   background: black;
+}
+.selectCategory{
+  width: 10%;
+  margin: auto;
+  margin-top: 10px;
 }
 </style>
