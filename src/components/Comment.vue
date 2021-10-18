@@ -1,12 +1,19 @@
 <template>
   <div class="card">
     <div class="card-content">
-      <div v-for="(comment, index) in comments" :key="index" v-if="comments.length != 0">
+      <div
+        v-for="(comment, index) in comments"
+        :key="index"
+        v-if="comments.length != 0"
+      >
         <div class="comment media">
           <div class="media-content">
             <figure class="image is-64x64 media-left is-inline-block">
               <router-link :to="`/profile/${comment.user.id}`">
-                <img class="is-rounded" :src="`http://localhost:8000${comment.user.imagePath}`">
+                <img
+                  class="is-rounded"
+                  :src="`http://localhost:8000${comment.user.imagePath}`"
+                />
               </router-link>
             </figure>
             <div class="media-content is-inline-block">
@@ -58,7 +65,7 @@ export default {
   async created() {
     await this.fetchCommentsByPostId(this.post.id);
     this.comments = CommentStore.getters.comments;
-    console.log(this.comments)
+    console.log(this.comments);
   },
   methods: {
     onClickComment() {
