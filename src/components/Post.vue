@@ -5,7 +5,10 @@
         <div class="media-content">
           <figure class="image is-64x64 media-left is-inline-block">
             <router-link :to="`/profile/${post.user.id}`">
-              <img class="is-rounded" :src="`http://localhost:8000${post.user.imagePath}`">
+              <img
+                class="is-rounded"
+                :src="`http://localhost:8000${post.user.imagePath}`"
+              />
             </router-link>
           </figure>
           <div class="media-content is-inline-block">
@@ -183,8 +186,7 @@ export default {
       return true;
     },
   },
-  created() {
-  },
+  created() {},
 };
 </script>
 
