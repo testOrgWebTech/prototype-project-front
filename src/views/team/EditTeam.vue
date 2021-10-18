@@ -114,7 +114,6 @@ export default {
         }
       }
     },
-
     async deleteMember() {
       // console.log(this.form.checkbox_users_delete);
       this.arrayToString();
@@ -142,9 +141,9 @@ export default {
             "error"
           );
         }
+        
       }
     },
-
     arrayToString() {
       this.form.checkbox_users_delete.forEach((string) => {
         this.form.users_delete += string + ", ";
@@ -152,7 +151,7 @@ export default {
       });
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

@@ -3,15 +3,19 @@
     <div class="card-content">
       <div class="media">
         <div class="media-content">
-          <figure class="media-left">
-            <p class="image is-64x64">
-              <img :src="`http://localhost:8000${post.user.imagePath}`">
-            </p>
+          <figure class="image is-64x64 media-left is-inline-block">
+            <router-link :to="`/profile/${post.user.id}`">
+              <img class="is-rounded" :src="`http://localhost:8000${post.user.imagePath}`">
+            </router-link>
           </figure>
-          <router-link :to="`/profile/${post.user.id}`">
-            <p class="title is-4">{{ post.user.name }}</p>
-            <p class="subtitle is-6">{{ post.email }}</p>
-          </router-link>
+          <div class="media-content is-inline-block">
+            <div class="content">
+              <router-link :to="`/profile/${post.user.id}`">
+                <p class="title is-4">{{ post.user.name }}</p>
+                <p class="subtitle is-6">{{ post.user.email }}</p>
+              </router-link>
+            </div>
+          </div>
         </div>
         <b-dropdown
           v-model="option"
@@ -77,7 +81,7 @@
         <b-button
           type="is-primary is-light"
           class="post-btn"
-          v-if="AuthUser.getters.user && post.comments.length > 0"
+          v-if="AuthUser.getters.user"
           @click="$emit('showComment', post.id)"
           >Comment</b-button
         >
@@ -85,7 +89,7 @@
           type="is-primary is-light"
           label="Direct Message"
           class="post-btn"
-          v-if="AuthUser.getters.user"
+          v-if="AuthUser.getters.user && checkOwnPost()"
           @click="showPostModal = true"
           >Message
         </b-button>
@@ -115,7 +119,7 @@
       >
         <MessagePost
           :receiver_id="post.user.id"
-          :username="post.name"
+          :username="post.user.name"
         ></MessagePost>
       </b-modal>
     </div>
@@ -145,7 +149,6 @@ export default {
         players: "",
       },
       showJoinModal: null,
-      isLoading: false
     };
   },
   // edit send post send each prop

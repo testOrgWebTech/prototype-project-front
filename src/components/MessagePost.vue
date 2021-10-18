@@ -48,6 +48,7 @@ export default {
       console.log("wow")
     },
     async sendMessage(){
+      this.receiver = this.$props.receiver_id
       let payload ={
         message: this.form.message,
         receiver: this.receiver
