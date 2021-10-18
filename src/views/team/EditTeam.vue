@@ -49,7 +49,6 @@
 import Topbar from "@/components/Topbar.vue";
 import TeamService from "@/services/TeamService";
 import TeamApiStore from "@/store/TeamApi";
-import swal from "sweetalert";
 
 export default {
   components: {
@@ -85,17 +84,13 @@ export default {
       };
       let res = await TeamApiStore.dispatch("editTeam", payload);
       if (this.form.name === "") {
-        swal("Edit Team Name Failed", "Name field is required.", "error");
+        this.$buefy.toast.open("Name field is required!!");
       } else {
         if (res.success) {
-          swal("Edit Team Name Success", "", "success");
+          this.$buefy.toast.open("Edit Team Name Success");
           this.$router.push("/showTeam/" + this.id);
         } else {
-          swal(
-            "Edit Team Name Failed",
-            "The name has already been taken.",
-            "error"
-          );
+          this.$buefy.toast.open("The name has already been taken.");
         }
       }
     },
@@ -108,18 +103,14 @@ export default {
         option: "add",
       };
       if (this.form.users_add === "") {
-        swal("Add Member Failed", "Add Member field is required.", "error");
+        this.$buefy.toast.open("Add Member field is required!!");
       } else {
         let res = await TeamApiStore.dispatch("editTeam", payload);
         if (res.success) {
-          swal("Add Member Success", "", "success");
+          this.$buefy.toast.open("Add Member Success");
           this.$router.push("/showTeam/" + this.id);
         } else {
-          swal(
-            "Add Member Failed",
-            "Please fill in the blanks correctly.",
-            "error"
-          );
+          this.$buefy.toast.open("Please fill in the blanks correctly.");
         }
       }
     },
@@ -133,22 +124,14 @@ export default {
         option: "delete",
       };
       if (this.form.users_delete === "") {
-        swal(
-          "Delete Member Failed",
-          "Delete Member checked box is required.",
-          "error"
-        );
+        this.$buefy.toast.open("Delete Member checked box is required!!");
       } else {
         let res = await TeamApiStore.dispatch("editTeam", payload);
         if (res.success) {
-          swal("Delete Member Success", "", "success");
+          this.$buefy.toast.open("Delete Member Success");
           this.$router.push("/showTeam/" + this.id);
         } else {
-          swal(
-            "Delete Member Failed",
-            "Please fill in the checkbox correctly.",
-            "error"
-          );
+          this.$buefy.toast.open("Please fill in the checkbox correctly.");
         }
       }
     },
