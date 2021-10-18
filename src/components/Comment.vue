@@ -6,7 +6,10 @@
           <div class="media-content">
             <figure class="image is-64x64 media-left is-inline-block">
               <router-link :to="`/profile/${comment.user.id}`">
-                <img class="is-rounded" :src="`http://localhost:8000${comment.user.imagePath}`">
+                <img
+                  class="is-rounded"
+                  :src="`http://localhost:8000${comment.user.imagePath}`"
+                />
               </router-link>
             </figure>
             <div class="media-content is-inline-block">
@@ -58,7 +61,7 @@ export default {
   async created() {
     await this.fetchCommentsByPostId(this.post.id);
     this.comments = CommentStore.getters.comments;
-    console.log(this.comments)
+    console.log(this.comments);
   },
   methods: {
     onClickComment() {
