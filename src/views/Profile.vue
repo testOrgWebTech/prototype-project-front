@@ -35,7 +35,7 @@
     </div>
 
     <br />
-    
+
 
     <br />
     <div class="card">
@@ -89,6 +89,7 @@ export default {
       challenges: [],
       user: [],
       image: "",
+      show: false,
       showCreateModal: false,
     };
   },
@@ -116,10 +117,19 @@ export default {
     showUser() {
       // this.user = AuthUser.getters.user
       this.image = "http://localhost:8000" + this.user.data.imagePath;
+      console.log(this.user);
     },
     showDate(date) {
       let d = new Date(date);
       return d.toString().slice(4, 24);
+    },
+
+    showHistory() {
+      if (this.show === false) {
+        this.show = true;
+      } else {
+        this.show = false;
+      }
     },
     notMyself() {
       return this.id != AuthUser.getters.user.id;
@@ -137,7 +147,7 @@ export default {
   height: 40%;
   width: 80%;
   text-align: center;
-  
+
 }
 .title{
   width: 100%;
@@ -186,7 +196,7 @@ export default {
 }
 table {
     table-layout: fixed;
-    width: 100%;   
+    width: 100%;
 }
 
 .chText {
