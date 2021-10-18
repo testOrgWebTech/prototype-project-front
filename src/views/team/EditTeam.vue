@@ -115,6 +115,38 @@ export default {
       }
     },
 
+    async created(){
+        this.id = this.$route.params.id
+        let team = await TeamService.getTeamById(this.id)
+        this.form.name = team.name
+        
+    },
+    methods:{
+      async editTeamName(){
+        let payload ={
+          id: this.id,
+          name: this.form.name,
+        }
+        let res = await TeamApiStore.dispatch("editTeam", payload)
+        if(this.form.name === ''){
+          swal("Edit Team Name Failed", "Name field is required.", "error")
+        }
+        else if(this.form.name.length > 100){
+          swal("Edit Team Name Failed", "The name must be between 1 and 100 characters.", "error")
+        }
+        else{
+          if(res.success){
+            swal("Edit Team Name Success", "","success")
+            this.$router.push('/showTeam/' + this.id)
+          }
+          else{
+            swal("Edit Team Name Failed","The name has already been taken.", "error")
+          }
+        }
+              
+      },
+
+
     async deleteMember() {
       // console.log(this.form.checkbox_users_delete);
       this.arrayToString();
@@ -142,8 +174,23 @@ export default {
             "error"
           );
         }
-      }
-    },
+
+        if(this.form.users_add === ''){
+          swal("Add Member Failed", "Add Member field is required.", "error")
+        }
+        else{
+          let res = await TeamApiStore.dispatch("editTeam", payload)
+          if(res.success){
+            swal("Add Member Success", "","success")
+            this.$router.push('/showTeam/' + this.id)
+        }
+          else{
+            swal("Add Member Failed","Please fill in the blanks correctly.", "error")
+          }
+        }
+        
+      },
+
 
     arrayToString() {
       this.form.checkbox_users_delete.forEach((string) => {
