@@ -81,6 +81,21 @@
       >
         Create challenge
       </b-button>
+      <b-modal
+        :active.sync="showCreateTeamModal"
+        :can-cancel="['escape', 'x', 'outside']"
+      >
+        <CreateTeam class="post" @closeCreate="showCreateTeamModal = false">
+        </CreateTeam>
+      </b-modal>
+      <b-button
+        type="is-primary is-light"
+        id="team-button"
+        @click="showCreateTeamModal = true"
+        v-if="auth.getters.user"
+      >
+        Create Team
+      </b-button>
     </div>
     <b-loading v-model="isLoading"></b-loading>
   </div>
@@ -93,6 +108,7 @@ import DraftPost from "@/components/DraftPost.vue";
 import PostStore from "@/store/Post";
 import AuthUser from "@/store/AuthUser";
 import Comment from "@/components/Comment.vue";
+import CreateTeam from "@/components/CreateTeam";
 import CategoryStore from "@/store/Category";
 
 export default {
@@ -102,6 +118,7 @@ export default {
     Post,
     DraftPost,
     Comment,
+    CreateTeam,
   },
   data() {
     return {
@@ -114,6 +131,7 @@ export default {
       showCommentModal: false,
       auth: AuthUser,
       isLoading: false,
+      showCreateTeamModal: false,
       selectedCategory: "all",
       categories: null,
       page: 1,
@@ -140,7 +158,10 @@ export default {
     },
     async fetchPostByCategory(category_id) {
       this.isLoading = true;
-      await PostStore.dispatch("fetchPostByCategory", { category_id, page: this.page });
+      await PostStore.dispatch("fetchPostByCategory", {
+        category_id,
+        page: this.page,
+      });
       this.posts = await PostStore.getters.posts;
       this.isLoading = false;
     },
@@ -175,6 +196,10 @@ export default {
         },
       });
     },
+    createTeam() {
+      this.$router.push("/createTeam");
+    },
+
     async onClickLoadMore() {
       this.page += 1;
       this.isLoading = true;
@@ -204,6 +229,11 @@ export default {
 #create-button {
   position: fixed;
   bottom: 20px;
+  right: 20px;
+}
+#team-button {
+  position: fixed;
+  bottom: 80px;
   right: 20px;
 }
 .modal-close {

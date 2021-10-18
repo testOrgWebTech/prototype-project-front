@@ -2,7 +2,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Dashboard from '@/views/Dashboard'
 import ShowTeam from '@/views/team/ShowTeam'
-import CreateTeam from '@/views/team/CreateTeam'
 import EditTeam from '@/views/team/EditTeam'
 //import Home from '@/views/Home'
 import Message from "../views/Message";
@@ -30,11 +29,6 @@ const routes = [
     path: '/showTeam/:id',
     name: 'ShowTeam',
     component: ShowTeam
-  },
-  {
-    path: '/createTeam',
-    name: 'CreateTeam',
-    component: CreateTeam
   },
   {
     path: '/editTeam/:id',
