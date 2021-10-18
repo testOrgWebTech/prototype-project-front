@@ -3,12 +3,24 @@
     <div class="card-content">
       <div v-for="(comment, index) in comments" :key="index">
         <div class="comment media">
-          <figure class="image is-48x48">
-            <img
-              src="https://bulma.io/images/placeholders/96x96.png"
-              alt="Placeholder image"
-            />
-          </figure>
+          <div class="media-content">
+            <figure class="image is-64x64 media-left is-inline-block">
+              <router-link :to="`/profile/${comment.user.id}`">
+                <img
+                  class="is-rounded"
+                  :src="`http://localhost:8000${comment.user.imagePath}`"
+                />
+              </router-link>
+            </figure>
+            <div class="media-content is-inline-block">
+              <div class="content">
+                <router-link :to="`/profile/${comment.user.id}`">
+                  <p class="subtitle">{{ comment.user.name }}</p>
+                  <p class="subtitle">{{ comment.user.email }}</p>
+                </router-link>
+              </div>
+            </div>
+          </div>
           <p class="subtitle is-6">{{ comment.message }}</p>
         </div>
       </div>
@@ -29,7 +41,7 @@
         <!--user profile pic-->
       </div>
     </div>
-    <b-loading v-model="isLoading"></b-loading>
+    <b-loading v-model="isLoading" v-if="comments.length != 0"></b-loading>
   </div>
 </template>
 
@@ -40,14 +52,16 @@ export default {
     return {
       message: null,
       isLoading: false,
-      comments: null,
+      comments: [],
     };
   },
   props: {
     post: null,
   },
-  created() {
-    this.fetchCommentsByPostId(this.post.id);
+  async created() {
+    await this.fetchCommentsByPostId(this.post.id);
+    this.comments = CommentStore.getters.comments;
+    console.log(this.comments);
   },
   methods: {
     onClickComment() {

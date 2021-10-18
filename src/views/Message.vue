@@ -2,7 +2,6 @@
   <div>
     <div>
       <div class="container">
-        <button @click="logAll()">LOG</button>
         <b-button
           class="level-right b-buttoncolor"
           label="New +"
@@ -15,8 +14,24 @@
         :active.sync="showCreateModal"
         :can-cancel="['escape', 'x', 'outside']"
       >
-        <MessagePost></MessagePost>
+        <div class="card">
+          <div class="card-content">
+            <b-field label="Sending message to ...">
+              <b-taginput
+                  v-model="sendTo"
+                  ellipsis
+                  icon="label"
+                  placeholder="e.g. test@email.com"
+                  aria-close-label="Delete this tag"
+                  maxtags="1"
+                  v-on:add="getUser(sendTo);">
+              </b-taginput>
+            </b-field>
+          </div>
+        </div>
+        <MessagePost :receiver_id="user_id" :username="sendToUserName" ></MessagePost>
       </b-modal>
+
     </div>
 
     <b-tabs v-model="activeTab" position="is-centered">
@@ -57,6 +72,7 @@ import MessagePost from "../components/MessagePost";
 import AuthUser from "../store/AuthUser";
 import AuthService from "../services/AuthService";
 import Topbar from "../components/Topbar";
+import Axios from "axios";
 export default {
   components: {
     MessageCard,
@@ -70,6 +86,10 @@ export default {
       currentMenu: 0,
       activeTab: 0,
       showCreateModal: false,
+      sendTo: [],
+      sendToUser: [],
+      sendToUserName: '',
+      user_id: 0,
 
       //   showMusic: true,
       //   showBooks: false,
@@ -90,9 +110,17 @@ export default {
       await MessageStore.dispatch("fetchSentMessage");
       this.sentMessages = MessageStore.getters.messages;
     },
-    logAll() {
-      console.log(this.messages);
-      console.log(this.sentMessages);
+    // logAll() {
+    //   console.log(this.messages);
+    //   console.log(this.sentMessages);
+    // },
+    async getUser(emailString) {
+      let payload = {
+        email: emailString
+      }
+      this.sentToUser = await Axios.post("http://localhost:8000/api/getUserByEmail",payload);
+      this.sendToUserName = this.sentToUser.data[0].name;
+      this.user_id = this.sentToUser.data[0].id
     },
   },
 };

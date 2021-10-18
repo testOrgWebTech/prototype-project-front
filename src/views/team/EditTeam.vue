@@ -19,19 +19,26 @@
         </b-field>
         <b-button class="is-success" @click="addMember()"> Add </b-button>
 
-        <br>
-        <br>
-        <b-field label="Delete Member">
-          <b-checkbox
-            v-model="form.checkbox_users_delete"
-            v-for="(player, index) in teamPlayers"
-            :key="index"
-            :native-value="player.email"
-          >
-            {{ player.email }}
-          </b-checkbox>
-        </b-field>
-        <b-button class="is-danger" @click="deleteMember()"> Delete </b-button>
+        <div class="deleteBlock">
+          <b-field label="Delete Member">
+            <b-field>
+              Check the box in front of player's email you want to kick out of
+              team</b-field
+            >
+            <b-checkbox
+              v-model="form.checkbox_users_delete"
+              type="is-danger"
+              v-for="(player, index) in teamPlayers"
+              :key="index"
+              :native-value="player.email"
+            >
+              {{ player.email }}
+            </b-checkbox>
+          </b-field>
+          <b-button class="is-danger" @click="deleteMember()">
+            Delete
+          </b-button>
+        </div>
       </section>
     </div>
     <b-loading v-model="isLoading"></b-loading>
@@ -143,7 +150,6 @@ export default {
             "error"
           );
         }
-        
       }
     },
     arrayToString() {
@@ -153,10 +159,13 @@ export default {
       });
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
+.deleteBlock {
+  margin-top: 80px;
+}
 .card {
   position: absolute;
   top: 50%;

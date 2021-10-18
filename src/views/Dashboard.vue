@@ -28,6 +28,24 @@
           @fetchPost="fetchPost"
         ></Comment>
       </b-modal>
+
+      <b-field class="selectCategory">
+        <b-select
+          v-model="selectedCategory"
+          placeholder="Select a Category"
+          rounded
+          @input="selectCategory"
+        >
+          <option value="all">All Categories</option>
+          <option
+            v-for="(category, index) in categories"
+            :key="index"
+            :value="category"
+          >
+            {{ category.name }}
+          </option>
+        </b-select>
+      </b-field>
       <Post
         v-for="(post, index) in posts"
         class="post"
@@ -45,11 +63,21 @@
         @showComment="(e) => showComment(e)"
       >
       </Post>
+      <div style="text-align: center">
+        <b-button
+          class="load-more-btn"
+          type="is-primary"
+          @click="onClickLoadMore"
+          v-if="page < last_page"
+          >Load more</b-button
+        >
+      </div>
+
       <b-button
         type="is-primary is-light"
         id="create-button"
         @click="showCreateModal = true"
-        v-if="auth.getters.user"
+        v-if="auth.getters.user && !isLoading"
       >
         Create challenge
       </b-button>
@@ -62,12 +90,12 @@
       </b-modal>
       <b-button
         type="is-primary is-light"
-        id="team-button" @click="showCreateTeamModal = true"
+        id="team-button"
+        @click="showCreateTeamModal = true"
         v-if="auth.getters.user"
       >
         Create Team
       </b-button>
-      
     </div>
     <b-loading v-model="isLoading"></b-loading>
   </div>
@@ -81,6 +109,7 @@ import PostStore from "@/store/Post";
 import AuthUser from "@/store/AuthUser";
 import Comment from "@/components/Comment.vue";
 import CreateTeam from "@/components/CreateTeam";
+import CategoryStore from "@/store/Category";
 
 export default {
   name: "Dashboard",
@@ -103,13 +132,44 @@ export default {
       auth: AuthUser,
       isLoading: false,
       showCreateTeamModal: false,
+      selectedCategory: "all",
+      categories: null,
+      page: 1,
+      last_page: null,
     };
   },
   methods: {
+    async selectCategory() {
+      this.isLoading = true;
+      if (this.selectedCategory === "all") {
+        this.page = 1;
+        await this.fetchPost();
+      } else {
+        this.page = 1;
+        await this.fetchPostByCategory(this.selectedCategory.id);
+      }
+      this.isLoading = false;
+    },
+    async fetchCategory() {
+      this.isLoading = true;
+      await CategoryStore.dispatch("fetchCategory");
+      this.categories = await CategoryStore.getters.categories;
+      this.isLoading = false;
+    },
+    async fetchPostByCategory(category_id) {
+      this.isLoading = true;
+      await PostStore.dispatch("fetchPostByCategory", {
+        category_id,
+        page: this.page,
+      });
+      this.posts = await PostStore.getters.posts;
+      this.isLoading = false;
+    },
     async fetchPost() {
       this.isLoading = true;
-      await PostStore.dispatch("fetchPost");
+      await PostStore.dispatch("fetchPost", this.page);
       this.posts = await PostStore.getters.posts;
+      this.last_page = await PostStore.getters.paginate.last_page;
       this.isLoading = false;
     },
     /*async fetchComment(id) {
@@ -136,11 +196,20 @@ export default {
         },
       });
     },
-    createTeam(){
-      this.$router.push("/createTeam")
+    createTeam() {
+      this.$router.push("/createTeam");
+    },
+
+    async onClickLoadMore() {
+      this.page += 1;
+      this.isLoading = true;
+      await PostStore.dispatch("fetchPost", this.page);
+      //this.posts = await PostStore.getters.posts;
+      this.isLoading = false;
     },
   },
   async created() {
+    await this.fetchCategory();
     await this.fetchPost();
   },
 };
@@ -169,5 +238,16 @@ export default {
 }
 .modal-close {
   background: black;
+}
+.selectCategory {
+  width: 10%;
+  margin: auto;
+  margin-top: 10px;
+}
+.load-more-btn {
+  margin-bottom: 15px;
+}
+.post-zone {
+  margin-bottom: 15px;
 }
 </style>

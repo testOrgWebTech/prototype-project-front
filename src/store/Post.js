@@ -8,14 +8,22 @@ const api_endpoint = process.env.VUE_APP_ENDPOINT || "http://localhost:8000"
 
 export default new Vuex.Store({
     state: {
-        posts: []
+        posts: [],
+        paginate: null
     },
     mutations: {
         fetchPost(state, res) {
-            state.posts = res.data;
+            console.log(res)
+            if (res.data.current_page == 1) {
+                state.posts = [];
+            }
+            console.log(state.posts)
+            state.posts.push(...res.data.data);
+            state.paginate = res.data
+            console.log(state.posts)
         },
         newPost(state, res) {
-            state.posts.push(res.data);        
+            state.posts.push(res.data);
         },
         editPost(state, res) {
             state.posts = res.data;
@@ -25,8 +33,8 @@ export default new Vuex.Store({
         }
     },
     actions: {
-        async fetchPost({ commit }) {
-            const res = await axios.get(api_endpoint + '/api/posts', /*header*/);
+        async fetchPost({ commit }, page) {
+            const res = await axios.get(api_endpoint + '/api/posts?page=' + page, /*header*/);
             commit('fetchPost', res);
         },
         async newPost({ commit }, payload) {
@@ -47,14 +55,15 @@ export default new Vuex.Store({
             const res = await axios.post(api_endpoint + '/api/posts/', id, /*header*/);
             return res;
         },
-        async fetchPostByCategory(cate_id) {
-            const res = await axios.post(api_endpoint + '/api/posts-by-cate-id/' + cate_id, /*header*/);
-            console.log(res)
+        async fetchPostByCategory({ commit }, { category_id, page }) {
+            const res = await axios.get(api_endpoint + `/api/posts-by-cate-id/${category_id}?page=` + page, /*header*/);
+            commit('fetchPost', res);
             return res;
         },
     },
     getters: {
         posts: (state) => state.posts,
+        paginate: (state) => state.paginate,
     },
     modules: {
     }
