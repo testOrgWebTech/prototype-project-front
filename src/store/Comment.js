@@ -15,7 +15,6 @@ export default new Vuex.Store({
             state.comments = res.data;
         },
         newComment(state, res) {
-            console.log(res)
             state.comments.push(res.data);
         },
         getCommentsByPostId(state, res) {
@@ -33,7 +32,6 @@ export default new Vuex.Store({
         },
         async getCommentsByPostId({ commit }, post_id) {
             const res = await axios.post(api_endpoint + '/api/comments-by-post-id/' + post_id, /*header*/);
-            console.log(res)
             commit('getCommentsByPostId', res);
         }
     },

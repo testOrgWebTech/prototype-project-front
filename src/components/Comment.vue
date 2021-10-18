@@ -1,28 +1,35 @@
 <template>
   <div class="card">
     <div class="card-content">
-      <div v-for="(comment, index) in comments" :key="index">
-        <div class="comment media">
-          <div class="media-content">
-            <figure class="image is-64x64 media-left is-inline-block">
-              <router-link :to="`/profile/${comment.user.id}`">
-                <img
-                  class="is-rounded"
-                  :src="`http://localhost:8000${comment.user.imagePath}`"
-                />
-              </router-link>
-            </figure>
-            <div class="media-content is-inline-block">
-              <div class="content">
+      <div v-if="comments.length > 0">
+        <div v-for="(comment, index) in comments" :key="index">
+          <div class="comment media">
+            <div class="media-content">
+              <figure class="image is-64x64 media-left is-inline-block">
                 <router-link :to="`/profile/${comment.user.id}`">
-                  <p class="subtitle">{{ comment.user.name }}</p>
-                  <p class="subtitle">{{ comment.user.email }}</p>
+                  <img
+                      class="is-rounded"
+                      :src="`http://localhost:8000${comment.user.imagePath}`"
+                  />
                 </router-link>
+              </figure>
+              <div class="media-content is-inline-block card-content">
+                <div class="content">
+                  <router-link :to="`/profile/${comment.user.id}`">
+                    <p class="title is-4">{{ comment.user.name }}</p>
+                    <p class="subtitle is-6">{{ comment.user.email }}</p>
+                  </router-link>
+                </div>
+                <div>
+                  <p class="subtitle is-6">{{ comment.message }}</p>
+                </div>
               </div>
             </div>
           </div>
-          <p class="subtitle is-6">{{ comment.message }}</p>
         </div>
+      </div>
+      <div v-else>
+        Hello
       </div>
       <div class>
         <div class="comment">
