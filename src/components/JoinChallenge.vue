@@ -31,7 +31,6 @@
       </b-field>
 
       <b-button type="is-primary is-light" @click="join"> Join </b-button>
-      <b-button @click="showData">data</b-button>
       <b-loading v-model="isLoading"></b-loading>
     </div>
   </div>
