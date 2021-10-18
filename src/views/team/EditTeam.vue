@@ -69,13 +69,16 @@ export default {
         if(this.form.name === ''){
           swal("Edit Team Name Failed", "Name field is required.", "error")
         }
+        else if(this.form.name.length > 100){
+          swal("Edit Team Name Failed", "The name must be between 1 and 100 characters.", "error")
+        }
         else{
           if(res.success){
             swal("Edit Team Name Success", "","success")
             this.$router.push('/showTeam/' + this.id)
           }
           else{
-            swal("Edit Team Name Failed", "The name has already been taken.", "error")
+            swal("Edit Team Name Failed","The name has already been taken.", "error")
           }
         }
         
@@ -99,7 +102,7 @@ export default {
             this.$router.push('/showTeam/' + this.id)
         }
           else{
-            swal("Add Member Failed", "Please fill in the blanks correctly.", "error")
+            swal("Add Member Failed","Please fill in the blanks correctly.", "error")
           }
         }
         
