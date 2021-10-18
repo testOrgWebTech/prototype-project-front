@@ -109,7 +109,6 @@
           "
           @click="
             () => {
-              isLoading;
               showJoinModal = true;
             }
           "
