@@ -2,24 +2,32 @@
   <div>
     <div class="card">
       <div class="card-content">
-    <h1 class="title">Create Team</h1>
-    <div class="form">
-      <section>
-        <b-field label="Name" horizontal>
-          <b-input v-model="form.name" class="in"></b-input>
-        </b-field>
+        <h1 class="title">Create Team</h1>
+        <div class="form">
+          <section>
+            <b-field horizontal>
+              <b-input
+                v-model="form.name"
+                class="in"
+                placeholder="Name"
+              ></b-input>
+            </b-field>
 
-        <div class="divBtn">
-          <b-button class="button is-danger" tag="router-link" to="/">
-            Cancel
-          </b-button>
+            <div class="divBtn">
+              <b-button
+                class="button is-danger"
+                @click="$emit('closeCreateTeam')"
+              >
+                Cancel
+              </b-button>
 
-          <b-button @click="create()" class="is-success"> Create </b-button>
+              <b-button @click="create()" class="is-success"> Create </b-button>
+            </div>
+          </section>
         </div>
-      </section>
-    </div>
       </div>
     </div>
+    <b-loading v-model="isLoading"></b-loading>
   </div>
 </template>
 
@@ -27,7 +35,7 @@
 import Topbar from "@/components/Topbar.vue";
 import AuthUser from "@/store/AuthUser";
 import TeamApiStore from "@/store/TeamApi";
-import swal from "sweetalert";
+
 export default {
   components: {
     Topbar,
@@ -39,29 +47,21 @@ export default {
         name: "",
         user_id: AuthUser.getters.user.id,
       },
+      isLoading: false,
     };
   },
   methods: {
     async create() {
+      this.isLoading = true;
       let res = await TeamApiStore.dispatch("addTeam", this.form);
+      this.isLoading = false;
       if (this.form.name === "") {
-        swal("Create Team Failed", "Name field is required.", "error");
-      } else if (this.form.name.length > 100) {
-        swal(
-          "Create Team Name Failed",
-          "The name must be between 1 and 100 characters.",
-          "error"
-        );
+        this.$buefy.toast.open("Please input team name!!");
       } else {
         if (res.success) {
-          swal("Create Team Success", "", "success");
-          this.$router.push("/");
+          this.$buefy.toast.open("Create Team Success!!");
         } else {
-          swal(
-            "Create Team Failed",
-            "The name has already been taken.",
-            "error"
-          );
+          this.$buefy.toast.open("The name has already been taken!!");
         }
       }
     },
@@ -96,9 +96,8 @@ h1 {
   height: 40%;
   width: 80%;
   text-align: center;
-  
 }
-.title{
+.title {
   width: 100%;
   text-align: center;
   margin-bottom: 30px;

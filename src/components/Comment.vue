@@ -47,6 +47,8 @@
 
 <script>
 import CommentStore from "@/store/Comment";
+import AuthUser from "@/store/AuthUser";
+
 export default {
   data() {
     return {
@@ -65,8 +67,10 @@ export default {
   },
   methods: {
     onClickComment() {
+      console.log(AuthUser.getters.user.id)
       const payload = {
         post_id: this.post.id,
+        user_id: AuthUser.getters.user.id,
         message: this.message,
       };
       this.$buefy.dialog.confirm({
