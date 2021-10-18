@@ -3,6 +3,7 @@
 ## Project Setup
 ```
 - npm install
+- npm run serve
 ```
 
 ## Developer Team
