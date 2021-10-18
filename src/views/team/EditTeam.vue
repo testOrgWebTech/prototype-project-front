@@ -1,6 +1,5 @@
 <template>
 <div>
-  <Topbar/>
   <h1>Edit Team</h1>
      <div class="form">
       <section>

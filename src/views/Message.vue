@@ -1,42 +1,48 @@
 <template>
   <div>
-    <Topbar></Topbar>
-<!--    {{ messages }}-->
-<!--    <b-table :data="messages" :columns="columns"></b-table>-->
     <div>
-        <div class="container">
-          <button @click="logAll()">LOG</button>
-          <b-button class="level-right b-buttoncolor"
-                    label="New +"
-                    size="is-medium"
-                    @click="showCreateModal = true" />
-        </div>
-
-
-
+      <div class="container">
+        <button @click="logAll()">LOG</button>
+        <b-button
+          class="level-right b-buttoncolor"
+          label="New +"
+          size="is-medium"
+          @click="showCreateModal = true"
+        />
+      </div>
 
       <b-modal
-          :active.sync="showCreateModal"
-          :can-cancel="['escape', 'x', 'outside']"
+        :active.sync="showCreateModal"
+        :can-cancel="['escape', 'x', 'outside']"
       >
         <MessagePost></MessagePost>
       </b-modal>
     </div>
 
-
-    <b-tabs v-model="activeTab"  position="is-centered">
+    <b-tabs v-model="activeTab" position="is-centered">
       <b-tab-item label="Inbox">
         <div class="container">
-          <MessageCard v-for="(item) in this.messages"
-                       :sender="item.sender" :msg="item.message" :ago="item.ago" class="is-vcentered is-centered"></MessageCard>
+          <MessageCard
+            v-for="(item, index) in this.messages"
+            :key="index"
+            :sender="item.sender"
+            :msg="item.message"
+            :ago="item.ago"
+            class="is-vcentered is-centered"
+          ></MessageCard>
         </div>
       </b-tab-item>
 
       <b-tab-item label="Sent">
         <div class="container">
-          <MessageCard v-for="(item) in this.sentMessages"
-                       :sender="item.sender" :msg="item.message" :ago="item.ago" class="is-vcentered is-centered">
-
+          <MessageCard
+            v-for="(item, index) in this.sentMessages"
+            :key="index"
+            :sender="item.sender"
+            :msg="item.message"
+            :ago="item.ago"
+            class="is-vcentered is-centered"
+          >
           </MessageCard>
         </div>
       </b-tab-item>
@@ -55,42 +61,41 @@ export default {
   components: {
     MessageCard,
     MessagePost,
-    Topbar
+    Topbar,
   },
   data() {
     return {
       messages: [],
       sentMessages: [],
       currentMenu: 0,
-        activeTab: 0,
+      activeTab: 0,
       showCreateModal: false,
 
       //   showMusic: true,
       //   showBooks: false,
       //   multiline: true
       // }
-    }
+    };
   },
   created() {
-    this.fetchMessage()
-    this.fetchSentMessage()
+    this.fetchMessage();
+    this.fetchSentMessage();
   },
   methods: {
     async fetchMessage() {
-      await MessageStore.dispatch('fetchMessage')
-      this.messages = MessageStore.getters.messages
+      await MessageStore.dispatch("fetchMessage");
+      this.messages = MessageStore.getters.messages;
     },
     async fetchSentMessage() {
-      await MessageStore.dispatch('fetchSentMessage')
-      this.sentMessages = MessageStore.getters.messages
+      await MessageStore.dispatch("fetchSentMessage");
+      this.sentMessages = MessageStore.getters.messages;
     },
     logAll() {
-      console.log(this.messages)
-      console.log(this.sentMessages)
-    }
-  }
-
-}
+      console.log(this.messages);
+      console.log(this.sentMessages);
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">
@@ -105,5 +110,4 @@ export default {
   background-color: #f15858;
   color: white;
 }
-
 </style>

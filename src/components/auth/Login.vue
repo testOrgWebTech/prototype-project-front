@@ -62,6 +62,7 @@
         </form>
       </b-dropdown-item>
     </b-dropdown>
+    <b-loading v-model="isLoading"></b-loading>
   </div>
 </template>
 
@@ -76,17 +77,20 @@ export default {
         email: "",
         password: "",
       },
+      isLoading: false,
     };
   },
   methods: {
     async login() {
       //   let res = await AuthService.login(this.form);
+      this.isLoading = true;
       let res = await AuthUser.dispatch("login", this.form);
+      this.isLoading = false;
       if (res.success) {
-        console.log("Login Success!!!");
-        this.$router.go(0);
+        this.$buefy.toast.open("Login Success!!");
+        //this.$router.go(0);
       } else {
-        console.log("Login Failed");
+        this.$buefy.toast.open("Login Failed!!");
       }
     },
   },
