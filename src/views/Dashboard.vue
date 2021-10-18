@@ -48,7 +48,6 @@
       <b-button
         type="is-primary is-light"
         id="create-button"
-        
         @click="showCreateModal = true"
         v-if="auth.getters.user"
       >

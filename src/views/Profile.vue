@@ -96,7 +96,6 @@ export default {
     this.user = await Axios.get("http://localhost:8000/api/users/" + this.id);
     this.fetchData();
     this.showUser();
-    
   },
   methods: {
     async fetchData() {
