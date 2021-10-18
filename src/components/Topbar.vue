@@ -108,6 +108,7 @@ export default {
   methods: {
     isAuthen() {
       return AuthUser.getters.isAuthen;
+      
     },
     async logout() {
       this.isLoading = true;

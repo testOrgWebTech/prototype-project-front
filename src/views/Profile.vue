@@ -96,6 +96,7 @@ export default {
     this.user = await Axios.get("http://localhost:8000/api/users/" + this.id);
     this.fetchData();
     this.showUser();
+    
   },
   methods: {
     async fetchData() {
@@ -114,8 +115,7 @@ export default {
 
     showUser() {
       // this.user = AuthUser.getters.user
-      this.image = "http://localhost:8000" + this.user.imagePath;
-      console.log(this.user);
+      this.image = "http://localhost:8000" + this.user.data.imagePath;
     },
     showDate(date) {
       let d = new Date(date);
