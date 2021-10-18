@@ -3,32 +3,38 @@
     <div class="card">
       <div class="card-content">
         <h1 class="title">Register</h1>
-        <b-input class="ipt" v-model="form.name" placeholder="Name"></b-input>
-        <b-input
-          class="ipt"
-          type="email"
-          v-model="form.email"
-          placeholder="Email"
-        >
-        </b-input>
-        <b-input
-          class="ipt"
-          v-model="form.password"
-          type="password"
-          password-reveal
-          placeholder="Password"
-        >
-        </b-input>
-        <b-input
-          class="ipt"
-          v-model="form.password_confirmation"
-          type="password"
-          password-reveal
-          placeholder="Confirm Password"
-        >
-        </b-input>
-        <!--<input class="inputFile" type="file" @change="onFileSelected" />-->
-        <!--<img class="image" :src="urlImage" />-->
+        <div class="inputForm">
+          <b-input class="ipt" v-model="form.name" placeholder="Name"></b-input>
+          <b-input
+            class="ipt"
+            type="email"
+            v-model="form.email"
+            placeholder="Email"
+          >
+          </b-input>
+          <b-input
+            class="ipt"
+            v-model="form.password"
+            type="password"
+            password-reveal
+            placeholder="Password"
+          >
+          </b-input>
+          <b-input
+            class="ipt"
+            v-model="form.password_confirmation"
+            type="password"
+            password-reveal
+            placeholder="Confirm Password"
+          >
+          </b-input>
+
+          <div class="uploadImg">
+            <input class="inputFile" type="file" @change="onFileSelected" />
+            <img class="image" :src="urlImage" />
+          </div>
+        </div>
+
         <section class="btn">
           <b-button class="inside-btn is-danger" tag="router-link" to="/">
             Cancel
@@ -65,7 +71,6 @@ export default {
   methods: {
     onFileSelected(event) {
       this.selectedFile = event.target.files[0];
-
       this.urlImage = URL.createObjectURL(this.selectedFile);
     },
     async signUp() {
@@ -83,7 +88,7 @@ export default {
             await AuthUser.dispatch("login", loginForm);
 
             //upload
-            /*const fd = new FormData();
+            const fd = new FormData();
             fd.append("image", this.selectedFile, this.selectedFile.name);
 
             axios
@@ -94,7 +99,7 @@ export default {
                 console.log(res);
               });
 
-            await AuthUser.dispatch("login", loginForm);*/
+            await AuthUser.dispatch("login", loginForm);
 
             this.isLoading = false;
             await this.$buefy.toast.open("Register Success!!");
@@ -144,7 +149,9 @@ export default {
   margin-left: 675px;
   width: 10%;
 }*/
-
+* {
+  box-sizing: border-box;
+}
 .card {
   position: absolute;
   top: 50%;
@@ -170,5 +177,18 @@ export default {
 }
 .Btn {
   text-align: center;
+}
+.uploadImg {
+  margin-top: 32px;
+  .inputFile {
+    margin-left: 37%;
+  }
+  .image {
+    margin-top: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
 }
 </style>
