@@ -36,7 +36,7 @@
           v-model="option"
           append-to-body
           aria-role="menu"
-          v-if="AuthUser.getters.user"
+          v-if="AuthUser.getters.user && !checkOwnPost()"
         >
           <template #trigger>
             <a class="navbar-item" role="button">
@@ -65,7 +65,10 @@
         </b-dropdown>
       </div>
       <div>
+        Location: {{post.challenge.location}}
+        <br>
         Mode: {{ post.challenge.mode }}
+        <br>
         <br>
         {{ post.message }}
         <br /><br />
@@ -203,10 +206,10 @@ export default {
   margin: auto;
   margin-top: 30px;
   word-wrap: break-word;
+
 }
 .post-btn {
   margin-left: 10px;
-
 }
 #btn {
   margin-top: 10px;
