@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-content">
       <div class="media">
-        <div class="media-content">
+        <div class="media-content" id="media">
           <figure class="image is-64x64 media-left is-inline-block">
             <router-link :to="`/profile/${post.user.id}`">
               <img
@@ -24,6 +24,11 @@
                   year: "numeric",
                 })
               }}</time>
+              <div>
+                <b-taglist>
+                  <b-tag type="is-info">{{ post.category.name }}</b-tag>
+                </b-taglist>
+              </div>
             </div>
           </div>
         </div>
@@ -67,11 +72,7 @@
 
       </div>
 
-      <div>
-        <b-taglist>
-          <b-tag type="is-info">{{ post.category.name }}</b-tag>
-        </b-taglist>
-      </div>
+
 
       <b-modal
         :active.sync="showJoinModal"
@@ -87,36 +88,38 @@
       </b-modal>
       <section id="btn">
         <b-button
-          type="is-primary is-light"
-          class="post-btn"
-          v-if="AuthUser.getters.user"
-          @click="$emit('showComment', post.id)"
-          >Comment</b-button
-        >
-        <b-button
-          type="is-primary is-light"
-          label="Direct Message"
-          class="post-btn"
-          v-if="AuthUser.getters.user && checkOwnPost()"
-          @click="showPostModal = true"
-          >Message
-        </b-button>
-        <b-button
-          type="is-primary is-light"
-          class="post-btn"
-          v-if="
+            type="is-primary is-light"
+            class="post-btn is-right"
+            v-if="
             AuthUser.getters.user &&
             checkOwnPost() &&
             checkUserInTeamA() &&
             checkChallengeIsFull()
           "
-          @click="
+            @click="
             () => {
               showJoinModal = true;
             }
           "
-          >Join
+        >Join
         </b-button>
+
+        <b-button
+          type="is-primary is-light"
+          label="Direct Message"
+          class="post-btn is-right"
+          v-if="AuthUser.getters.user && checkOwnPost()"
+          @click="showPostModal = true"
+          >Message
+        </b-button>
+
+        <b-button
+            type="is-primary is-light"
+            class="post-btn is-right"
+            v-if="AuthUser.getters.user"
+            @click="$emit('showComment', post.id)"
+        >Comment</b-button
+        >
       </section>
     </div>
     <div>
@@ -203,9 +206,11 @@ export default {
 }
 .post-btn {
   margin-left: 10px;
+
 }
 #btn {
   margin-top: 10px;
-  padding-left: 50%;
+  padding-left: 0%;
 }
+
 </style>

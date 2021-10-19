@@ -22,9 +22,13 @@
             <div class="level-item">
               <a class="button is-info" @click="sendMessage()">Submit</a>
             </div>
-            <div>
-              {{ error }}
+
+            <div
+                v-for="(err, index) in error"
+                :key="index">
+              {{ err[0] }}
             </div>
+            <br>
           </div>
         </nav>
       </div>
@@ -57,15 +61,18 @@ export default {
       this.receiver = this.$props.receiver_id;
       let payload = {
         message: this.form.message,
+        sender: this.user.id,
         receiver: this.receiver,
       };
       let res = await MessageStore.dispatch("postMessage", payload);
       if (res.status === 201) {
         this.clearForm();
         this.$buefy.toast.open("Message Sent!")
-      } else {
+      }
+      else {
         this.$buefy.toast.open("Failed")
         this.error = res.data;
+        console.log(this.error)
       }
     },
     clearForm() {
