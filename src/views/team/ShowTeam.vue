@@ -16,7 +16,7 @@
               class="editTeamBtn"
               :to="{ name: 'EditTeam', params: { id: this.id } }"
             >
-              Edit Team
+              Setting Team
             </router-link>
           </div>
         </div>

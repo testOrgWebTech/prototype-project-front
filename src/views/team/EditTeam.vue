@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <h1 class="title">Edit Team</h1>
+    <h1 class="title">Setting Team</h1>
     <div class="form">
       <section>
         <b-field label="Name" horizontal>
@@ -39,6 +39,9 @@
             Delete
           </b-button>
         </div>
+        <b-button class="leave is-danger" @click="deleteYourself()">
+            Leave Team
+          </b-button>
       </section>
     </div>
     <b-loading v-model="isLoading"></b-loading>
@@ -80,11 +83,18 @@ export default {
       this.isLoading = false;
     }
     this.form.name = this.team.name;
-    this.teamPlayers = this.team.users;
+    this.showMemberCanDelete()
     this.isLoading = false;
   },
   mounted() {},
   methods: {
+    showMemberCanDelete(){
+      this.team.users.forEach(user => {
+        if(user.email !== AuthUser.getters.user.email){
+          this.teamPlayers.push(user.email)
+        }
+      });
+    },
     isTeamMember() {
       if (this.team.users_id.includes(AuthUser.getters.user.id)) {
         return true;
@@ -151,6 +161,27 @@ export default {
         }
       }
     },
+    async deleteYourself(){
+      this.form.users_delete = AuthUser.getters.user.email
+      let payload = {
+        id: this.id,
+        name: this.form.name,
+        users: this.form.users_delete,
+        option: "delete",
+      };
+      if (this.form.users_delete === "") {
+        this.$buefy.toast.open("Delete Member checked box is required!!");
+      } else {
+        let res = await TeamApiStore.dispatch("editTeam", payload);
+        if (res.success) {
+          this.$buefy.toast.open("Delete Member Success");
+          this.$router.push("/");
+          this.$router.go(0)
+        } else {
+          this.$buefy.toast.open("Please fill in the checkbox correctly.");
+        }
+      }
+    },
     arrayToString() {
       this.form.checkbox_users_delete.forEach((string) => {
         this.form.users_delete += string + ", ";
@@ -162,6 +193,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.leave{
+  margin: 20px;
+}
 .deleteBlock {
   margin-top: 80px;
 }
