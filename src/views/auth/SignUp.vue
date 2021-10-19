@@ -78,7 +78,7 @@ export default {
   },
   methods: {
     logSomething(){
-      console.log(this.file)
+      // console.log(this.file)
     },
     onFileSelected(event) {
       this.selectedFile = event.target.files[0];
@@ -107,7 +107,7 @@ export default {
                 headers: { Authorization: `Bearer ${AuthUser.getters.jwt}` },
               })
               .then((res) => {
-                console.log(res);
+                // console.log(res);
               });
 
             await AuthUser.dispatch("login", loginForm);

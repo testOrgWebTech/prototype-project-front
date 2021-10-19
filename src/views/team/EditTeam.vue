@@ -71,7 +71,6 @@ export default {
     };
   },
   async created() {
-    console.log("1");
     this.isLoading = true;
     this.id = this.$route.params.id;
     this.team = await TeamService.getTeamById(this.id);

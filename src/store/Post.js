@@ -13,14 +13,14 @@ export default new Vuex.Store({
     },
     mutations: {
         fetchPost(state, res) {
-            console.log(res)
+            // console.log(res)
             if (res.data.current_page == 1) {
                 state.posts = [];
             }
-            console.log(state.posts)
+            // console.log(state.posts)
             state.posts.push(...res.data.data);
             state.paginate = res.data
-            console.log(state.posts)
+            // console.log(state.posts)
         },
         newPost(state, res) {
             state.posts.push(res.data);
@@ -39,7 +39,7 @@ export default new Vuex.Store({
         },
         async newPost({ commit }, payload) {
             const res = await axios.post(api_endpoint + '/api/posts', payload, /*header*/);
-            console.log(res)
+            // console.log(res)
             commit('newPost', res);
             return res;
         },

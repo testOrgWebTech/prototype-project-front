@@ -41,7 +41,7 @@ export default new Vuex.Store({
             let header = AuthService.getApiHeader()
             let res = await Axios.post("http://localhost:8000/api/messages",payload,header
             )
-            console.log(res.data)
+            // console.log(res.data)
             commit("add", res.data)
             return res
 

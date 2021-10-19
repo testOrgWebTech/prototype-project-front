@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     logAll() {
-      console.log("wow");
+      // console.log("wow");
     },
     async sendMessage() {
       this.receiver = this.$props.receiver_id;
