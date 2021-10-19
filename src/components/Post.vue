@@ -17,6 +17,13 @@
                 <p class="title is-4">{{ post.user.name }}</p>
                 <p class="subtitle is-6">{{ post.user.email }}</p>
               </router-link>
+              <time>{{
+                new Date(post.created_at).toLocaleDateString("en-EN", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })
+              }}</time>
             </div>
           </div>
         </div>
@@ -53,15 +60,11 @@
         </b-dropdown>
       </div>
       <div>
+        Mode: {{ post.challenge.mode }}
+        <br>
         {{ post.message }}
         <br /><br />
-        <time>{{
-          new Date(post.created_at).toLocaleDateString("en-EN", {
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-          })
-        }}</time>
+
       </div>
 
       <div>
