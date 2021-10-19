@@ -35,10 +35,6 @@ export default new Vuex.Store({
         },
         async getCommentsByPostId({ commit }, post_id) {
             const res = await axios.post(api_endpoint + '/api/comments-by-post-id/' + post_id, /*header*/);
-<<<<<<< HEAD
-            // console.log(res)
-=======
->>>>>>> 7a5528103e6b87dcf73df6360af2518e19e20ae7
             commit('getCommentsByPostId', res);
         },
         async deleteComment({ commit }, id) {
