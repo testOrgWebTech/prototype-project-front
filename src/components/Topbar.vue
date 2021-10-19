@@ -14,7 +14,7 @@
         </b-navbar-item>
       </b-navbar-dropdown>
       <b-navbar-item class="text" href="#" tag="router-link" to="/contract">
-        Contract
+        About Us
       </b-navbar-item>
       <b-navbar-item href="/message" v-if="isAuthen()">Message</b-navbar-item>
     </template>
