@@ -29,7 +29,8 @@
         </div>
         <div class="card-content is-bottom-right" id="sendMsg">
           <b-button
-              class="b-buttoncolor"
+              type="is-primary"
+              class=""
               label="Send Message"
               size="is-medium"
               @click="logAll()"
@@ -220,10 +221,6 @@ table {
   margin-bottom: 10px;
   text-align: center;
 }
-
-.button {
-  background-color: #f15858;
-}
 .button:hover {
   color: #484848;
   cursor: pointer;
@@ -235,14 +232,6 @@ table {
 .divBtn {
   text-align: center;
   padding-top: 30px;
-}
-.b-buttoncolor {
-  margin-top: 5px;
-  margin-left: 5px;
-  margin-right: 5px;
-  border: #484848;
-  background-color: #f15858;
-  color: white;
 }
 .wow {
   position: relative;

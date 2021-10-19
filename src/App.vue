@@ -28,10 +28,17 @@ export default {
 <style lang="scss">
 body, html{
   //background-color: #e8dcd0;
-  background-color: #ffffff;
+
+  background-image: url("./assets/nba.jpg");
+  background-position: center;
+  background-repeat: repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  //background: #f2effb;
   margin: auto 10px;
   width: 100%;
   height: 100%;
+
 }
 
 #app {
@@ -39,6 +46,8 @@ body, html{
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   //text-align: center;
+
+  //background-color: #f2effb;
 }
 
 #nav {

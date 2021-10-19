@@ -217,9 +217,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.content {
-  background: #f2effb;
-}
+//.content {
+//  background: #f2effb;
+//}
 .select {
   top: 10px;
 }

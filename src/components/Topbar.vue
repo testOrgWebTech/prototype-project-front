@@ -1,11 +1,11 @@
 <template>
-  <b-navbar class="topbar">
+  <b-navbar class="topbar text" >
     <template #start>
       <b-navbar-item class="text" href="#" tag="router-link" to="/">
         Home
       </b-navbar-item>
-      <b-navbar-dropdown type="success" label="Teams" v-if="userId">
-        <b-navbar-item
+      <b-navbar-dropdown type="is-primary" label="Teams" v-if="userId" style="color: white;">
+        <b-navbar-item class="text"
           v-for="(team, index) in teamSelected"
           :key="index"
           @click="link(team.id)"
@@ -16,7 +16,7 @@
       <b-navbar-item class="text" href="#" tag="router-link" to="/contract">
         About Us
       </b-navbar-item>
-      <b-navbar-item href="/message" v-if="isAuthen()">Message</b-navbar-item>
+      <b-navbar-item href="/message" v-if="isAuthen()" class="text">Message</b-navbar-item>
     </template>
 
     <template #end>
@@ -128,16 +128,16 @@ export default {
 <style lang="scss" scoped>
 //$sidebar-background: #484848;
 
-/*.text {
-  color: #484848;
-}*/
+.text {
+  color: black;
+}
 .login {
   border-radius: 7.5%;
   margin-bottom: 7px;
 }
 .topbar {
-  //background-color: #484848;
-  border-bottom: 1px solid #cccccc;
+  background-color: #ffa990;
+  //border-bottom: 1px solid #cccccc;
 }
 .buttonTopbar {
   margin-top: 5px;
