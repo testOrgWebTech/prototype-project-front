@@ -16,7 +16,6 @@
           <div class="content">
             <h3 class="text">Jimmy</h3>
             <h3 class="text">6210450652</h3>
-            <p class="subtitle">patchapon.r@ku.th</p>
           </div>
         </div>
       </div>

@@ -1,38 +1,44 @@
 <template>
   <div>
-    <div class="modal">
+
+    <div class="">
       <b-modal
-        :active.sync="showCreateModal"
-        :can-cancel="['escape', 'x', 'outside']"
+          :active.sync="showMessageModal"
+          :can-cancel="['escape', 'x', 'outside']"
       >
-        <MessagePost
-          :receiver_id="this.$route.params.id"
-          :username="this.user.data.name"
-        ></MessagePost>
+        <div class="card-content">
+          <MessagePost
+              :receiver_id="this.$route.params.id"
+              :username="sendName"></MessagePost>
+        </div>
+
       </b-modal>
     </div>
 
+
+
     <div class="card">
-      <div class="card-content">
+      <div class="card-content wow">
         <figure class="is-128x128 is-rounded">
           <img class="image is-rounded" :src="image" />
         </figure>
         <div class="content">
-          <h1 class="text">{{ this.user.data.name }}</h1>
+          <h1 class="text">{{ sendName }}</h1>
           <br />
-          <h1 class="text">{{ this.user.data.email }}</h1>
+          <h1 class="text">{{ sendEmail }}</h1>
+        </div>
+        <div class="card-content is-bottom-right" id="sendMsg">
+          <b-button
+              class="b-buttoncolor"
+              label="Send Message"
+              size="is-medium"
+              @click="logAll()"
+              v-if="notMyself()"
+          />
         </div>
       </div>
     </div>
 
-    <div class="container" v-if="notMyself()">
-      <b-button
-        class="b-buttoncolor"
-        label="Send a Message"
-        size="is-medium"
-        @click="showCreateModal = true"
-      />
-    </div>
 
     <br />
 
@@ -89,20 +95,27 @@ export default {
       challenges: [],
       user: [],
       image: "",
+      sendName: '',
+      sendEmail: '',
       show: false,
-      showCreateModal: false,
+      showMessageModal: false,
     };
   },
   async created() {
     this.id = this.$route.params.id;
     this.user = await Axios.get("http://localhost:8000/api/users/" + this.id);
+    this.sendName = this.user.data.name;
+    this.sendEmail = this.user.data.email;
     this.fetchData();
     this.showUser();
   },
   methods: {
+    logAll(){
+      this.showMessageModal = true;
+    },
     async fetchData() {
       await ChallengeApiStore.dispatch("fetchChallenges");
-      this.challenges = ChallengeApiStore.getters.challenges;
+      this.challenges = await ChallengeApiStore.getters.challenges;
     },
 
     checkCha(id, match_progress) {
@@ -229,4 +242,13 @@ table {
   background-color: #f15858;
   color: white;
 }
+.wow {
+  position: relative;
+}
+#sendMsg{
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+}
+
 </style>

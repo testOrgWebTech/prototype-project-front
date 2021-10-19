@@ -1,6 +1,6 @@
 <template>
   <div id="app" style="">
-    <Topbar />
+    <Topbar :key="componentKey"/>
     <router-view :key="$route.path"/>
   </div>
 </template>
@@ -11,6 +11,16 @@ import Topbar from "@/components/Topbar.vue";
 export default {
   components: {
     Topbar,
+  },
+  data() {
+    return {
+      componentKey: 0,
+    };
+  },
+  methods: {
+    forceRerender() {
+      this.componentKey += 1;
+    }
   }
 }
 </script>

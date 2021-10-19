@@ -53,7 +53,7 @@
           <MessageCard
             v-for="(item, index) in this.sentMessages"
             :key="index"
-            :sender="item.sender"
+            :sender="item.receiver"
             :msg="item.message"
             :ago="item.ago"
             class="is-vcentered is-centered"
@@ -142,5 +142,6 @@ export default {
   position: fixed;
   bottom: 20px;
   right: 20px;
+  z-index: 1;
 }
 </style>
