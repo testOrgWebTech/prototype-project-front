@@ -4,30 +4,47 @@
       <div class="card-content">
         <h1 class="title">Register</h1>
         <div class="inputForm">
-          <b-input class="ipt" v-model="form.name" placeholder="Name"></b-input>
-          <b-input
-            class="ipt"
-            type="email"
-            v-model="form.email"
-            placeholder="Email"
-          >
-          </b-input>
-          <b-input
-            class="ipt"
-            v-model="form.password"
-            type="password"
-            password-reveal
-            placeholder="Password"
-          >
-          </b-input>
-          <b-input
-            class="ipt"
-            v-model="form.password_confirmation"
-            type="password"
-            password-reveal
-            placeholder="Confirm Password"
-          >
-          </b-input>
+          <b-field>
+            <b-input class="" v-model="form.name" placeholder="Name" required></b-input>
+          </b-field>
+
+          <b-field>
+            <b-input
+                class=""
+                type="email"
+                v-model="form.email"
+                placeholder="Email"
+                required
+                autocomplete="false"
+            >
+            </b-input>
+          </b-field>
+          <b-field>
+            <b-input
+                class=""
+                v-model="form.password"
+                type="password"
+                password-reveal
+                placeholder="Password"
+                required
+                autocomplete="false"
+            >
+            </b-input>
+          </b-field>
+
+          <b-field>
+            <b-input
+                class=""
+                v-model="form.password_confirmation"
+                type="password"
+                password-reveal
+                placeholder="Confirm Password"
+                required
+                autocomplete="false"
+            >
+            </b-input>
+          </b-field>
+
 
           <div class="uploadImg file">
             <label class="file-label">

@@ -15,10 +15,12 @@ export default new Vuex.Store({
             state.comments = res.data;
         },
         newComment(state, res) {
-            // console.log(res)
             state.comments.push(res.data);
         },
         getCommentsByPostId(state, res) {
+            state.comments = res.data;
+        },
+        deleteComment(state, res) {
             state.comments = res.data;
         }
     },
@@ -33,8 +35,15 @@ export default new Vuex.Store({
         },
         async getCommentsByPostId({ commit }, post_id) {
             const res = await axios.post(api_endpoint + '/api/comments-by-post-id/' + post_id, /*header*/);
+<<<<<<< HEAD
             // console.log(res)
+=======
+>>>>>>> 7a5528103e6b87dcf73df6360af2518e19e20ae7
             commit('getCommentsByPostId', res);
+        },
+        async deleteComment({ commit }, id) {
+            const res = await axios.delete(api_endpoint + '/api/comments/'+id)
+            commit('deleteComment', res)
         }
     },
     getters: {

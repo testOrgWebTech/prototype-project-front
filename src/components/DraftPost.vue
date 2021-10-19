@@ -192,6 +192,7 @@ export default {
           category_id: this.selectCategory.id,
         };
         this.isLoading = true;
+        console.log(this.selectCategory)
         let post = await PostStore.dispatch("newPost", payload);
         await this.$buefy.toast.open("Post Success");
         this.isLoading = false;

@@ -4,7 +4,7 @@
     <article class="media card-content">
       <figure class="media-left">
         <p class="image is-64x64">
-          <img src="https://bulma.io/images/placeholders/128x128.png" />
+          <img :src="`http://localhost:8000${user.imagePath}`" />
         </p>
       </figure>
       <div class="media-content">
@@ -34,6 +34,7 @@
 
 <script>
 import AuthService from "../services/AuthService";
+import AuthUser from "../store/AuthUser"
 import MessageStore from "../store/message";
 export default {
   name: "Menu",
@@ -43,6 +44,7 @@ export default {
       form: {
         message: "",
       },
+      user:AuthUser.getters.user,
       error: "",
       receiver: this.$props.receiver_id,
     };
@@ -60,7 +62,9 @@ export default {
       let res = await MessageStore.dispatch("postMessage", payload);
       if (res.status === 201) {
         this.clearForm();
+        this.$buefy.toast.open("Message Sent!")
       } else {
+        this.$buefy.toast.open("Failed")
         this.error = res.data;
       }
     },

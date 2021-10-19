@@ -23,7 +23,7 @@ export default new Vuex.Store({
             // console.log(state.posts)
         },
         newPost(state, res) {
-            state.posts.push(res.data);
+            state.posts.unshift(res.data);
         },
         editPost(state, res) {
             state.posts = res.data;
