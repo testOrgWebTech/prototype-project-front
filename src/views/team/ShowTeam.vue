@@ -16,7 +16,7 @@
               class="editTeamBtn"
               :to="{ name: 'EditTeam', params: { id: this.id } }"
             >
-              Setting Team
+              Team Settings
             </router-link>
           </div>
         </div>
@@ -139,7 +139,7 @@ table {
   width: 100%;
 }
 .editTeamBtn {
-  background-color: #f15858;
+  background-color: #8c67ef;
   border: #484848;
   padding: 10px;
   text-decoration-line: none;

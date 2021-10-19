@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <h1 class="title">Setting Team</h1>
+    <h1 class="title">Team Settings</h1>
     <div class="form">
       <section>
         <b-field label="Name" horizontal>
