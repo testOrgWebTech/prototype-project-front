@@ -127,7 +127,7 @@ export default {
   },
   methods: {
     showData() {
-      console.log();
+      // console.log();
     },
     async fetchCategory() {
       this.isLoading = true;
@@ -223,7 +223,7 @@ export default {
             player_team: "teamA",
           };
         }
-        console.log("challenge", payload);
+        // console.log("challenge", payload);
         await ChallengeStore.dispatch("addChallenge", payload);
         this.$emit("fetchPost");
         this.$emit("closeCreate");

@@ -59,7 +59,7 @@ export default {
   },
   methods: {
     showData() {
-      console.log(this.challenge);
+    //   console.log(this.challenge);
     },
     async findChallenge() {
       this.isLoading = true;

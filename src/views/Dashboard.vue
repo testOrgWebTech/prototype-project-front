@@ -178,7 +178,7 @@ export default {
       this.comments = await CommentStore.getters.comments;
     },*/
     showPost() {
-      console.log("hey");
+      // console.log("hey");
     },
     async showComment(post_id) {
       await this.fetchPost();

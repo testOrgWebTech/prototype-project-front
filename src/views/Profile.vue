@@ -130,7 +130,7 @@ export default {
     showUser() {
       // this.user = AuthUser.getters.user
       this.image = "http://localhost:8000" + this.user.data.imagePath;
-      console.log(this.user);
+      // console.log(this.user);
     },
     showDate(date) {
       let d = new Date(date);

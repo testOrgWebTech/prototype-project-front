@@ -66,7 +66,7 @@ export default new Vuex.Store({
                     index: payload.index,
                     response: res.date
                 }
-                console.log("res", res)
+                // console.log("res", res)
                 commit('edit', resData)
                 // swal("Edit Challenge Success", "", "success")
                 // edit success show something to user

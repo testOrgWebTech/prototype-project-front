@@ -72,8 +72,8 @@ export default {
   },
   async created() {
     await this.fetchCommentsByPostId(this.post.id);
-    this.comments = await CommentStore.getters.comments;
-    console.log(this.comments);
+    this.comments = CommentStore.getters.comments;
+    // console.log(this.comments);
   },
   methods: {
     async deleteComment(id) {
@@ -90,7 +90,7 @@ export default {
       });
     },
     onClickComment() {
-      console.log(AuthUser.getters.user.id)
+      // console.log(AuthUser.getters.user.id)
       const payload = {
         post_id: this.post.id,
         user_id: AuthUser.getters.user.id,
