@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="bg">
     <div class="card">
       <div class="card-content">
         <h1 class="title">Team {{ form.name }}</h1>
