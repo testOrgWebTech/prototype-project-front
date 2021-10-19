@@ -97,8 +97,8 @@ export default {
       this.isLoading = true;
       await AuthUser.dispatch("logout");
       this.isLoading = false;
-      //await this.$router.push("/");
-      //await this.$router.go(0);
+      this.$router.push("/");
+      this.$router.go(0);
       this.$buefy.toast.open("Logout Success!!");
     },
     async fetchTeam() {
