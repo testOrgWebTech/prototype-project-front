@@ -89,7 +89,7 @@ export default {
         password_confirmation: "",
       },
       file: {},
-      selectedFile: {},
+      selectedFile: null,
       urlImage: "",
       isLoading: false,
     };
@@ -107,38 +107,47 @@ export default {
         message: "Register?",
         onConfirm: async () => {
           this.isLoading = true;
-          let res = await AuthUser.dispatch("register", this.form);
-          if (res.success) {
-            //after success registered then login to set the right jwt cuz resigter request not response jwt so we have to login to get jwt
-            let loginForm = {
-              email: this.form.email,
-              password: this.form.password,
-            };
-            await AuthUser.dispatch("login", loginForm);
-
-            //upload
-            const fd = new FormData();
-            fd.append("image", this.selectedFile, this.selectedFile.name);
-
-            axios
-              .post("http://127.0.0.1:8000/api/upload-image", fd, {
-                headers: { Authorization: `Bearer ${AuthUser.getters.jwt}` },
-              })
-              .then((res) => {
-                // console.log(res);
-              });
-
-            await AuthUser.dispatch("login", loginForm);
-
-            this.isLoading = false;
-            await this.$buefy.toast.open("Register Success!!");
-            this.$router.push("/");
-            this.$router.go(0);
-          } else {
-            this.danger(res.message);
-            this.isLoading = false;
-            console.log("register Failed!");
+          if (this.selectedFile === null) {
+            this.$buefy.toast.open("Haven't uploaded any image yet.");
           }
+          else{
+            let res = await AuthUser.dispatch("register", this.form);
+            if (res.success) {
+              //after success registered then login to set the right jwt cuz resigter request not response jwt so we have to login to get jwt
+              let loginForm = {
+                email: this.form.email,
+                password: this.form.password,
+              };
+              await AuthUser.dispatch("login", loginForm);
+
+              //upload
+
+              const fd = new FormData();
+              fd.append("image", this.selectedFile, this.selectedFile.name);
+
+              axios
+                  .post("http://127.0.0.1:8000/api/upload-image", fd, {
+                    headers: { Authorization: `Bearer ${AuthUser.getters.jwt}`},
+                  })
+                  .then((res) => {
+                    // console.log(res);
+                  });
+
+              await AuthUser.dispatch("login", loginForm);
+
+              this.isLoading = false;
+              await this.$buefy.toast.open("Register Success!!");
+              this.$router.push("/");
+              this.$router.go(0);
+
+
+            } else {
+              this.danger(res.message);
+              this.isLoading = false;
+              console.log("register Failed!");
+            }
+          }
+          this.isLoading = false;
         },
       });
     },
