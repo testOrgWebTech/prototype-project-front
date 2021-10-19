@@ -3,6 +3,7 @@
     <div>
       <div class="container is-centered" id="create-button">
         <b-button
+            type="is-primary"
           class="level-right b-buttoncolor"
           label="New +"
           size="is-medium"
@@ -34,8 +35,8 @@
 
     </div>
 
-    <b-tabs v-model="activeTab" position="is-centered">
-      <b-tab-item label="Inbox">
+    <b-tabs type="is-toggle" v-model="activeTab" position="is-centered" >
+      <b-tab-item label="Inbox" >
         <div class="container">
           <MessageCard
             v-for="(item, index) in this.messages"
@@ -130,18 +131,24 @@ export default {
 .wow {
   width: 66%;
 }
-.b-buttoncolor {
-  margin-top: 5px;
-  margin-left: 5px;
-  margin-right: 5px;
-  border: #484848;
-  background-color: #f15858;
-  color: white;
-}
+//.b-buttoncolor {
+//  margin-top: 5px;
+//  margin-left: 5px;
+//  margin-right: 5px;
+//  border: #484848;
+//  background-color: #f15858;
+//  color: white;
+//}
 #create-button {
   position: fixed;
   bottom: 20px;
   right: 20px;
   z-index: 1;
 }
+body {
+  background-color: green;
+  min-height: 100vh;
+}
+
+
 </style>

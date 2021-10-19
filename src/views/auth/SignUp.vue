@@ -4,12 +4,13 @@
       <div class="card-content">
         <h1 class="title">Register</h1>
         <div class="inputForm">
-          <b-field>
+          <b-field label="Name">
             <b-input class="" v-model="form.name" placeholder="Name" required></b-input>
           </b-field>
 
-          <b-field>
+          <b-field label="E-mail">
             <b-input
+
                 class=""
                 type="email"
                 v-model="form.email"
@@ -19,7 +20,7 @@
             >
             </b-input>
           </b-field>
-          <b-field>
+          <b-field label="Password">
             <b-input
                 class=""
                 v-model="form.password"
@@ -32,7 +33,7 @@
             </b-input>
           </b-field>
 
-          <b-field>
+          <b-field label="Confirm Password">
             <b-input
                 class=""
                 v-model="form.password_confirmation"
@@ -219,4 +220,8 @@ export default {
     width: 50%;
   }
 }
+body, html {
+  height: 100%;
+}
+
 </style>

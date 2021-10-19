@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <h1 class="title">Setting Team</h1>
+    <h1 class="title">Team Settings</h1>
     <div class="form">
       <section>
         <b-field label="Name" horizontal>
@@ -30,9 +30,9 @@
               type="is-danger"
               v-for="(player, index) in teamPlayers"
               :key="index"
-              :native-value="player.email"
+              :native-value="player"
             >
-              {{ player.email }}
+              {{ player }}
             </b-checkbox>
           </b-field>
           <b-button class="is-danger" @click="deleteMember()">
@@ -161,26 +161,30 @@ export default {
         }
       }
     },
-    async deleteYourself(){
-      this.form.users_delete = AuthUser.getters.user.email
-      let payload = {
-        id: this.id,
-        name: this.form.name,
-        users: this.form.users_delete,
-        option: "delete",
-      };
-      if (this.form.users_delete === "") {
-        this.$buefy.toast.open("Delete Member checked box is required!!");
-      } else {
-        let res = await TeamApiStore.dispatch("editTeam", payload);
-        if (res.success) {
-          this.$buefy.toast.open("Delete Member Success");
-          this.$router.push("/");
-          this.$router.go(0)
-        } else {
-          this.$buefy.toast.open("Please fill in the checkbox correctly.");
-        }
-      }
+    async deleteYourself() {
+      this.$buefy.dialog.confirm({
+        message: "Leave Team?",
+        onConfirm: async () => {
+          this.isLoading = true;
+          this.form.users_delete = AuthUser.getters.user.email
+          let payload = {
+            id: this.id,
+            name: this.form.name,
+            users: this.form.users_delete,
+            option: "delete",
+          };
+          let res = await TeamApiStore.dispatch("editTeam", payload);
+          if (res.success) {
+            this.$buefy.toast.open("Leave Team Success");
+            this.$router.push("/");
+            this.$router.go(0)
+          } else {
+            this.$buefy.toast.open("Please fill in the checkbox correctly.");
+          }
+          this.isLoading = false;
+          this.$buefy.toast.open("Leave Team Success");
+        },
+      });
     },
     arrayToString() {
       this.form.checkbox_users_delete.forEach((string) => {
