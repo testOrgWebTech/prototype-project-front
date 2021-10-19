@@ -10,12 +10,13 @@
         <div class="card-content">
           <div class="media">
             <div class="media-content">
-              <p class="title">Patchapon Rochananan</p>
+              <p class="title">Patchapon</br>Rochananan</p>
             </div>
           </div>
           <div class="content">
             <h3 class="text">Jimmy</h3>
             <h3 class="text">6210450652</h3>
+            <p class="subtitle">patchapon.r@ku.th</p>
           </div>
         </div>
       </div>
@@ -29,7 +30,7 @@
         <div class="card-content">
           <div class="media">
             <div class="media-content">
-              <p class="title">Sethawut Pornsiripiyakul</p>
+              <p class="title">Sethawut</br>Pornsiripiyakul</p>
             </div>
           </div>
           <div class="content">
@@ -51,7 +52,7 @@
         <div class="card-content">
           <div class="media">
             <div class="media-content">
-              <p class="title">Chanwit Saisin</p>
+              <p class="title">Chanwit</br>Saisin</p>
             </div>
           </div>
           <div class="content">
@@ -71,7 +72,7 @@
         <div class="card-content">
           <div class="media">
             <div class="media-content">
-              <p class="title">Kunkawee Suriyasarapong</p>
+              <p class="title">Kunkawee</br>Suriyasarapong</p>
             </div>
           </div>
           <div class="content">
@@ -93,7 +94,7 @@
         <div class="card-content">
           <div class="media">
             <div class="media-content">
-              <p class="title">Suppachai Glubpean</p>
+              <p class="title">Suppachai</br>Glubpean</p>
             </div>
           </div>
           <div class="content">
@@ -113,7 +114,7 @@
         <div class="card-content">
           <div class="media">
             <div class="media-content">
-              <p class="title">Panyakarn Pantaeng</p>
+              <p class="title">Panyakarn</br>Pantaeng</p>
             </div>
           </div>
           <div class="content">
@@ -138,12 +139,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+h3,
+p {
+  color: white;
+}
 .card {
   text-align: center;
   width: 500px;
   height: auto;
   position: relative;
   float: left;
-  background-color: blanchedalmond;
+  background-color: #7957d5;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 </style>

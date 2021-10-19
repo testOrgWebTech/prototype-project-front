@@ -82,7 +82,7 @@
       </b-field>
 
       <b-button v-if="!selectedPost" type="is-primary is-light" @click="newPost"
-        >Create challenge</b-button
+        >Create Challenge</b-button
       >
       <b-button v-if="selectedPost" type="is-primary is-light" @click="editPost"
         >Edit Post</b-button

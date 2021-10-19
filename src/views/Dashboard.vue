@@ -171,7 +171,7 @@ export default {
       this.posts = await PostStore.getters.posts;
       this.last_page = await PostStore.getters.paginate.last_page;
       this.isLoading = false;
-      console.log(this.posts)
+      console.log(this.posts);
     },
     /*async fetchComment(id) {
       await CommentStore.dispatch("fetchComment", id);
@@ -217,9 +217,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/*.content {
-  background: #e8dcd0;
-}*/
+.content {
+  background: #f2effb;
+}
 .select {
   top: 10px;
 }
@@ -228,14 +228,20 @@ export default {
   margin-bottom: 15px;
 }
 #create-button {
+  color: white;
+  background-color: #7957d5;
   position: fixed;
   bottom: 20px;
   right: 20px;
+  width: 170px;
 }
 #team-button {
+  color: white;
+  background-color: #7957d5;
   position: fixed;
   bottom: 80px;
   right: 20px;
+  width: 170px;
 }
 .modal-close {
   background: black;

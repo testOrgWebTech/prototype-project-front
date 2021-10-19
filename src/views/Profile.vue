@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="bg">
 
     <div class="">
       <b-modal
@@ -152,6 +152,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
+
+
 .card {
   margin-top: 30px;
   //margin-left: 500px;
