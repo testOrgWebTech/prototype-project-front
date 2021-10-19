@@ -35,8 +35,8 @@
 
     </div>
 
-    <b-tabs v-model="activeTab" position="is-centered">
-      <b-tab-item label="Inbox">
+    <b-tabs type="is-toggle" v-model="activeTab" position="is-centered" >
+      <b-tab-item label="Inbox" >
         <div class="container">
           <MessageCard
             v-for="(item, index) in this.messages"

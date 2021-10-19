@@ -18,14 +18,13 @@
 
 
     <div class="card">
-      <div class="card-content wow">
+      <div class="card-content wow " style="background-color: #484848">
         <figure class="is-128x128 is-rounded">
           <img class="image is-rounded" :src="image" />
         </figure>
-        <div class="content">
-          <h1 class="text">{{ sendName }}</h1>
-          <br />
-          <h1 class="text">{{ sendEmail }}</h1>
+        <div class="content ">
+          <h1 class="text has-text-white">{{ sendName }}</h1>
+          <p class="subtitle has-text-white"><{{ sendEmail }}></p>
         </div>
         <div class="card-content is-bottom-right" id="sendMsg">
           <b-button
