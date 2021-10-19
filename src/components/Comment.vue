@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-content">
-      <div v-if="comments.length > 0">
+
         <div v-for="(comment, index) in comments" :key="index">
           <div class="comment media">
             <div class="media-content">
@@ -27,10 +27,6 @@
             </div>
           </div>
         </div>
-      </div>
-      <div v-else>
-        Hello
-      </div>
       <div class>
         <div class="comment">
           <textarea
@@ -69,7 +65,7 @@ export default {
   },
   async created() {
     await this.fetchCommentsByPostId(this.post.id);
-    this.comments = CommentStore.getters.comments;
+    this.comments = await CommentStore.getters.comments;
     console.log(this.comments);
   },
   methods: {
