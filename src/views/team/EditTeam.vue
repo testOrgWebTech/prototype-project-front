@@ -49,6 +49,8 @@
 import Topbar from "@/components/Topbar.vue";
 import TeamService from "@/services/TeamService";
 import TeamApiStore from "@/store/TeamApi";
+import AuthUser from "@/store/AuthUser";
+import swal from "sweetalert";
 
 export default {
   components: {
@@ -69,14 +71,29 @@ export default {
     };
   },
   async created() {
+    console.log("1");
     this.isLoading = true;
     this.id = this.$route.params.id;
     this.team = await TeamService.getTeamById(this.id);
+    if (!this.isTeamMember()) {
+      swal("Restricted Area", "You do not have permision.", "warning");
+      this.$router.push("/");
+      this.isLoading = false;
+    }
     this.form.name = this.team.name;
     this.teamPlayers = this.team.users;
     this.isLoading = false;
   },
+  mounted() {},
   methods: {
+    isTeamMember() {
+      if (this.team.users_id.includes(AuthUser.getters.user.id)) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+
     async editTeamName() {
       let payload = {
         id: this.id,
@@ -169,7 +186,7 @@ h1 {
 .form {
   text-align: center;
 }
-.title{
+.title {
   width: 100%;
   text-align: center;
   margin-bottom: 30px;

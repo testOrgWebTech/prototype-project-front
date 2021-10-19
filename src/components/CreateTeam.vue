@@ -60,6 +60,8 @@ export default {
       } else {
         if (res.success) {
           this.$buefy.toast.open("Create Team Success!!");
+          this.$router.push("/");
+          this.$router.go(0);
         } else {
           this.$buefy.toast.open("The name has already been taken!!");
         }
