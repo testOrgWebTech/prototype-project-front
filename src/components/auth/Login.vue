@@ -89,11 +89,11 @@ export default {
       if (res.success) {
         this.$buefy.toast.open("Login Success!!");
         this.$router.go(0);
+        this.$router.push("/");
+        location.reload()
       } else {
         this.$buefy.toast.open("Login Failed!!");
       }
-      this.$router.push("/");
-      location.reload()
     },
   },
 };
