@@ -1,7 +1,7 @@
 <template>
   <div class="card draft">
     <div class="card-content">
-      <b-field label="detail">
+      <b-field label="Detail">
         <b-select required v-model="selectCategory" placeholder="Category">
           <option
             v-for="(category, index) in categories"
@@ -24,7 +24,7 @@
         </b-select>
       </b-field>
 
-      <b-field label="location">
+      <b-field label="Location">
         <b-input
           type="location"
           placeholder="Your location"
@@ -33,7 +33,7 @@
         >
         </b-input>
       </b-field>
-      <b-field label="post">
+      <b-field label="Post">
         <b-input
           required
           maxlength="300"
@@ -47,8 +47,9 @@
           challenge_form.selectMode !== null &&
           challenge_form.selectMode !== '1v1'
         "
-        label="Team"
+        label="Team (Already included you)"
       >
+
         <b-select
           placeholder="Select a Team"
           v-model="selectedTeam"
@@ -59,7 +60,7 @@
             :key="index"
             :value="team"
           >
-            {{ team.name }}
+              {{ team.name }}
           </option>
         </b-select>
       </b-field>
@@ -165,7 +166,7 @@ export default {
           title: "Error",
           message: "The selected player is more than the limit.",
           type: "is-danger",
-          hasIcon: true,
+          hasIcon: false,
           icon: "times-circle",
           iconPack: "fa",
           ariaRole: "alertdialog",
@@ -178,7 +179,7 @@ export default {
           title: "Error",
           message: "The selected player is less than the limit.",
           type: "is-danger",
-          hasIcon: true,
+          hasIcon: false,
           icon: "times-circle",
           iconPack: "fa",
           ariaRole: "alertdialog",
@@ -263,5 +264,8 @@ export default {
   width: 50%;
   margin: auto;
   margin-top: 30px;
+}
+.wow {
+  flex-direction: column;
 }
 </style>

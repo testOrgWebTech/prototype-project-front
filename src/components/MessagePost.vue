@@ -72,7 +72,6 @@ export default {
       else {
         this.$buefy.toast.open("Failed")
         this.error = res.data;
-        console.log(this.error)
       }
     },
     clearForm() {

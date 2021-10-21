@@ -136,8 +136,10 @@ export default {
   margin-bottom: 7px;
 }
 .topbar {
-  background-color: #ffa990;
-  //border-bottom: 1px solid #cccccc;
+  //background-color: #ffa990;
+  //border-bottom: 1px solid #
+  // cccccc;
+  background-color: white;
 }
 .buttonTopbar {
   margin-top: 5px;
