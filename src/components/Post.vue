@@ -36,7 +36,7 @@
           v-model="option"
           append-to-body
           aria-role="menu"
-          v-if="AuthUser.getters.user && !checkOwnPost()"
+          v-if="(AuthUser.getters.user && !checkOwnPost()) || AuthUser.getters.user.role == 'ADMIN'"
         >
           <template #trigger>
             <a class="navbar-item" role="button">

@@ -10,7 +10,7 @@
         <div class="card-content">
           <div class="media">
             <div class="media-content">
-              <p class="title">Patchapon</br>Rochananan</p>
+              <p class="title">Patchapon Rochananan</p>
             </div>
           </div>
           <div class="content">
@@ -30,7 +30,7 @@
         <div class="card-content">
           <div class="media">
             <div class="media-content">
-              <p class="title">Sethawut</br>Pornsiripiyakul</p>
+              <p class="title">Sethawut Pornsiripiyakul</p>
             </div>
           </div>
           <div class="content">
@@ -52,7 +52,7 @@
         <div class="card-content">
           <div class="media">
             <div class="media-content">
-              <p class="title">Chanwit</br>Saisin</p>
+              <p class="title">Chanwit Saisin</p>
             </div>
           </div>
           <div class="content">
@@ -72,7 +72,7 @@
         <div class="card-content">
           <div class="media">
             <div class="media-content">
-              <p class="title">Kunkawee</br>Suriyasarapong</p>
+              <p class="title">Kunkawee Suriyasarapong</p>
             </div>
           </div>
           <div class="content">
@@ -94,7 +94,7 @@
         <div class="card-content">
           <div class="media">
             <div class="media-content">
-              <p class="title">Suppachai</br>Glubpean</p>
+              <p class="title">Suppachai Glubpean</p>
             </div>
           </div>
           <div class="content">
@@ -114,7 +114,7 @@
         <div class="card-content">
           <div class="media">
             <div class="media-content">
-              <p class="title">Panyakarn</br>Pantaeng</p>
+              <p class="title">Panyakarn Pantaeng</p>
             </div>
           </div>
           <div class="content">

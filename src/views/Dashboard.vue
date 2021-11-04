@@ -140,13 +140,14 @@ export default {
     DraftPost,
     Comment,
     CreateTeam,
-    CreatePost
+    CreatePost,
   },
   data() {
     return {
       posts: null,
       comments: null,
       showCreateModal: false,
+      showCreateCateModal: false,
       showPostModal: false,
       showCreatePostModal: false,
       showEditModal: null,
@@ -194,7 +195,6 @@ export default {
       this.posts = await PostStore.getters.posts;
       this.last_page = await PostStore.getters.paginate.last_page;
       this.isLoading = false;
-      console.log(this.posts);
     },
     /*async fetchComment(id) {
       await CommentStore.dispatch("fetchComment", id);
