@@ -36,7 +36,7 @@
           v-model="option"
           append-to-body
           aria-role="menu"
-          v-if="AuthUser.getters.user && !checkOwnPost()"
+          v-if="(AuthUser.getters.user && !checkOwnPost()) || AuthUser.getters.user.role == 'ADMIN'"
         >
           <template #trigger>
             <a class="navbar-item" role="button">
@@ -64,16 +64,22 @@
           </b-dropdown-item>
         </b-dropdown>
       </div>
-      <div>
-        Location: {{post.challenge.location}}
-        <br>
-        Mode: {{ post.challenge.mode }}
-        <br>
-        <br>
+      <div >
+        <div v-if="post.mode == 'challenge'">
+          Location: {{post.challenge.location}}
+          
+          <br>
+          
+          Mode: {{ post.challenge.mode }}
+         
+          <br>
+          <br>
+        </div>
         {{ post.message }}
         <br /><br />
 
       </div>
+      
 
 
 
@@ -97,7 +103,8 @@
             AuthUser.getters.user &&
             checkOwnPost() &&
             checkUserInTeamA() &&
-            checkChallengeIsFull()
+            checkChallengeIsFull() &&
+            post.mode == 'challenge'
           "
             @click="
             () => {

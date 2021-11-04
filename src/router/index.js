@@ -60,6 +60,11 @@ const routes = [
     name: 'Category',
     component: () => import('../views/Category.vue')
   },
+  {
+    path: '/editCategory',
+    name: 'EditCategory',
+    component: () => import('../views/admin/EditCategory.vue')
+  },
 ]
 
 const router = new VueRouter({

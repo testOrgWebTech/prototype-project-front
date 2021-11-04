@@ -17,6 +17,7 @@
         About Us
       </b-navbar-item>
       <b-navbar-item href="/message" v-if="isAuthen()" class="text">Message</b-navbar-item>
+      <b-navbar-item href="/editCategory" v-if="auth.getters.user.role == 'ADMIN'" class="text">Edit Category</b-navbar-item>
     </template>
 
     <template #end>
@@ -76,6 +77,7 @@ export default {
   props: ["id"],
   data() {
     return {
+      auth: AuthUser,
       open: false,
       overlay: false,
       fullheight: true,
