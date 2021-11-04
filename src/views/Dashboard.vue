@@ -9,6 +9,31 @@
         <DraftPost class="post" @closeCreate="showCreateModal = false">
         </DraftPost>
       </b-modal>
+      <b-button
+        type="is-primary is-light"
+        id="create-button"
+        @click="showCreateModal = true"
+        v-if="auth.getters.user && !isLoading"
+      >
+        Create challenge
+      </b-button>
+
+      <b-modal
+        :active.sync="showCreatePostModal"
+        :can-cancel="['escape', 'x', 'outside']"
+      >
+        <CreatePost class="post" @closeCreatePost="showCreatePostModal = false">
+        </CreatePost>
+      </b-modal>
+      <b-button
+        type="is-primary is-light"
+        id="post-button"
+        @click="showCreatePostModal = true"
+        v-if="auth.getters.user && !isLoading"
+      >
+        Create Post
+      </b-button>
+
       <b-modal
         :active.sync="showEditModal"
         :can-cancel="['escape', 'x', 'outside']"
@@ -16,6 +41,8 @@
         <DraftPost class="post" :selectedPost="selectedPost" :isEdit="true">
         </DraftPost>
       </b-modal>
+
+
       <b-modal
         :active.sync="showCommentModal"
         :can-cancel="['escape', 'x', 'outside']"
@@ -73,14 +100,6 @@
         >
       </div>
 
-      <b-button
-        type="is-primary is-light"
-        id="create-button"
-        @click="showCreateModal = true"
-        v-if="auth.getters.user && !isLoading"
-      >
-        Create challenge
-      </b-button>
       <b-modal
         :active.sync="showCreateTeamModal"
         :can-cancel="['escape', 'x', 'outside']"
@@ -96,6 +115,7 @@
       >
         Create Team
       </b-button>
+      
     </div>
     <b-loading v-model="isLoading"></b-loading>
   </div>
@@ -110,6 +130,7 @@ import AuthUser from "@/store/AuthUser";
 import Comment from "@/components/Comment.vue";
 import CreateTeam from "@/components/CreateTeam";
 import CategoryStore from "@/store/Category";
+import CreatePost from '@/components/CreatePost'
 
 export default {
   name: "Dashboard",
@@ -119,6 +140,7 @@ export default {
     DraftPost,
     Comment,
     CreateTeam,
+    CreatePost
   },
   data() {
     return {
@@ -126,6 +148,7 @@ export default {
       comments: null,
       showCreateModal: false,
       showPostModal: false,
+      showCreatePostModal: false,
       showEditModal: null,
       selectedPost: null,
       showCommentModal: false,
@@ -236,6 +259,14 @@ export default {
   width: 170px;
 }
 #team-button {
+  color: white;
+  background-color: #7957d5;
+  position: fixed;
+  bottom: 140px;
+  right: 20px;
+  width: 170px;
+}
+#post-button{
   color: white;
   background-color: #7957d5;
   position: fixed;

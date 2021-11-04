@@ -85,9 +85,6 @@
       <b-button v-if="!selectedPost" type="is-primary is-light" @click="newPost"
         >Create Challenge</b-button
       >
-      <b-button v-if="selectedPost" type="is-primary is-light" @click="editPost"
-        >Edit Post</b-button
-      >
     </div>
     <b-loading v-model="isLoading"></b-loading>
   </div>
@@ -191,11 +188,12 @@ export default {
           //img: this.imageUrl,
           user_id: AuthUser.getters.user.id,
           category_id: this.selectCategory.id,
+          mode: 'challenge'
         };
         this.isLoading = true;
         console.log(this.selectCategory)
         let post = await PostStore.dispatch("newPost", payload);
-        await this.$buefy.toast.open("Post Success");
+        await this.$buefy.toast.open("Post Challenge Success");
         this.isLoading = false;
 
         //after created post then create chellenge of this post.

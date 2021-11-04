@@ -64,16 +64,22 @@
           </b-dropdown-item>
         </b-dropdown>
       </div>
-      <div>
-        Location: {{post.challenge.location}}
-        <br>
-        Mode: {{ post.challenge.mode }}
-        <br>
-        <br>
+      <div >
+        <div v-if="post.mode == 'challenge'">
+          Location: {{post.challenge.location}}
+          
+          <br>
+          
+          Mode: {{ post.challenge.mode }}
+         
+          <br>
+          <br>
+        </div>
         {{ post.message }}
         <br /><br />
 
       </div>
+      
 
 
 
@@ -97,7 +103,8 @@
             AuthUser.getters.user &&
             checkOwnPost() &&
             checkUserInTeamA() &&
-            checkChallengeIsFull()
+            checkChallengeIsFull() &&
+            post.mode == 'challenge'
           "
             @click="
             () => {
