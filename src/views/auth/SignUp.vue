@@ -4,57 +4,65 @@
       <div class="card-content">
         <h1 class="title">Register</h1>
         <div class="inputForm">
+          
           <b-field label="Name">
-            <b-input class="" v-model="form.name" placeholder="Name" required></b-input>
+            <b-input
+              class="name"
+              name="name"
+              type="name"
+              v-model="form.name"
+              placeholder="Name"
+              required
+            ></b-input>
           </b-field>
 
           <b-field label="E-mail">
             <b-input
-
-                class=""
-                type="email"
-                v-model="form.email"
-                placeholder="Email"
-                required
-                autocomplete="false"
+              class=""
+              name="email"
+              type="email"
+              v-model="form.email"
+              placeholder="Email"
+              required
+              autocomplete="false"
             >
             </b-input>
           </b-field>
           <b-field label="Password">
             <b-input
-                class=""
-                v-model="form.password"
-                type="password"
-                password-reveal
-                placeholder="Password"
-                required
-                autocomplete="false"
+              class=""
+              name="password"
+              v-model="form.password"
+              type="password"
+              password-reveal
+              placeholder="Password"
+              required
+              autocomplete="false"
             >
             </b-input>
           </b-field>
 
           <b-field label="Confirm Password">
             <b-input
-                class=""
-                v-model="form.password_confirmation"
-                type="password"
-                password-reveal
-                placeholder="Confirm Password"
-                required
-                autocomplete="false"
+              class=""
+              name="password_confirm"
+              v-model="form.password_confirmation"
+              type="password"
+              password-reveal
+              placeholder="Confirm Password"
+              required
+              autocomplete="false"
             >
             </b-input>
           </b-field>
 
-
           <div class="uploadImg file">
             <label class="file-label">
-              <input class="file-input" type="file" @change="onFileSelected" />
+              <input class="file-input" name="photo" type="file" @change="onFileSelected" />
               <span class="file-cta">
-              <span class="file-label">Upload a File</span>
-            </span>
+                <span class="file-label">Upload a File</span>
+              </span>
             </label>
-
 
             <img class="image" :src="urlImage" />
           </div>
@@ -95,7 +103,7 @@ export default {
     };
   },
   methods: {
-    logSomething(){
+    logSomething() {
       // console.log(this.file)
     },
     onFileSelected(event) {
@@ -109,8 +117,7 @@ export default {
           this.isLoading = true;
           if (this.selectedFile === null) {
             this.$buefy.toast.open("Haven't uploaded any image yet.");
-          }
-          else{
+          } else {
             let res = await AuthUser.dispatch("register", this.form);
             if (res.success) {
               //after success registered then login to set the right jwt cuz resigter request not response jwt so we have to login to get jwt
@@ -126,12 +133,12 @@ export default {
               fd.append("image", this.selectedFile, this.selectedFile.name);
 
               axios
-                  .post("http://127.0.0.1:8000/api/upload-image", fd, {
-                    headers: { Authorization: `Bearer ${AuthUser.getters.jwt}`},
-                  })
-                  .then((res) => {
-                    // console.log(res);
-                  });
+                .post("http://127.0.0.1:8000/api/upload-image", fd, {
+                  headers: { Authorization: `Bearer ${AuthUser.getters.jwt}` },
+                })
+                .then((res) => {
+                  // console.log(res);
+                });
 
               await AuthUser.dispatch("login", loginForm);
 
@@ -139,8 +146,6 @@ export default {
               await this.$buefy.toast.open("Register Success!!");
               this.$router.push("/");
               this.$router.go(0);
-
-
             } else {
               this.danger(res.message);
               this.isLoading = false;
@@ -229,8 +234,8 @@ export default {
     width: 50%;
   }
 }
-body, html {
+body,
+html {
   height: 100%;
 }
-
 </style>
