@@ -65,6 +65,11 @@ const routes = [
     name: 'EditCategory',
     component: () => import('../views/admin/EditCategory.vue')
   },
+  {
+    path: '/manageUser',
+    name: 'ManageUser',
+    component: () => import('../views/admin/ManageUser.vue')
+  },
 ]
 
 const router = new VueRouter({
