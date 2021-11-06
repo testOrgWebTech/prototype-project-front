@@ -15,7 +15,7 @@
         <thead>
           <tr>
             <th>Name Category</th>
-            <!-- <th>Action</th> -->
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -23,7 +23,7 @@
 
             <td>{{ c.name }}</td>
 
-            <!-- <td>
+            <td>
                 <b-button
                     @click="deleteItem(c)"
                     size="is-small"
@@ -31,7 +31,7 @@
                 >Delete
                 </b-button>
               
-            </td> -->
+            </td>
           </tr>
         </tbody>
       </table>
@@ -58,7 +58,7 @@
 import CategoryApi from '@/store/Category'
 import CreateCategories from '@/components/admin/CreateCategory'
 import AuthUser from "@/store/AuthUser";
-
+import PostApi from '@/store/Post'
 export default {
   components: {
     CreateCategories
@@ -68,35 +68,48 @@ export default {
       auth: AuthUser,
       showCreateCateModal: false,
       categories: null,
-      isLoading: false
+      isLoading: false,
+      posts: null
     };
   },
   created() {
     this.fetchCategories();
+    this.fetchPosts()
   },
   methods: {
     async fetchCategories(){
       await CategoryApi.dispatch("fetchCategory")
       this.categories = CategoryApi.getters.categories
     },
-    // async deleteItem(c){
-    //   this.$buefy.dialog.confirm({
-    //     title: 'Deleting Category',
-    //     message: 'Are you sure you want to <b>delete</b> your Category? This action cannot be undone.',
-    //     confirmText: 'Delete Category',
-    //     type: 'is-danger',
-    //     hasIcon: false,
-    //     onConfirm: () => {
-    //       this.delete(c)
-    //     }
-    //   })
-    // },
-    // async delete(c){
-    //   await CategoryApi.dispatch("deleteCategory", c.id)
-    //   this.$buefy.toast.open("Delete Category Success");
-    //   this.fetchCategories();
-    //   this.$router.go(0)
-    // }
+    async fetchPosts(){
+      await PostApi.dispatch("fetchPosts")
+      this.posts = PostApi.getters.posts
+    },
+    async deleteItem(c){
+      this.$buefy.dialog.confirm({
+        title: 'Deleting Category',
+        message: 'Are you sure you want to <b>delete</b> your Category? This action cannot be undone.',
+        confirmText: 'Delete Category',
+        type: 'is-danger',
+        hasIcon: false,
+        onConfirm: () => {
+          this.delete(c)
+        }
+      })
+    },
+    async delete(c){
+      this.isLoading = true;
+      await CategoryApi.dispatch("deleteCategory", c.id)
+      for (const post of this.posts) {
+        if (c.id == post.category_id) {
+          await PostApi.dispatch("deletePost", post.id)
+        }
+      }
+      this.$buefy.toast.open("Delete Category Success");
+      this.fetchCategories();
+      this.isLoading = false;
+      this.$router.go(0)
+    }
   },
 };
 </script>

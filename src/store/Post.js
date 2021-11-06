@@ -12,6 +12,9 @@ export default new Vuex.Store({
         paginate: null
     },
     mutations: {
+        fetchPosts(state, res){
+            state.posts = res.data
+        },
         fetchPost(state, res) {
             // console.log(res)
             if (res.data.current_page == 1) {
@@ -33,6 +36,10 @@ export default new Vuex.Store({
         }
     },
     actions: {
+        async fetchPosts({ commit }){
+            const res = await axios.get(api_endpoint + '/api/getAllPosts', /*header*/);
+            commit('fetchPosts', res);
+        },
         async fetchPost({ commit }, page) {
             const res = await axios.get(api_endpoint + '/api/posts?page=' + page, /*header*/);
             commit('fetchPost', res);
