@@ -27,7 +27,7 @@
             </span>
                 </label>
 
-                <img class="image" :src="urlImage" id="xImg"/>
+                <img v-if="urlImage" class="image" :src="urlImage" id="xImg"/>
               </div>
               <div>
                 <a class="button is-info" @click="sendMessage()">Submit</a>
@@ -50,8 +50,9 @@
 import AuthService from "../services/AuthService";
 import AuthUser from "../store/AuthUser"
 import MessageStore from "../store/message";
+import axios from "axios";
+import Axios from "axios";
 export default {
-  name: "Menu",
   props: ["receiver_id", "username"],
   data() {
     return {
@@ -81,8 +82,19 @@ export default {
         sender: this.user.id,
         receiver: this.receiver,
       };
-      let res = await MessageStore.dispatch("postMessage", payload);
+      // let res = await MessageStore.dispatch("postMessage", payload);
+      let header = AuthService.getApiHeader()
+      let res = await Axios.post("http://localhost:8000/api/messages",payload,header
+      )
       if (res.status === 201) {
+        if (this.urlImage !== ""){
+          const fd = new FormData();
+          fd.append("image", this.selectedFile, this.selectedFile.name);
+          fd.append("message_id", res.data.id);
+          let res2 = await axios.post("http://localhost:8000/api/uploadMessage",fd);
+        }
+        let res3 = await MessageStore.dispatch("updateMessageStore",res.data.id)
+
         this.clearForm();
         this.$buefy.toast.open("Message Sent!")
       }
@@ -95,6 +107,9 @@ export default {
       this.form = {
         message: "",
       };
+      this.file = {};
+      this.selectedFile = null;
+      this.urlImage = null;
     },
   },
 };
