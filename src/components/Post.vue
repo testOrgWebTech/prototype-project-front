@@ -137,7 +137,7 @@
         :active.sync="showPostModal"
         :can-cancel="['escape', 'x', 'outside']"
       >
-        <MessagePost
+        <MessagePost id="x"
           :receiver_id="post.user.id"
           :username="post.user.name"
         ></MessagePost>
@@ -221,6 +221,9 @@ export default {
 #btn {
   margin-top: 10px;
   padding-left: 0%;
+}
+#x {
+  width: 100%;
 }
 
 </style>

@@ -17,10 +17,21 @@
             ></textarea>
           </p>
         </div>
-        <nav class="level">
-          <div class="level-left">
-            <div class="level-item">
-              <a class="button is-info" @click="sendMessage()">Submit</a>
+          <div class="">
+            <div>
+              <div class="uploadImg file">
+                <label class="file-label">
+                  <input class="file-input" type="file" @change="onFileSelected" />
+                  <span class="file-cta">
+              <span class="file-label">Upload a File</span>
+            </span>
+                </label>
+
+                <img class="image" :src="urlImage" id="xImg"/>
+              </div>
+              <div>
+                <a class="button is-info" @click="sendMessage()">Submit</a>
+              </div>
             </div>
 
             <div
@@ -30,7 +41,6 @@
             </div>
             <br>
           </div>
-        </nav>
       </div>
     </article>
   </div>
@@ -51,11 +61,18 @@ export default {
       user:AuthUser.getters.user,
       error: "",
       receiver: this.$props.receiver_id,
+      file: {},
+      selectedFile: null,
+      urlImage: "",
     };
   },
   methods: {
     logAll() {
       // console.log("wow");
+    },
+    onFileSelected(event) {
+      this.selectedFile = event.target.files[0];
+      this.urlImage = URL.createObjectURL(this.selectedFile);
     },
     async sendMessage() {
       this.receiver = this.$props.receiver_id;
@@ -86,5 +103,10 @@ export default {
 <style scoped lang="scss">
 .card {
   width: 100%;
+}
+#xImg {
+  width: 35%;
+  height: 35%;
+  margin-left: 20%;
 }
 </style>
