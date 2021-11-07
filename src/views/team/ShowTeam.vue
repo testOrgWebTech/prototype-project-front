@@ -6,8 +6,10 @@
         <h2>Member</h2>
 
         <div class="name">
-          <div v-for="(name, index) in this.form.users" :key="index">
-            {{ name }}
+          <div v-for="(user, index) in this.form.users" :key="index">
+            <router-link class="nameInTeam" :to="{ name: 'ProfileById', params: { id: user.id } }">
+            {{ user.name }}
+            </router-link>
           </div>
 
           <br />
@@ -71,7 +73,7 @@ export default {
       isLoading: false,
       form: {
         name: "",
-        users: "",
+        users: null,
       },
     };
   },
@@ -80,7 +82,7 @@ export default {
     this.id = this.$route.params.id;
     let team = await TeamService.getTeamById(this.id);
     this.form.name = team.name;
-    this.form.users = team.users_name.split(",");
+    this.form.users = team.users
     this.fetchData();
     this.isLoading = false;
   },
@@ -109,6 +111,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.nameInTeam{
+  color: black;
+}
 .card {
   margin-top: 30px;
   //margin-left: 500px;

@@ -46,12 +46,12 @@
         </EditDetailUser>
       </b-modal>
 
-        <div>
+        <div class="editDetailBtn">
           <b-button 
           type="is-primary"
           @click="showEditDetailUserModal = true"
           v-if="myself()"
-          >Edit your detail</b-button>
+          >Edit Detail</b-button>
         </div>
       </div>
     </div>
@@ -264,6 +264,9 @@ table {
   position: absolute;
   bottom: 0px;
   right: 0px;
+}
+.editDetailBtn{
+  text-align: right;
 }
 
 </style>

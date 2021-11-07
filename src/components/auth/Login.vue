@@ -7,8 +7,8 @@
       trap-focus
     >
       <template #trigger>
-        <a class="navbar-item" role="button">
-          <span style="color: white">Login</span>
+        <a class="button">
+          <span style="color: is-primary">Login</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -102,5 +102,9 @@ export default {
 <style lang="scss" scoped>
 .icon {
   margin-left: 5px;
+}
+.button{
+  color: black;
+  background-color: #8c67ef;
 }
 </style>
