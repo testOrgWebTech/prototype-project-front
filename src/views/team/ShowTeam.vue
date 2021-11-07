@@ -20,7 +20,6 @@
             </router-link>
           </div>
         </div>
-        <br />
       </div>
     </div>
     <div class="card">
@@ -197,7 +196,7 @@ h2 {
   color: white;
 }
 .divBtn {
-  text-align: center;
+  text-align: right;
   padding-top: 30px;
 }
 </style>

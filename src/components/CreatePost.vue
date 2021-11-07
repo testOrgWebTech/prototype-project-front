@@ -21,11 +21,12 @@
             v-model="message"
             ></b-input>
         </b-field>
-
-        <b-button v-if="!selectedPost" type="is-primary is-light" @click="newPost"
-            >Create Post</b-button
-        >
-      
+        
+        <div class="btn">
+            <b-button v-if="!selectedPost" type="is-primary is-light" @click="newPost"
+                >Create Post</b-button
+            >
+        </div>
     </div>
     <b-loading v-model="isLoading"></b-loading>
   </div>
@@ -79,5 +80,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.btn{
+    text-align: right;
+}
 </style>

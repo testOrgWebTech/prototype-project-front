@@ -82,9 +82,11 @@
         </b-checkbox>
       </b-field>
 
-      <b-button v-if="!selectedPost" type="is-primary is-light" @click="newPost"
-        >Create Challenge</b-button
-      >
+      <div class="btn">
+        <b-button v-if="!selectedPost" type="is-primary is-light" @click="newPost"
+          >Create Challenge</b-button
+        >
+      </div>
     </div>
     <b-loading v-model="isLoading"></b-loading>
   </div>
@@ -258,6 +260,9 @@ export default {
 </script>
 
 <style>
+.btn{
+  text-align: right;
+}
 .card {
   width: 50%;
   margin: auto;
