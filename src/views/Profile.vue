@@ -17,7 +17,7 @@
 
 
 
-    <div class="card">
+    <div class="card Info">
       <div class="card-content wow " style="background-color: #484848">
         <figure class="is-128x128 is-rounded">
           <img class="image is-rounded" :src="image" />
@@ -25,7 +25,7 @@
         <div class="content ">
           <h1 class="text has-text-white">{{ sendName }}</h1>
           <p class="subtitle has-text-white">{{ sendEmail }}</p>
-          <p class="subtitle has-text-white">{{ sendDetail }}</p>
+          <p class="subtitle has-text-white">About Me : {{ sendDetail }}</p>
         </div>
         <div class="card-content is-bottom-right" id="sendMsg">
           <b-button
@@ -177,8 +177,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
-
+.Info{
+  border-radius: 8%;
+}
 .card {
   margin-top: 30px;
   //margin-left: 500px;
