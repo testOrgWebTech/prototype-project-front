@@ -28,14 +28,14 @@
 
             <td v-if="checkRole(u)">
                 <b-button v-if="banBtn(u)"
-                    @click="ban(u.id)"
+                    @click="ban(u)"
                     size="is-small"
                     type="is-danger"
                 >Ban
                 </b-button>
 
                 <b-button v-if="unbanBtn(u)"
-                    @click="unban(u.id)"
+                    @click="unban(u)"
                     size="is-small"
                     type="is-success"
                 >Unban
@@ -68,13 +68,12 @@ data() {
       this.users = UserApi.getters.users
     },
 
-    async ban(id){
+    async ban(user){
         this.$buefy.dialog.confirm({
-        message: "Ban User?",
+        message: "Ban " + user.name + "?",
         onConfirm: async () => {
-          console.log(id)
         let payload = {
-            id: id,
+            id: user.id,
             status: "INACTIVE"
       };
         await UserApi.dispatch("editStatusUser", payload);
@@ -84,13 +83,12 @@ data() {
       });
     },
 
-    async unban(id){
+    async unban(user){
         this.$buefy.dialog.confirm({
-        message: "Unban User?",
+        message: "Unban " + user.name + " ?",
         onConfirm: async () => {
-          console.log(id)
         let payload = {
-            id: id,
+            id: user.id,
             status: "ACTIVE"
       };
         await UserApi.dispatch("editStatusUser", payload);

@@ -44,7 +44,7 @@
         </CreateCategories>
       </b-modal>
       <b-button
-        type="is-primary is-light"
+        type="is-primary"
         id="cate-button"
         @click="showCreateCateModal = true"
         v-if="(auth.getters.user && !isLoading) || auth.getters.user.role == 'ADMIN'"
@@ -127,8 +127,6 @@ export default {
 }
 
 #cate-button{
-  color: white;
-  background-color: #7957d5;
   position: fixed;
   bottom: 20px;
   right: 20px;
