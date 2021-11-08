@@ -88,7 +88,6 @@ export default {
     Topbar,
     MessagePost,
   },
-
   data() {
     return {
       challenges: [],
