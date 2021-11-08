@@ -37,7 +37,7 @@
 
     <b-tabs type="is-toggle" v-model="activeTab" position="is-centered" >
       <b-tab-item label="Inbox" >
-        <div class="container">
+        <div class="container" v-if="messages.length > 0">
           <MessageCard
             v-for="(item, index) in this.messages"
             :key="index"
@@ -52,7 +52,7 @@
       </b-tab-item>
 
       <b-tab-item label="Sent">
-        <div class="container">
+        <div class="container" v-if="sentMessages.length > 0">
           <MessageCard
             v-for="(item, index) in this.sentMessages"
             :key="index"
