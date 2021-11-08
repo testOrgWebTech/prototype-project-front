@@ -54,7 +54,7 @@
         Logout
       </b-button>
 
-      <div class="buttonTopbar login" v-if="!isAuthen()">
+      <div dusk="login-dropdown" class="buttonTopbar login" v-if="!isAuthen()">
         <Login />
       </div>
     </template>

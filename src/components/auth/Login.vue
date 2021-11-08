@@ -36,6 +36,7 @@
             <section class="modal-card-body">
               <b-field label="Email">
                 <b-input
+                  name="loginEmail"
                   v-model="form.email"
                   type="email"
                   placeholder="Your email"
@@ -46,6 +47,7 @@
 
               <b-field label="Password">
                 <b-input
+                  name="loginPassword"
                   v-model="form.password"
                   type="password"
                   password-reveal
@@ -90,7 +92,7 @@ export default {
         this.$buefy.toast.open("Login Success!!");
         this.$router.go(0);
         this.$router.push("/");
-        location.reload()
+        location.reload();
       } else {
         this.$buefy.toast.open("Login Failed!!");
       }
