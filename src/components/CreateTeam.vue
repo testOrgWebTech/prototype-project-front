@@ -9,19 +9,13 @@
               <b-input
                 v-model="form.name"
                 class="in"
-                placeholder="Name"
+                placeholder="Team name"
               ></b-input>
             </b-field>
 
             <div class="divBtn">
-              <b-button
-                class="button is-danger"
-                @click="$emit('closeCreateTeam')"
-              >
-                Cancel
-              </b-button>
-
-              <b-button @click="create()" class="is-success"> Create </b-button>
+              
+              <b-button @click="create()" type="is-primary is-light"> Create </b-button>
             </div>
           </section>
         </div>
@@ -72,14 +66,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.form {
-  margin: 35px;
-}
 .label {
   text-align: left;
 }
 .button {
-  margin: 10px;
+  margin-top: 20px;
 }
 .in {
   width: 85%;
@@ -90,20 +81,19 @@ h1 {
   text-align: center;
 }
 .divBtn {
-  text-align: center;
-  padding-top: 20px;
+  text-align: right;
 }
 .card {
   margin-top: 30px;
   height: 40%;
-  width: 80%;
+  width: 60%;
   text-align: center;
 }
 .title {
   width: 100%;
   text-align: center;
   margin-bottom: 30px;
-  margin-top: 30px;
+  margin-top: 10px;
 }
 .content {
   position: absolute;

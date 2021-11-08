@@ -3,28 +3,30 @@
     <h1 class="title">Team Settings</h1>
     <div class="form">
       <section>
-        <b-field label="Name" horizontal>
-          <b-input v-model="form.name" class="in"></b-input>
-        </b-field>
+        <div class="inputForm">
+          <b-field label="Name" horizontal>
+            <b-input v-model="form.name" class="in"></b-input>
+            <b-button class="is-success" @click="editTeamName()"> Edit </b-button>
+          </b-field>
 
-        <b-button class="is-success" @click="editTeamName()"> Edit </b-button>
-        <b-field horizontal> Enter email separated by "," </b-field>
+          <br>
+          <b-field horizontal> Enter email separated by "," </b-field>
 
-        <b-field label="Add Member" horizontal>
-          <b-input
-            v-model="form.users_add"
-            class="in"
-            placeholder="example1@gmail.com,example2@gmail.com"
-          ></b-input>
-        </b-field>
-        <b-button class="is-success" @click="addMember()"> Add </b-button>
+          <b-field label="Add Member" horizontal>
+            <b-input
+              v-model="form.users_add"
+              class="in"
+              placeholder="example1@gmail.com,example2@gmail.com"
+            ></b-input>
+            <b-button class="is-success" @click="addMember()"> Add </b-button>
+          </b-field>
+        </div>
 
-        <div class="deleteBlock">
+        <div class="deleteBlock"  v-if="teamPlayers.length != 0">
           <b-field label="Delete Member">
-            <b-field>
-              Check the box in front of player's email you want to kick out of
-              team</b-field
-            >
+            <div>
+              Check the box in front of player's email you want to kick out of team
+              <br>
             <b-checkbox
               v-model="form.checkbox_users_delete"
               type="is-danger"
@@ -34,8 +36,9 @@
             >
               {{ player }}
             </b-checkbox>
+            </div>
           </b-field>
-          <b-button class="is-danger" @click="deleteMember()">
+          <b-button class="deleteBtn is-danger" @click="deleteMember()">
             Delete
           </b-button>
         </div>
@@ -197,23 +200,31 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.leave{
-  margin: 20px;
+.deleteBtn{
+  margin-bottom: 20px;
 }
-.deleteBlock {
-  margin-top: 80px;
+.inputForm{
+  margin-bottom: 70px;
+}
+.leave{
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
 }
 .card {
   position: absolute;
-  top: 50%;
+  top: 35%;
   left: 50%;
-  width: 70%;
-  height: 70%;
+  width: 60%;
+  height: auto;
   margin-right: -50%;
   transform: translate(-50%, -50%);
 }
 .in {
-  width: 85%;
+  width: 125%;
+}
+.deleteBlock{
+  position: center;
 }
 h1 {
   font-size: 50px;
