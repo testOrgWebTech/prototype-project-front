@@ -44,6 +44,8 @@
             :sender="item.sender"
             :msg="item.message"
             :ago="item.ago"
+            :img="item.imgPath"
+            :haveImg="item.imgPath.length > 0"
             class="is-vcentered is-centered"
           ></MessageCard>
         </div>
@@ -57,6 +59,8 @@
             :sender="item.receiver"
             :msg="item.message"
             :ago="item.ago"
+            :img="item.imgPath"
+            :haveImg="item.imgPath.length > 0"
             class="is-vcentered is-centered"
           >
           </MessageCard>
