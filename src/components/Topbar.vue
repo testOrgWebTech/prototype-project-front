@@ -19,6 +19,7 @@
       <b-navbar-item href="/message" v-if="isAuthen()" class="text">Message</b-navbar-item>
       <b-navbar-item href="/editCategory" v-if="auth.getters.user.role == 'ADMIN'" class="text">Edit Category</b-navbar-item>
       <b-navbar-item href="/manageUser" v-if="auth.getters.user.role == 'ADMIN'" class="text">Manage Users</b-navbar-item>
+      <b-navbar-item href="/manageChallenge" v-if="auth.getters.user.role == 'ADMIN'" class="text">Manage Challenge</b-navbar-item>
     </template>
 
     <template #end>

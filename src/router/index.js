@@ -70,6 +70,11 @@ const routes = [
     name: 'ManageUser',
     component: () => import('../views/admin/ManageUser.vue')
   },
+  {
+    path: '/manageChallenge',
+    name: 'ManageChallenge',
+    component: () => import('../views/admin/ManageChallenge.vue')
+  },
 ]
 
 const router = new VueRouter({
