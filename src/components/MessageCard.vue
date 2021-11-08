@@ -15,6 +15,13 @@
               <br />
               <span style="white-space: pre">{{ msg }}</span>
             </p>
+            <div>
+              <template v-if="haveImg">
+                <img :src="`http://localhost:8000${img[0].path}`" />
+              </template>
+            </div>
+
+
           </div>
         </div>
       </article>
@@ -48,7 +55,7 @@
 
 <script>
 export default {
-  props: ["sender", "msg", "ago"],
+  props: ["sender", "msg", "ago", "img", "haveImg"],
 };
 </script>
 

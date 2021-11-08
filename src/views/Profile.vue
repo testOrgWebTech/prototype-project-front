@@ -15,17 +15,20 @@
       </b-modal>
     </div>
 
-
-
-    <div class="card Info">
+    <div class="card">
       <div class="card-content wow " style="background-color: #484848">
         <figure class="is-128x128 is-rounded">
           <img class="image is-rounded" :src="image" />
         </figure>
         <div class="content ">
           <h1 class="text has-text-white">{{ sendName }}</h1>
-          <p class="subtitle has-text-white">{{ sendEmail }}</p>
+
+          <p class="subtitle has-text-white"><{{ sendEmail }}></p>
+          <div v-if="user.data.status==='INACTIVE'" style="color: red">
+            This user has been suspended due to violation of term of services.
+          </div>
           <p class="subtitle has-text-white">About Me : {{ sendDetail }}</p>
+
         </div>
         <div class="card-content is-bottom-right" id="sendMsg">
           <b-button
@@ -55,13 +58,11 @@
         </div>
       </div>
     </div>
-
-
     <br />
 
 
     <br />
-    <div class="card">
+    <div class="card" v-if="user">
       <div class="card-content">
         <h1 class="title">Challenges History</h1>
         <section>
