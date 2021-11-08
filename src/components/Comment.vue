@@ -1,12 +1,5 @@
 <template>
-
   <div class="card">
-    <div id="commentwidth">
-      <div class="card-content">
-        <Post :post="post" id="commentwidth"></Post>
-      </div>
-
-    </div>
     <div class="card-content">
 
         <div v-for="(comment, index) in comments" :key="index">
@@ -63,11 +56,8 @@
 <script>
 import CommentStore from "@/store/Comment";
 import AuthUser from "@/store/AuthUser";
-import Post from "@/components/Post"
+
 export default {
-  components: {
-    Post,
-  },
   data() {
     return {
       option: null,
@@ -148,8 +138,5 @@ export default {
   position: absolute;
   top: 0px;
   right: 0px;
-}
-#commentwidth {
-  width: 100%;
 }
 </style>
