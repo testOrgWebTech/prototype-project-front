@@ -44,8 +44,6 @@
             :sender="item.sender"
             :msg="item.message"
             :ago="item.ago"
-            :img="item.imgPath"
-            :haveImg="item.imgPath.length > 0"
             class="is-vcentered is-centered"
           ></MessageCard>
         </div>
@@ -59,8 +57,6 @@
             :sender="item.receiver"
             :msg="item.message"
             :ago="item.ago"
-            :img="item.imgPath"
-            :haveImg="item.imgPath.length > 0"
             class="is-vcentered is-centered"
           >
           </MessageCard>
@@ -110,12 +106,10 @@ export default {
     async fetchMessage() {
       await MessageStore.dispatch("fetchMessage");
       this.messages = MessageStore.getters.messages;
-      console.log(this.messages)
     },
     async fetchSentMessage() {
       await MessageStore.dispatch("fetchSentMessage");
       this.sentMessages = MessageStore.getters.messages;
-      console.log(this.sentMessages)
     },
     // logAll() {
     //   console.log(this.messages);

@@ -44,11 +44,7 @@ export default new Vuex.Store({
             // console.log(res.data)
             commit("add", res.data)
             return res
-        },
-        async updateMessageStore({ commit }, id) {
-            let res = await Axios.get("http://localhost:8000/api/messages/" + id)
-            commit("add", res.data)
-            return res
+
         }
     },
 })
