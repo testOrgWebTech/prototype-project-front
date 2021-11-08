@@ -7,8 +7,8 @@
       trap-focus
     >
       <template #trigger>
-        <a class="navbar-item" role="button">
-          <span style="color: white">Login</span>
+        <a class="button">
+          <span style="color: is-primary">Login</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -36,6 +36,7 @@
             <section class="modal-card-body">
               <b-field label="Email">
                 <b-input
+                  name="loginEmail"
                   v-model="form.email"
                   type="email"
                   placeholder="Your email"
@@ -46,6 +47,7 @@
 
               <b-field label="Password">
                 <b-input
+                  name="loginPassword"
                   v-model="form.password"
                   type="password"
                   password-reveal
@@ -90,7 +92,7 @@ export default {
         this.$buefy.toast.open("Login Success!!");
         this.$router.go(0);
         this.$router.push("/");
-        location.reload()
+        location.reload();
       } else {
         this.$buefy.toast.open({
           duration: 5000,
@@ -106,5 +108,9 @@ export default {
 <style lang="scss" scoped>
 .icon {
   margin-left: 5px;
+}
+.button{
+  color: black;
+  background-color: #8c67ef;
 }
 </style>

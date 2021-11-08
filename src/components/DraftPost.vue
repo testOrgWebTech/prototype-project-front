@@ -82,9 +82,11 @@
         </b-checkbox>
       </b-field>
 
-      <b-button v-if="!selectedPost" type="is-primary is-light" @click="newPost"
-        >Create Challenge</b-button
-      >
+      <div class="btn">
+        <b-button v-if="!selectedPost" type="is-primary is-light" @click="newPost"
+          >Create Challenge</b-button
+        >
+      </div>
     </div>
     <b-loading v-model="isLoading"></b-loading>
   </div>
@@ -191,7 +193,6 @@ export default {
           mode: 'challenge'
         };
         this.isLoading = true;
-        console.log(this.selectCategory)
         let post = await PostStore.dispatch("newPost", payload);
         await this.$buefy.toast.open("Post Challenge Success");
         this.isLoading = false;
@@ -204,6 +205,7 @@ export default {
             location: this.challenge_form.location,
             post_id: post.data.id,
             teamA_id: "",
+            teamA_name: AuthUser.getters.user.name,
             match_progress: "WAITING",
             mode: this.challenge_form.selectMode,
             teamA_players: this.challenge_form.teamA_players,
@@ -216,13 +218,13 @@ export default {
             location: this.challenge_form.location,
             post_id: post.data.id,
             teamA_id: this.challenge_form.team_id,
+            teamA_name: this.selectedTeam.name,
             match_progress: "WAITING",
             mode: this.challenge_form.selectMode,
             teamA_players: this.challenge_form.teamA_players,
             player_team: "teamA",
           };
         }
-        // console.log("challenge", payload);
         await ChallengeStore.dispatch("addChallenge", payload);
         this.$emit("fetchPost");
         this.$emit("closeCreate");
@@ -258,6 +260,9 @@ export default {
 </script>
 
 <style>
+.btn{
+  text-align: right;
+}
 .card {
   width: 50%;
   margin: auto;

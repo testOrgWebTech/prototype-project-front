@@ -37,6 +37,7 @@ export default new Vuex.Store({
                 location: payload.location,
                 post_id: payload.post_id,
                 teamA_id: payload.teamA_id,
+                teamA_name: payload.teamA_name,
                 match_progress: payload.match_progress,
                 mode: payload.mode,
                 teamA_players: payload.teamA_players,
@@ -55,6 +56,7 @@ export default new Vuex.Store({
             let url = api_endpoint + '/api/challenges/' + payload.id
             let body = {
                 teamB_id: payload.teamB_id,
+                teamB_name: payload.teamB_name,
                 match_progress: payload.match_progress,
                 players: payload.players,
                 player_team: payload.player_team
@@ -76,6 +78,30 @@ export default new Vuex.Store({
                 // edit fail show something to user
             }
         },
+        async updateTeamWin({commit}, payload){
+            let url = api_endpoint + '/api/updateTeamWin'
+            let body = {
+                id: payload.id,
+                victory_team : payload.victoryTeam
+            }
+            
+            let res = await Axios.put(url, body)
+            
+            if (res.status === 200) {
+                let resData = {
+                    index: payload.index,
+                    response: res.date
+                }
+                // console.log("res", res)
+                commit('edit', resData)
+                // swal("Edit Challenge Success", "", "success")
+                // edit success show something to user
+            } else {
+                console.error(res)
+                // swal("Edit Challenge Failed", res.message, "error")
+                // edit fail show something to user
+            }
+        }
     },
     modules: {}
 })

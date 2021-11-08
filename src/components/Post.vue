@@ -219,6 +219,7 @@ export default {
   margin-left: 10px;
 }
 #btn {
+  text-align: right;
   margin-top: 10px;
   padding-left: 0%;
 }

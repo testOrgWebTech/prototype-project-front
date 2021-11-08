@@ -10,7 +10,7 @@
         </DraftPost>
       </b-modal>
       <b-button
-        type="is-primary is-light"
+        type="is-primary"
         id="create-button"
         @click="showCreateModal = true"
         v-if="auth.getters.user && !isLoading"
@@ -26,7 +26,7 @@
         </CreatePost>
       </b-modal>
       <b-button
-        type="is-primary is-light"
+        type="is-primary"
         id="post-button"
         @click="showCreatePostModal = true"
         v-if="auth.getters.user && !isLoading"
@@ -108,10 +108,10 @@
         </CreateTeam>
       </b-modal>
       <b-button
-        type="is-primary is-light"
+        type="is-primary"
         id="team-button"
         @click="showCreateTeamModal = true"
-        v-if="auth.getters.user"
+        v-if="auth.getters.user && !isLoading"
       >
         Create Team
       </b-button>
@@ -251,24 +251,18 @@ export default {
   margin-bottom: 15px;
 }
 #create-button {
-  color: white;
-  background-color: #7957d5;
   position: fixed;
   bottom: 20px;
   right: 20px;
   width: 170px;
 }
 #team-button {
-  color: white;
-  background-color: #7957d5;
   position: fixed;
   bottom: 140px;
   right: 20px;
   width: 170px;
 }
 #post-button{
-  color: white;
-  background-color: #7957d5;
   position: fixed;
   bottom: 80px;
   right: 20px;

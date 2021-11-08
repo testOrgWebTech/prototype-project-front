@@ -22,10 +22,13 @@
         </figure>
         <div class="content ">
           <h1 class="text has-text-white">{{ sendName }}</h1>
+
           <p class="subtitle has-text-white"><{{ sendEmail }}></p>
           <div v-if="user.data.status==='INACTIVE'" style="color: red">
             This user has been suspended due to violation of term of services.
           </div>
+          <p class="subtitle has-text-white">About Me : {{ sendDetail }}</p>
+
         </div>
         <div class="card-content is-bottom-right" id="sendMsg">
           <b-button
@@ -36,6 +39,22 @@
               @click="logAll()"
               v-if="notMyself()"
           />
+        </div>
+
+        <b-modal
+        :active.sync="showEditDetailUserModal"
+        :can-cancel="['escape', 'x', 'outside']"
+      >
+        <EditDetailUser class="post" @closeEditDetailUser="showEditDetailUserModal = false">
+        </EditDetailUser>
+      </b-modal>
+
+        <div class="editDetailBtn">
+          <b-button 
+          type="is-primary"
+          @click="showEditDetailUserModal = true"
+          v-if="myself()"
+          >Edit Detail</b-button>
         </div>
       </div>
     </div>
@@ -80,6 +99,7 @@ import Topbar from "@/components/Topbar.vue";
 import ChallengeApiStore from "@/store/ChallengeApi";
 import AuthUser from "@/store/AuthUser";
 import MessagePost from "../components/MessagePost";
+import EditDetailUser from '@/components/EditDetailUser';
 import Axios from "axios";
 
 export default {
@@ -87,6 +107,7 @@ export default {
   components: {
     Topbar,
     MessagePost,
+    EditDetailUser,
   },
 
   data() {
@@ -96,8 +117,10 @@ export default {
       image: "",
       sendName: '',
       sendEmail: '',
+      sendDetail: '',
       show: false,
       showMessageModal: false,
+      showEditDetailUserModal: false,
     };
   },
   async created() {
@@ -105,6 +128,7 @@ export default {
     this.user = await Axios.get("http://localhost:8000/api/users/" + this.id);
     this.sendName = this.user.data.name;
     this.sendEmail = this.user.data.email;
+    this.sendDetail = this.user.data.detail;
     this.fetchData();
     this.showUser();
   },
@@ -146,13 +170,17 @@ export default {
     notMyself() {
       return this.id != AuthUser.getters.user.id;
     },
+    myself(){
+      return this.id == AuthUser.getters.user.id;
+    }
   },
 };
 </script>
 
 <style scoped lang="scss">
-
-
+.Info{
+  border-radius: 8%;
+}
 .card {
   margin-top: 30px;
   //margin-left: 500px;
@@ -238,6 +266,9 @@ table {
   position: absolute;
   bottom: 0px;
   right: 0px;
+}
+.editDetailBtn{
+  text-align: right;
 }
 
 </style>
