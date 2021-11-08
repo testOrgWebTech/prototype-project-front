@@ -15,6 +15,7 @@
         <thead>
           <tr>
             <th>User</th>
+            <th>Email</th>
             <th>Status</th>
             <th>Action</th>
           </tr>
@@ -23,6 +24,8 @@
           <tr v-for="(u, index) in users" v-bind:key="index">
 
             <td v-if="checkRole(u)">{{u.name}}</td>
+
+            <td v-if="checkRole(u)">{{ u.email }}</td>
 
             <td v-if="checkRole(u)">{{u.status}}</td>
 

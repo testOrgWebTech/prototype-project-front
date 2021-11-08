@@ -129,7 +129,7 @@ export default {
           payload = {
             id: this.$props.challenge_id,
             teamB_id: "",
-            match_progress: "ENDED",
+            teamB_name: AuthUser.getters.user.name,
             players: player,
             player_team: "teamB",
           };
@@ -137,7 +137,7 @@ export default {
           payload = {
             id: this.$props.challenge_id,
             teamB_id: this.selectedTeam.id,
-            match_progress: "ENDED",
+            teamB_name: this.selectedTeam.name,
             players: player,
             player_team: "teamB",
           };
