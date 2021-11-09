@@ -76,6 +76,7 @@ export default {
     onFileSelected(event) {
       this.selectedFile = event.target.files[0];
       this.urlImage = URL.createObjectURL(this.selectedFile);
+      console.log(this.user);
     },
     async sendMessage() {
       this.receiver = this.$props.receiver_id;

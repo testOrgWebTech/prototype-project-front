@@ -103,6 +103,7 @@ export default {
           this.isLoading = true;
           let res = await TeamApiStore.dispatch("editTeam", this.form);
           this.$buefy.toast.open("Edit Team Success!!");
+          this.$router.go(0)
           this.$emit("closeEditTeam");
         } catch (e) {
           this.$buefy.toast.open("The name has already been taken!!");

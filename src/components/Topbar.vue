@@ -132,13 +132,18 @@ export default {
       this.isLoading = true;
       await TeamApiStore.dispatch("fetchTeams");
       this.teams = await TeamApiStore.getters.teams;
-      let user_id = AuthUser.getters.user.id.toString();
-      this.teams.forEach((team) => {
-        if (team.users_id.includes(user_id)) {
+      let user_id = AuthUser.getters.user.id;
+      if (user_id) {
+        this.teams.forEach((team) => {
+        let array = team.users_id.split(', ')
+        if (array.includes(user_id.toString())) {
           this.teamSelected.push(team);
         }
-      });
+        });
+      }
+      
       this.isLoading = false;
+
     },
 
     link(id) {

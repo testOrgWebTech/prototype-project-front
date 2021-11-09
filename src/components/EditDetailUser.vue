@@ -7,7 +7,7 @@
           <section>
             <b-field >
             <b-input
-            maxlength="300"
+            maxlength="250"
             type="textarea"
             v-model="detail"
             ></b-input>
@@ -27,23 +27,24 @@
 import AuthUser from "@/store/AuthUser";
 import UserApi from '@/store/UserApi'
 export default {
-    data() {
+  data() {
     return {
-    
-        detail: null, 
-      
+      detail: this.$props.value, 
     };
   },
+  props:{
+    value:null
+  },
   methods:{
-      async edit(){
-          let payload = {
-              id: AuthUser.getters.user.id,
-              detail: this.detail,
-          };
-          await UserApi.dispatch("editDetailUser", payload);
-          this.$buefy.toast.open("Edit Detail Success");
-          this.$router.go(0);
-      },
+    async edit(){
+      let payload = {
+        id: AuthUser.getters.user.id,
+        detail: this.detail,
+      };
+      await UserApi.dispatch("editDetailUser", payload);
+      this.$buefy.toast.open("Edit Detail Success");
+      this.$router.go(0);
+    },
   }
 }
 </script>

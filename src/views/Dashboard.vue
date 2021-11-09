@@ -206,6 +206,7 @@ export default {
     async showComment(post_id) {
       await this.fetchPost();
       this.selectedPost = await this.posts.find((e) => e.id == post_id);
+      console.log(post_id);
       this.showCommentModal = true;
     },
     async deletePost(id) {

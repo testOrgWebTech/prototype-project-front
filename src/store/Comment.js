@@ -16,6 +16,7 @@ export default new Vuex.Store({
         },
         newComment(state, res) {
             state.comments.push(res.data);
+            console.log(state.comments);
         },
         getCommentsByPostId(state, res) {
             state.comments = res.data;

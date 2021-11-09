@@ -20,32 +20,40 @@
         <figure class="is-128x128 is-rounded">
           <img class="image is-rounded" :src="image" />
         </figure>
-        <div class="content ">
+        <div class="content">
           <h1 class="text has-text-white">{{ sendName }}</h1>
           <p class="subtitle has-text-white">{{ sendEmail }}</p>
-          <div v-if="user.data.status==='INACTIVE'" style="color: red">
-            This user has been suspended due to violation of term of services.
+          <div v-if="user.data">
+            <div v-if="user.data.status==='INACTIVE'" style="color: red">
+              This user has been suspended due to violation of term of services.
+            </div>
           </div>
-          <p class="subtitle has-text-white">About Me : {{ sendDetail }}</p>
         </div>
+        <br>
+        <p class="subtitle has-text-white" style="white-space: pre">{{ sendDetail }}</p>
+        
         <div class="card-content is-bottom-right" id="sendMsg">
           <b-button
-              type="is-primary"
-              class=""
-              label="Send Message"
-              size="is-medium"
-              @click="logAll()"
-              v-if="notMyself()"
+            type="is-primary"
+            class=""
+            label="Send Message"
+            size="is-medium"
+            @click="logAll()"
+            v-if="notMyself()"
           />
         </div>
 
         <b-modal
-        :active.sync="showEditDetailUserModal"
-        :can-cancel="['escape', 'x', 'outside']"
-      >
-        <EditDetailUser class="post" @closeEditDetailUser="showEditDetailUserModal = false">
-        </EditDetailUser>
-      </b-modal>
+          :active.sync="showEditDetailUserModal"
+          :can-cancel="['escape', 'x', 'outside']"
+        >
+          <EditDetailUser 
+          class="post" 
+          @closeEditDetailUser="showEditDetailUserModal = false"
+          :value="sendDetail"
+          >
+          </EditDetailUser>
+        </b-modal>
 
         <div class="editDetailBtn">
           <b-button 
@@ -63,7 +71,7 @@
 
     <br />
     <div class="card" v-if="user">
-      <div class="card-content">
+      <div class="card-content" style="text-align: center">
         <h1 class="title">Challenges History</h1>
         <section>
         <table  align="center">
@@ -141,8 +149,9 @@ export default {
     },
 
     checkCha(id, match_progress) {
-      let user_id = AuthUser.getters.user.id.toString();
-      if (id.includes(user_id) && match_progress == "ENDED") {
+      let user_id = AuthUser.getters.user.id;
+      let array = id.split(', ')
+      if (array.includes(user_id.toString()) && match_progress == "ENDED") {
         return true;
       } else {
         return false;
@@ -187,7 +196,7 @@ export default {
   //background-color: #484848;
   height: 40%;
   width: 80%;
-  text-align: center;
+  //text-align: center;
 
 }
 .title{

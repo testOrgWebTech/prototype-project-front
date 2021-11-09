@@ -65,14 +65,14 @@
             <strong>{{ comment.user.name }}</strong>
             <br />
             {{ comment.message }}
-            <br />
-            <small><a>Like</a> · <a>Reply</a> · <a>3 hrs</a> · </small>
-            <button
-              class="delete"
-              @click="deleteComment(comment.id)"
-              v-if="comment.user.id === user_id"
-              style="margin"
-            ></button>
+            <div class="x">
+              <button
+                class="delete"
+                @click="deleteComment(comment.id)"
+                v-if="comment.user.id === user_id"
+                style="margin"
+              ></button>
+            </div>
           </div>
         </div>
       </div>
@@ -81,7 +81,7 @@
     <article class="media">
       <figure class="media-left">
         <p class="image is-64x64">
-          <img src="https://bulma.io/images/placeholders/128x128.png" />
+          <img :src="`http://localhost:8000${user.imagePath}`" />
         </p>
       </figure>
       <div class="media-content comment-content">
@@ -108,6 +108,7 @@
 import CommentStore from "@/store/Comment";
 import AuthUser from "@/store/AuthUser";
 import Post from "@/components/Post"
+import axios from 'axios';
 export default {
   components: {
     Post,
@@ -119,6 +120,7 @@ export default {
       isLoading: false,
       comments: [],
       user_id: AuthUser.getters.user.id,
+      user: AuthUser.getters.user
     };
   },
   props: {
@@ -152,7 +154,10 @@ export default {
         message: "Comment?",
         onConfirm: async () => {
           this.isLoading = true;
-          await CommentStore.dispatch("newComment", payload);
+          console.log(payload);
+          //let res = await CommentStore.dispatch("newComment", payload);
+          await axios.post('http://localhost:8000/api/comments', payload)
+          await this.fetchCommentsByPostId(payload.post_id)
           this.comments = await CommentStore.getters.comments;
           await this.$buefy.toast.open("Comment Success");
           this.isLoading = false;
@@ -172,6 +177,7 @@ export default {
     
 <style lang="scss">
 .comment-content {
+  position: relative;
   word-break: break-word;
   margin: 2%;
   margin-top: 0%;
@@ -184,5 +190,13 @@ export default {
 .create-comment-button {
   margin-top: 3%;
   margin-left: 83%;
+}
+.delete{
+  text-align: right;
+}
+.x{
+  position: absolute;
+  top: 0px;
+  right: 0px;
 }
 </style>

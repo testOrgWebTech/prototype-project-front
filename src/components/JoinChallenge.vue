@@ -1,7 +1,7 @@
 <template>
   <div class="card draft">
-    <div class="card-content">
-      <p>This challenge mode is {{ this.challenge.mode }}</p>
+    <div class="card-content" v-if="this.challenge">
+      <p >This challenge mode is {{ this.challenge.mode }}</p>
       <b-field v-if="checkMode()">
         <b-select
           placeholder="Select Your Team"
@@ -18,18 +18,19 @@
         </b-select>
       </b-field>
 
-      <b-field v-if="this.selectedTeam !== null">
-        <b-checkbox
-          v-model="selectedPlayer"
-          v-for="(email, index) in selectedTeamPlayer"
-          :key="index"
-          :native-value="email"
-        >
-          {{ email }}
-        </b-checkbox>
-      </b-field>
-
-      <b-button type="is-primary is-light" @click="join"> Join </b-button>
+      <div v-if="this.selectedTeam !== null">
+        <b-field  v-for="(email, index) in selectedTeamPlayer" :key="index">
+          <b-checkbox
+            v-model="selectedPlayer"
+            :native-value="email"
+          >
+            {{ email }}
+          </b-checkbox>
+        </b-field>
+      </div>
+      <div class='btn'>
+        <b-button type="is-primary is-light" @click="join"> Join </b-button>
+      </div>
       <b-loading v-model="isLoading"></b-loading>
     </div>
   </div>
@@ -71,25 +72,33 @@ export default {
       this.isLoading = true;
       await TeamApiStore.dispatch("fetchTeams");
       this.teams = TeamApiStore.getters.teams;
-      let user_id = AuthUser.getters.user.id.toString();
-      this.teams.forEach((team) => {
+      let user_id = AuthUser.getters.user.id;
+      if (user_id) {
+        this.teams.forEach((team) => {
+        let array = team.users_id.split(', ')
         if (
-          team.users_id.includes(user_id) &&
+          array.includes(user_id.toString()) &&
           team.id !== this.challenge.teamA_id
         ) {
           this.teamWithUser.push(team);
         }
-      });
+        });
+      }
+      
       this.isLoading = false;
     },
     selectTeam() {
       this.selectedTeamPlayer = [];
       let stringArray = this.selectedTeam.users_email.trim().split(", ");
-      stringArray.forEach((string) => {
-        if (string !== AuthUser.getters.user.email) {
-          this.selectedTeamPlayer.push(string);
+      let idTeamBArray = this.selectedTeam.users_id.split(', ')
+      let idTeamAArray = this.challenge.teamA_players_id.split(', ')
+
+      for (let j = 0; j < idTeamBArray.length; j++) {
+        if (stringArray[j] !== AuthUser.getters.user.email && !idTeamAArray.includes(idTeamBArray[j].toString())) {
+          this.selectedTeamPlayer.push(stringArray[j]);
         }
-      });
+      }
+
     },
     checkMode() {
       if (this.challenge.mode[0] === "1") {
@@ -156,4 +165,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.btn{
+  text-align: right;
+}
 </style>

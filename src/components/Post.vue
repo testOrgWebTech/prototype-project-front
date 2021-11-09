@@ -32,6 +32,9 @@
             </div>
           </div>
         </div>
+        <b-tag v-if="post.challenge && (post.challenge.match_progress === 'WAITING')" type="is-primary" style="margin-top: 20px">{{ post.challenge.match_progress }}</b-tag>
+        <b-tag v-if="post.challenge && (post.challenge.match_progress === 'ENDED')" type="is-danger"
+         style="margin-top: 20px">{{ post.challenge.match_progress }}</b-tag>
         <b-dropdown
           v-model="option"
           append-to-body
@@ -52,13 +55,13 @@
             <h3>select your action</h3>
           </b-dropdown-item>
           <hr class="dropdown-divider" />
-          <b-dropdown-item
+          <!-- <b-dropdown-item
             value="edit"
             aria-role="menuitem"
             @click="$emit('showEdit', post)"
           >
             Edit
-          </b-dropdown-item>
+          </b-dropdown-item> -->
           <b-dropdown-item
             value="delete"
             aria-role="menuitem"
@@ -69,7 +72,7 @@
         </b-dropdown>
       </div>
       <div>
-        <div v-if="post.mode == 'challenge'">
+        <div v-if="post.challenge">
           Location: {{ post.challenge.location }}
 
           <br />
@@ -138,6 +141,7 @@
         :can-cancel="['escape', 'x', 'outside']"
       >
         <MessagePost id="x"
+        style="width: 100%"
           :receiver_id="post.user.id"
           :username="post.user.name"
         ></MessagePost>
@@ -195,12 +199,16 @@ export default {
       return AuthUser.getters.user.id !== this.post.user.id;
     },
     checkUserInTeamA() {
-      if (
-        this.post.challenge &&
-        this.post.challenge.teamA_players_id.includes(AuthUser.getters.user.id)
-      ) {
-        return false;
+      if (this.post.challenge) {
+        let array = this.post.challenge.teamA_players_id.split(', ')
+        if (
+          this.post.challenge &&
+          array.includes(AuthUser.getters.user.id.toString())
+        ) {
+          return false;
+        }
       }
+      
       return true;
     },
     checkChallengeIsFull() {

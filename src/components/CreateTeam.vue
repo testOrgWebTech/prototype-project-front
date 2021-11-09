@@ -41,9 +41,12 @@
           ></b-input>
         </b-field>
 
-        <b-button type="is-primary is-light" @click="create"
-          >Create Post</b-button
+        <div  class="btn" >
+          <b-button type="is-primary is-light" @click="create"
+          >Create Team</b-button
         >
+        </div>
+        
       </div>
     </div>
     <b-loading v-model="isLoading"></b-loading>
@@ -90,6 +93,8 @@ export default {
           this.isLoading = true;
           let res = await TeamApiStore.dispatch("addTeam", this.form);
           this.$buefy.toast.open("Create Team Success!!");
+          //this.$router.push("/")
+          this.$router.go(0);
           this.$emit('closeCreateTeam')
         } catch (e) {
           this.$buefy.toast.open("The name has already been taken!!");
@@ -107,4 +112,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.btn{
+  text-align: right;
+}
 </style>
