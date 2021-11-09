@@ -51,6 +51,7 @@
       >
         Add New Categories
       </b-button>
+      <b-loading v-model="isLoading"></b-loading>
   </div>
 </template>
 
@@ -99,12 +100,12 @@ export default {
     },
     async delete(c){
       this.isLoading = true;
-      await CategoryApi.dispatch("deleteCategory", c.id)
       for (const post of this.posts) {
         if (c.id == post.category_id) {
           await PostApi.dispatch("deletePost", post.id)
         }
       }
+      await CategoryApi.dispatch("deleteCategory", c.id)
       this.$buefy.toast.open("Delete Category Success");
       this.fetchCategories();
       this.isLoading = false;

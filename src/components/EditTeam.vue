@@ -10,7 +10,7 @@
           ></b-input>
         </b-field>
 
-        <b-field label="Add member">
+        <b-field label="Edit members">
           <b-dropdown
             v-model="form.selectedPlayers"
             multiple
@@ -41,12 +41,9 @@
           ></b-input>
         </b-field>
 
-        <div  class="btn" >
-          <b-button type="is-primary is-light" @click="create"
-          >Create Team</b-button
+        <b-button type="is-primary is-light" @click="edit"
+          >Edit Team</b-button
         >
-        </div>
-        
       </div>
     </div>
     <b-loading v-model="isLoading"></b-loading>
@@ -77,7 +74,19 @@ export default {
       users: null,
     };
   },
+  props: {
+    team: null,
+  },
   methods: {
+    async fetchTeam() {
+      this.form.id = this.team.id;
+      this.form.name = this.team.name;
+      this.form.detail = this.team.detail;
+      this.team.users.map((e) => {
+        this.form.selectedPlayers.push(e.id);
+      });
+      console.log(this.team);
+    },
     async fetchUsers() {
       this.isLoading = true;
       await UserStore.dispatch("fetchUsers");
@@ -87,15 +96,15 @@ export default {
       });
       this.isLoading = false;
     },
-    async create() {
+    async edit() {
+      console.log(this.form);
       if (Object.values(this.form).every((e) => e !== null && e !== "")) {
         try {
           this.isLoading = true;
-          let res = await TeamApiStore.dispatch("addTeam", this.form);
-          this.$buefy.toast.open("Create Team Success!!");
-          //this.$router.push("/")
-          this.$router.go(0);
-          this.$emit('closeCreateTeam')
+          let res = await TeamApiStore.dispatch("editTeam", this.form);
+          this.$buefy.toast.open("Edit Team Success!!");
+          this.$router.go(0)
+          this.$emit("closeEditTeam");
         } catch (e) {
           this.$buefy.toast.open("The name has already been taken!!");
         }
@@ -106,13 +115,11 @@ export default {
     },
   },
   created() {
+    this.fetchTeam();
     this.fetchUsers();
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.btn{
-  text-align: right;
-}
 </style>

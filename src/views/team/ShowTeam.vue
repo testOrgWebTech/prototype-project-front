@@ -2,24 +2,27 @@
   <div class="bg">
     <div class="card">
       <div class="card-content">
-        <h1 class="title">Team {{ form.name }}</h1>
+        <h1 class="title">Team: {{ form.name }}</h1>
         <h2>Member</h2>
 
         <div class="name">
           <div v-for="(user, index) in this.form.users" :key="index">
-            <router-link class="nameInTeam" :to="{ name: 'ProfileById', params: { id: user.id } }">
-            {{ user.name }}
+            <router-link
+              class="nameInTeam"
+              :to="{ name: 'ProfileById', params: { id: user.id } }"
+            >
+              {{ user.name }}
             </router-link>
           </div>
 
           <br />
-          <div class="divBtn">
-            <router-link
+          <div class="btn">
+            <b-button
+              type="is-primary"
               class="editTeamBtn"
-              :to="{ name: 'EditTeam', params: { id: this.id } }"
+              @click="showEditTeamModal = true"
+              >Edit Team</b-button
             >
-              Team Settings
-            </router-link>
           </div>
         </div>
       </div>
@@ -52,6 +55,16 @@
         </table>
       </div>
     </div>
+    <b-modal
+      :active.sync="showEditTeamModal"
+      :can-cancel="['escape', 'x', 'outside']"
+    >
+      <EditTeam
+        :team="team"
+        @closeEditTeam="showEditTeamModal = false"
+      >
+      </EditTeam>
+    </b-modal>
     <b-loading v-model="isLoading"></b-loading>
   </div>
 </template>
@@ -60,9 +73,12 @@
 import Topbar from "@/components/Topbar.vue";
 import TeamService from "@/services/TeamService";
 import ChallengeApiStore from "@/store/ChallengeApi";
+import EditTeam from "@/components/EditTeam.vue";
+
 export default {
   components: {
     Topbar,
+    EditTeam,
   },
   data() {
     return {
@@ -74,20 +90,21 @@ export default {
         name: "",
         users: null,
       },
+      showEditTeamModal: false,
+      team: null,
     };
   },
   async created() {
     this.isLoading = true;
     this.id = this.$route.params.id;
-    let team = await TeamService.getTeamById(this.id);
-    this.form.name = team.name;
-    this.form.users = team.users
-    this.fetchData();
+    this.team = await TeamService.getTeamById(this.id);
+    this.form.name = this.team.name;
+    this.form.users = this.team.users;
+    await this.fetchData();
     this.isLoading = false;
   },
   methods: {
     async fetchData() {
-      this.isLoading = true;
       await ChallengeApiStore.dispatch("fetchChallenges");
       this.challenges = ChallengeApiStore.getters.challenges;
       this.challenges.forEach((element) => {
@@ -98,7 +115,6 @@ export default {
           this.challengesSelected.push(element);
         }
       });
-      this.isLoading = false;
     },
 
     showDate(date) {
@@ -110,7 +126,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.nameInTeam{
+.nameInTeam {
   color: black;
 }
 .card {
@@ -122,12 +138,12 @@ export default {
   width: 80%;
   text-align: center;
 }
-.title {
+/*.title {
   width: 100%;
   text-align: center;
   margin-bottom: 30px;
   margin-top: 30px;
-}
+}*/
 .content {
   position: absolute;
   top: 40px;
@@ -200,7 +216,7 @@ h2 {
 .text {
   color: white;
 }
-.divBtn {
+.btn {
   text-align: right;
   padding-top: 30px;
 }

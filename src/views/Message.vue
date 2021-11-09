@@ -34,29 +34,34 @@
       </b-modal>
 
     </div>
-
+    
+    
     <b-tabs type="is-toggle" v-model="activeTab" position="is-centered" >
       <b-tab-item label="Inbox" >
-        <div class="container">
-          <MessageCard
-            v-for="(item, index) in this.messages"
-            :key="index"
-            :sender="item.sender"
-            :msg="item.message"
-            :ago="item.ago"
-            class="is-vcentered is-centered"
-          ></MessageCard>
-        </div>
+          <div class="container" v-if="messages.length > 0">
+            <MessageCard
+              v-for="(item, index) in this.messages"
+              :key="index"
+              :sender="item.sender"
+              :msg="item.message"
+              :ago="item.ago"
+              :img="item.imgPath"
+              :haveImg="item.imgPath.length > 0"
+              class="is-vcentered is-centered"
+            ></MessageCard>
+          </div>
       </b-tab-item>
 
       <b-tab-item label="Sent">
-        <div class="container">
+        <div class="container" v-if="sentMessages.length > 0">
           <MessageCard
             v-for="(item, index) in this.sentMessages"
             :key="index"
             :sender="item.receiver"
             :msg="item.message"
             :ago="item.ago"
+            :img="item.imgPath"
+            :haveImg="item.imgPath.length > 0"
             class="is-vcentered is-centered"
           >
           </MessageCard>
@@ -149,6 +154,5 @@ body {
   background-color: green;
   min-height: 100vh;
 }
-
 
 </style>

@@ -65,26 +65,31 @@
         </b-select>
       </b-field>
 
-      <b-field
+      <div 
         v-if="
           challenge_form.selectMode !== null &&
           challenge_form.selectMode !== '1v1' &&
           this.selectedTeam !== null
-        "
+        ">
+      <b-field
+       v-for="(email, index) in selectedTeamPlayer"
+          :key="index"
       >
         <b-checkbox
           v-model="selectedPlayer"
-          v-for="(email, index) in selectedTeamPlayer"
-          :key="index"
+          
           :native-value="email"
         >
           {{ email }}
         </b-checkbox>
       </b-field>
-
+      </div>
       <div class="btn">
         <b-button v-if="!selectedPost" type="is-primary is-light" @click="newPost"
           >Create Challenge</b-button
+        >
+        <b-button v-else type="is-primary is-light" @click="editPost"
+          >Edit</b-button
         >
       </div>
     </div>
@@ -143,9 +148,10 @@ export default {
       this.isLoading = false;
     },
     checkTeam() {
-      let user_id = AuthUser.getters.user.id.toString();
+      let user_id = AuthUser.getters.user.id;
       this.teams.forEach((team) => {
-        if (team.users_id.includes(user_id)) {
+        let array = team.users_id.split(', ')
+        if (array.includes(user_id.toString())) {
           this.teamWithUser.push(team);
         }
       });
@@ -193,7 +199,6 @@ export default {
           mode: 'challenge'
         };
         this.isLoading = true;
-        console.log(this.selectCategory)
         let post = await PostStore.dispatch("newPost", payload);
         await this.$buefy.toast.open("Post Challenge Success");
         this.isLoading = false;
@@ -206,6 +211,7 @@ export default {
             location: this.challenge_form.location,
             post_id: post.data.id,
             teamA_id: "",
+            teamA_name: AuthUser.getters.user.name,
             match_progress: "WAITING",
             mode: this.challenge_form.selectMode,
             teamA_players: this.challenge_form.teamA_players,
@@ -218,13 +224,13 @@ export default {
             location: this.challenge_form.location,
             post_id: post.data.id,
             teamA_id: this.challenge_form.team_id,
+            teamA_name: this.selectedTeam.name,
             match_progress: "WAITING",
             mode: this.challenge_form.selectMode,
             teamA_players: this.challenge_form.teamA_players,
             player_team: "teamA",
           };
         }
-        // console.log("challenge", payload);
         await ChallengeStore.dispatch("addChallenge", payload);
         this.$emit("fetchPost");
         this.$emit("closeCreate");
@@ -255,7 +261,9 @@ export default {
       //this.challenge_form.location = this.selectedPost.location;
     }
   },
-  mounted() {},
+  mounted() {
+
+  },
 };
 </script>
 

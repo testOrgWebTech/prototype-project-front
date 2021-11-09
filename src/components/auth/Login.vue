@@ -94,7 +94,11 @@ export default {
         this.$router.push("/");
         location.reload();
       } else {
-        this.$buefy.toast.open("Login Failed!!");
+        this.$buefy.toast.open({
+          duration: 5000,
+          message: `${res.message}`,
+          type: 'is-danger'
+        })
       }
     },
   },

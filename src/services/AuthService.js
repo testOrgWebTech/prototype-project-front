@@ -68,10 +68,10 @@ export default {
             } else {
                 //422,401 ?
                 console.error(e)
-                console.log("ERROR  " + e.response.status + " |   " + e.response.statusText)
+                console.log("ERROR " + e.response.status + " | " + e.response.data.error)
                 return {
                     success: false,
-                    message: e.response.statusText,
+                    message: e.response.data.error,
                 }
             }
         }
