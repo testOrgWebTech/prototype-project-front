@@ -7,19 +7,22 @@
 
         <div class="name">
           <div v-for="(user, index) in this.form.users" :key="index">
-            <router-link class="nameInTeam" :to="{ name: 'ProfileById', params: { id: user.id } }">
-            {{ user.name }}
+            <router-link
+              class="nameInTeam"
+              :to="{ name: 'ProfileById', params: { id: user.id } }"
+            >
+              {{ user.name }}
             </router-link>
           </div>
 
           <br />
-          <div class="divBtn">
-            <router-link
+          <div class="btn">
+            <b-button
+              type="is-primary"
               class="editTeamBtn"
-              :to="{ name: 'EditTeam', params: { id: this.id } }"
+              @click="showEditTeamModal = true"
+              >Edit Team</b-button
             >
-              Team Settings
-            </router-link>
           </div>
         </div>
       </div>
@@ -58,7 +61,6 @@
     >
       <EditTeam
         :team="team"
-        class="edit"
         @closeEditTeam="showEditTeamModal = false"
       >
       </EditTeam>
@@ -89,20 +91,20 @@ export default {
         users: null,
       },
       showEditTeamModal: false,
+      team: null,
     };
   },
   async created() {
     this.isLoading = true;
     this.id = this.$route.params.id;
-    let team = await TeamService.getTeamById(this.id);
-    this.form.name = team.name;
-    this.form.users = team.users
-    this.fetchData();
+    this.team = await TeamService.getTeamById(this.id);
+    this.form.name = this.team.name;
+    this.form.users = this.team.users;
+    await this.fetchData();
     this.isLoading = false;
   },
   methods: {
     async fetchData() {
-      this.isLoading = true;
       await ChallengeApiStore.dispatch("fetchChallenges");
       this.challenges = ChallengeApiStore.getters.challenges;
       this.challenges.forEach((element) => {
@@ -113,7 +115,6 @@ export default {
           this.challengesSelected.push(element);
         }
       });
-      this.isLoading = false;
     },
 
     showDate(date) {
@@ -125,7 +126,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.nameInTeam{
+.nameInTeam {
   color: black;
 }
 .card {
@@ -215,7 +216,7 @@ h2 {
 .text {
   color: white;
 }
-.divBtn {
+.btn {
   text-align: right;
   padding-top: 30px;
 }

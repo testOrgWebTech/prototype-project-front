@@ -10,7 +10,7 @@
           ></b-input>
         </b-field>
 
-        <b-field label="Add member">
+        <b-field label="Edit members">
           <b-dropdown
             v-model="form.selectedPlayers"
             multiple
@@ -42,7 +42,7 @@
         </b-field>
 
         <b-button type="is-primary is-light" @click="edit"
-          >Create Post</b-button
+          >Edit Team</b-button
         >
       </div>
     </div>
@@ -102,8 +102,8 @@ export default {
         try {
           this.isLoading = true;
           let res = await TeamApiStore.dispatch("editTeam", this.form);
-          this.$buefy.toast.open("Create Team Success!!");
-          this.$emit("closeCreateTeam");
+          this.$buefy.toast.open("Edit Team Success!!");
+          this.$emit("closeEditTeam");
         } catch (e) {
           this.$buefy.toast.open("The name has already been taken!!");
         }

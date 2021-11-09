@@ -107,43 +107,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-<<<<<<< Updated upstream
-.label {
-  text-align: left;
-}
-.button {
-  margin-top: 20px;
-}
-.in {
-  width: 85%;
-}
-h1 {
-  font-size: 50px;
-  padding: 10px;
-  text-align: center;
-}
-.divBtn {
-  text-align: right;
-}
-.card {
-  margin-top: 30px;
-  height: 40%;
-  width: 60%;
-  text-align: center;
-}
-.title {
-  width: 100%;
-  text-align: center;
-  margin-bottom: 30px;
-  margin-top: 10px;
-}
-.content {
-  position: absolute;
-  top: 40px;
-  margin-left: 250px;
-  margin-right: 20px;
-  text-align: left;
-}
-=======
->>>>>>> Stashed changes
 </style>
