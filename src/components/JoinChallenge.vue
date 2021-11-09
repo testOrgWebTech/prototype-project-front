@@ -1,8 +1,7 @@
 <template>
   <div class="card draft">
     <div class="card-content">
-      this challenge mode is {{ this.challenge.mode }}
-
+      <p>This challenge mode is {{ this.challenge.mode }}</p>
       <b-field v-if="checkMode()">
         <b-select
           placeholder="Select Your Team"
@@ -59,7 +58,7 @@ export default {
   },
   methods: {
     showData() {
-    //   console.log(this.challenge);
+      //   console.log(this.challenge);
     },
     async findChallenge() {
       this.isLoading = true;

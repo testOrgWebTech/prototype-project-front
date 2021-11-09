@@ -1,11 +1,17 @@
 <template>
-  <b-navbar class="topbar text" >
+  <b-navbar class="topbar text">
     <template #start>
       <b-navbar-item class="text" href="#" tag="router-link" to="/">
         Home
       </b-navbar-item>
-      <b-navbar-dropdown type="is-primary" label="Teams" v-if="userId" style="color: white;">
-        <b-navbar-item class="text"
+      <b-navbar-dropdown
+        type="is-primary"
+        label="Teams"
+        v-if="userId"
+        style="color: white"
+      >
+        <b-navbar-item
+          class="text"
           v-for="(team, index) in teamSelected"
           :key="index"
           @click="link(team.id)"
@@ -16,10 +22,27 @@
       <b-navbar-item class="text" href="#" tag="router-link" to="/contract">
         About Us
       </b-navbar-item>
-      <b-navbar-item href="/message" v-if="isAuthen()" class="text">Message</b-navbar-item>
-      <b-navbar-item href="/editCategory" v-if="auth.getters.user.role == 'ADMIN'" class="text">Edit Category</b-navbar-item>
-      <b-navbar-item href="/manageUser" v-if="auth.getters.user.role == 'ADMIN'" class="text">Manage Users</b-navbar-item>
-      <b-navbar-item href="/manageChallenge" v-if="auth.getters.user.role == 'ADMIN'" class="text">Manage Challenge</b-navbar-item>
+      <b-navbar-item href="/message" v-if="isAuthen()" class="text"
+        >Message</b-navbar-item
+      >
+      <b-navbar-item
+        href="/editCategory"
+        v-if="auth.getters.user.role == 'ADMIN'"
+        class="text"
+        >Edit Category</b-navbar-item
+      >
+      <b-navbar-item
+        href="/manageUser"
+        v-if="auth.getters.user.role == 'ADMIN'"
+        class="text"
+        >Manage Users</b-navbar-item
+      >
+      <b-navbar-item
+        href="/manageChallenge"
+        v-if="auth.getters.user.role == 'ADMIN'"
+        class="text"
+        >Manage Challenge</b-navbar-item
+      >
     </template>
 
     <template #end>

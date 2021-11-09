@@ -36,7 +36,11 @@
           v-model="option"
           append-to-body
           aria-role="menu"
-          v-if="(AuthUser.getters.user && !checkOwnPost()) || AuthUser.getters.user.role == 'ADMIN'"
+          scrollable
+          v-if="
+            (AuthUser.getters.user && !checkOwnPost()) ||
+            AuthUser.getters.user.role == 'ADMIN'
+          "
         >
           <template #trigger>
             <a class="navbar-item" role="button">
@@ -64,24 +68,20 @@
           </b-dropdown-item>
         </b-dropdown>
       </div>
-      <div >
+      <div>
         <div v-if="post.mode == 'challenge'">
-          Location: {{post.challenge.location}}
-          
-          <br>
-          
+          Location: {{ post.challenge.location }}
+
+          <br />
+
           Mode: {{ post.challenge.mode }}
-         
-          <br>
-          <br>
+
+          <br />
+          <br />
         </div>
         {{ post.message }}
         <br /><br />
-
       </div>
-      
-
-
 
       <b-modal
         :active.sync="showJoinModal"
@@ -97,21 +97,21 @@
       </b-modal>
       <section id="btn">
         <b-button
-            type="is-primary is-light"
-            class="post-btn is-right"
-            v-if="
+          type="is-primary is-light"
+          class="post-btn is-right"
+          v-if="
             AuthUser.getters.user &&
             checkOwnPost() &&
             checkUserInTeamA() &&
             checkChallengeIsFull() &&
             post.mode == 'challenge'
           "
-            @click="
+          @click="
             () => {
               showJoinModal = true;
             }
           "
-        >Join
+          >Join
         </b-button>
 
         <b-button
@@ -124,11 +124,11 @@
         </b-button>
 
         <b-button
-            type="is-primary is-light"
-            class="post-btn is-right"
-            v-if="AuthUser.getters.user"
-            @click="$emit('showComment', post.id)"
-        >Comment</b-button
+          type="is-primary is-light"
+          class="post-btn is-right"
+          v-if="AuthUser.getters.user"
+          @click="showComment"
+          >Comment</b-button
         >
       </section>
     </div>
@@ -143,6 +143,11 @@
         ></MessagePost>
       </b-modal>
     </div>
+    <Comment
+      :id="`comment-post` + post.id"
+      :post="post"
+      style="display: none"
+    ></Comment>
   </div>
 </template>
 
@@ -150,12 +155,14 @@
 import AuthUser from "@/store/AuthUser";
 import MessagePost from "./MessagePost";
 import JoinChallenge from "@/components/JoinChallenge.vue";
+import Comment from "@/components/Comment";
 
 export default {
   name: "Post",
   components: {
     MessagePost,
     JoinChallenge,
+    Comment,
   },
   data() {
     return {
@@ -202,6 +209,17 @@ export default {
       }
       return true;
     },
+    showComment() {
+      const styleDisplay = document.getElementById("comment-post" + this.post.id).style
+        .display;
+      if (styleDisplay == "block") {
+        document.getElementById("comment-post" + this.post.id).style.display =
+          "none";
+      } else {
+        document.getElementById("comment-post" + this.post.id).style.display =
+          "block";
+      }
+    },
   },
   created() {},
 };
@@ -213,7 +231,6 @@ export default {
   margin: auto;
   margin-top: 30px;
   word-wrap: break-word;
-
 }
 .post-btn {
   margin-left: 10px;
@@ -223,8 +240,4 @@ export default {
   margin-top: 10px;
   padding-left: 0%;
 }
-#x {
-  width: 100%;
-}
-
 </style>

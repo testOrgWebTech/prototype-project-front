@@ -2,7 +2,7 @@
   <div class="bg">
     <div class="card">
       <div class="card-content">
-        <h1 class="title">Team {{ form.name }}</h1>
+        <h1 class="title">Team: {{ form.name }}</h1>
         <h2>Member</h2>
 
         <div class="name">
@@ -52,6 +52,17 @@
         </table>
       </div>
     </div>
+    <b-modal
+      :active.sync="showEditTeamModal"
+      :can-cancel="['escape', 'x', 'outside']"
+    >
+      <EditTeam
+        :team="team"
+        class="edit"
+        @closeEditTeam="showEditTeamModal = false"
+      >
+      </EditTeam>
+    </b-modal>
     <b-loading v-model="isLoading"></b-loading>
   </div>
 </template>
@@ -60,9 +71,12 @@
 import Topbar from "@/components/Topbar.vue";
 import TeamService from "@/services/TeamService";
 import ChallengeApiStore from "@/store/ChallengeApi";
+import EditTeam from "@/components/EditTeam.vue";
+
 export default {
   components: {
     Topbar,
+    EditTeam,
   },
   data() {
     return {
@@ -74,6 +88,7 @@ export default {
         name: "",
         users: null,
       },
+      showEditTeamModal: false,
     };
   },
   async created() {
@@ -122,12 +137,12 @@ export default {
   width: 80%;
   text-align: center;
 }
-.title {
+/*.title {
   width: 100%;
   text-align: center;
   margin-bottom: 30px;
   margin-top: 30px;
-}
+}*/
 .content {
   position: absolute;
   top: 40px;

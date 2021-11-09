@@ -29,7 +29,8 @@ export default {
 body, html{
   //background-color: #e8dcd0;
 
-  background-image: url("./assets/nba.jpg");
+  //background-image: url("./assets/nba.jpg");
+  background-image: url("./assets/basketball.jpg");
   background-position: center;
   background-repeat: repeat;
   background-size: cover;

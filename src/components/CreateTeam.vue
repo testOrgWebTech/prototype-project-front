@@ -2,33 +2,60 @@
   <div>
     <div class="card">
       <div class="card-content">
-        <h1 class="title">Create Team</h1>
-        <div class="form">
-          <section>
-            <b-field horizontal>
-              <b-input
-                v-model="form.name"
-                class="in"
-                placeholder="Team name"
-              ></b-input>
-            </b-field>
+        <b-field label="Team name" style="width: 50%">
+          <b-input
+            required
+            v-model="form.name"
+            placeholder="Your team name"
+          ></b-input>
+        </b-field>
 
-            <div class="divBtn">
-              
-              <b-button @click="create()" type="is-primary is-light"> Create </b-button>
-            </div>
-          </section>
-        </div>
+        <b-field label="Add member">
+          <b-dropdown
+            v-model="form.selectedPlayers"
+            multiple
+            aria-role="list"
+            scrollable
+          >
+            <template #trigger>
+              <b-button icon-right="menu-down"> Select players </b-button>
+            </template>
+
+            <b-dropdown-item
+              v-for="(user, index) in users"
+              :key="index"
+              :value="user.id"
+              aria-role="listitem"
+            >
+              <span>{{ user.name }}</span>
+            </b-dropdown-item>
+          </b-dropdown>
+        </b-field>
+
+        <b-field label="Detail">
+          <b-input
+            required
+            maxlength="300"
+            type="textarea"
+            v-model="form.detail"
+          ></b-input>
+        </b-field>
+
+        <b-button type="is-primary is-light" @click="create"
+          >Create Post</b-button
+        >
       </div>
     </div>
     <b-loading v-model="isLoading"></b-loading>
   </div>
 </template>
 
+
 <script>
 import Topbar from "@/components/Topbar.vue";
 import AuthUser from "@/store/AuthUser";
 import TeamApiStore from "@/store/TeamApi";
+import UserStore from "@/store/User";
 
 export default {
   components: {
@@ -39,33 +66,48 @@ export default {
     return {
       form: {
         name: "",
+        detail: null,
         user_id: AuthUser.getters.user.id,
+        selectedPlayers: [],
       },
       isLoading: false,
+      users: null,
     };
   },
   methods: {
-    async create() {
+    async fetchUsers() {
       this.isLoading = true;
-      let res = await TeamApiStore.dispatch("addTeam", this.form);
+      await UserStore.dispatch("fetchUsers");
+      this.users = await UserStore.getters.users;
+      this.users = this.users.filter((e) => {
+        return e.id != AuthUser.getters.user.id;
+      });
       this.isLoading = false;
-      if (this.form.name === "") {
-        this.$buefy.toast.open("Please input team name!!");
-      } else {
-        if (res.success) {
+    },
+    async create() {
+      if (Object.values(this.form).every((e) => e !== null && e !== "")) {
+        try {
+          this.isLoading = true;
+          let res = await TeamApiStore.dispatch("addTeam", this.form);
           this.$buefy.toast.open("Create Team Success!!");
-          this.$router.push("/");
-          this.$router.go(0);
-        } else {
+          this.$emit('closeCreateTeam')
+        } catch (e) {
           this.$buefy.toast.open("The name has already been taken!!");
         }
+        this.isLoading = false;
+      } else {
+        this.$buefy.toast.open("Please input your team detail!!");
       }
     },
+  },
+  created() {
+    this.fetchUsers();
   },
 };
 </script>
 
 <style lang="scss" scoped>
+<<<<<<< Updated upstream
 .label {
   text-align: left;
 }
@@ -102,4 +144,6 @@ h1 {
   margin-right: 20px;
   text-align: left;
 }
+=======
+>>>>>>> Stashed changes
 </style>
