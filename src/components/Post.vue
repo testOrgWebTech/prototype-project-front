@@ -32,11 +32,18 @@
             </div>
           </div>
         </div>
+        <b-tag v-if="post.challenge && (post.challenge.match_progress === 'WAITING')" type="is-primary" style="margin-top: 20px">{{ post.challenge.match_progress }}</b-tag>
+        <b-tag v-if="post.challenge && (post.challenge.match_progress === 'ENDED')" type="is-danger"
+         style="margin-top: 20px">{{ post.challenge.match_progress }}</b-tag>
         <b-dropdown
           v-model="option"
           append-to-body
           aria-role="menu"
-          v-if="(AuthUser.getters.user && !checkOwnPost()) || AuthUser.getters.user.role == 'ADMIN'"
+          scrollable
+          v-if="
+            (AuthUser.getters.user && !checkOwnPost()) ||
+            AuthUser.getters.user.role == 'ADMIN'
+          "
         >
           <template #trigger>
             <a class="navbar-item" role="button">
@@ -48,13 +55,13 @@
             <h3>select your action</h3>
           </b-dropdown-item>
           <hr class="dropdown-divider" />
-          <b-dropdown-item
+          <!-- <b-dropdown-item
             value="edit"
             aria-role="menuitem"
             @click="$emit('showEdit', post)"
           >
             Edit
-          </b-dropdown-item>
+          </b-dropdown-item> -->
           <b-dropdown-item
             value="delete"
             aria-role="menuitem"
@@ -64,24 +71,20 @@
           </b-dropdown-item>
         </b-dropdown>
       </div>
-      <div >
-        <div v-if="post.mode == 'challenge'">
-          Location: {{post.challenge.location}}
-          
-          <br>
-          
+      <div>
+        <div v-if="post.challenge">
+          Location: {{ post.challenge.location }}
+
+          <br />
+
           Mode: {{ post.challenge.mode }}
-         
-          <br>
-          <br>
+
+          <br />
+          <br />
         </div>
         {{ post.message }}
         <br /><br />
-
       </div>
-      
-
-
 
       <b-modal
         :active.sync="showJoinModal"
@@ -97,21 +100,21 @@
       </b-modal>
       <section id="btn">
         <b-button
-            type="is-primary is-light"
-            class="post-btn is-right"
-            v-if="
+          type="is-primary is-light"
+          class="post-btn is-right"
+          v-if="
             AuthUser.getters.user &&
             checkOwnPost() &&
             checkUserInTeamA() &&
             checkChallengeIsFull() &&
             post.mode == 'challenge'
           "
-            @click="
+          @click="
             () => {
               showJoinModal = true;
             }
           "
-        >Join
+          >Join
         </b-button>
 
         <b-button
@@ -124,11 +127,11 @@
         </b-button>
 
         <b-button
-            type="is-primary is-light"
-            class="post-btn is-right"
-            v-if="AuthUser.getters.user"
-            @click="$emit('showComment', post.id)"
-        >Comment</b-button
+          type="is-primary is-light"
+          class="post-btn is-right"
+          v-if="AuthUser.getters.user"
+          @click="showComment"
+          >Comment</b-button
         >
       </section>
     </div>
@@ -138,11 +141,17 @@
         :can-cancel="['escape', 'x', 'outside']"
       >
         <MessagePost id="x"
+        style="width: 100%"
           :receiver_id="post.user.id"
           :username="post.user.name"
         ></MessagePost>
       </b-modal>
     </div>
+    <Comment
+      :id="`comment-post` + post.id"
+      :post="post"
+      style="display: none"
+    ></Comment>
   </div>
 </template>
 
@@ -150,12 +159,14 @@
 import AuthUser from "@/store/AuthUser";
 import MessagePost from "./MessagePost";
 import JoinChallenge from "@/components/JoinChallenge.vue";
+import Comment from "@/components/Comment";
 
 export default {
   name: "Post",
   components: {
     MessagePost,
     JoinChallenge,
+    Comment,
   },
   data() {
     return {
@@ -188,12 +199,16 @@ export default {
       return AuthUser.getters.user.id !== this.post.user.id;
     },
     checkUserInTeamA() {
-      if (
-        this.post.challenge &&
-        this.post.challenge.teamA_players_id.includes(AuthUser.getters.user.id)
-      ) {
-        return false;
+      if (this.post.challenge) {
+        let array = this.post.challenge.teamA_players_id.split(', ')
+        if (
+          this.post.challenge &&
+          array.includes(AuthUser.getters.user.id.toString())
+        ) {
+          return false;
+        }
       }
+      
       return true;
     },
     checkChallengeIsFull() {
@@ -201,6 +216,17 @@ export default {
         return false;
       }
       return true;
+    },
+    showComment() {
+      const styleDisplay = document.getElementById("comment-post" + this.post.id).style
+        .display;
+      if (styleDisplay == "block") {
+        document.getElementById("comment-post" + this.post.id).style.display =
+          "none";
+      } else {
+        document.getElementById("comment-post" + this.post.id).style.display =
+          "block";
+      }
     },
   },
   created() {},
@@ -213,7 +239,6 @@ export default {
   margin: auto;
   margin-top: 30px;
   word-wrap: break-word;
-
 }
 .post-btn {
   margin-left: 10px;
@@ -223,8 +248,4 @@ export default {
   margin-top: 10px;
   padding-left: 0%;
 }
-#x {
-  width: 100%;
-}
-
 </style>

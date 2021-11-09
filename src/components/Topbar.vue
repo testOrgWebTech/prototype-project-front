@@ -1,11 +1,17 @@
 <template>
-  <b-navbar class="topbar text" >
+  <b-navbar class="topbar text">
     <template #start>
       <b-navbar-item class="text" href="#" tag="router-link" to="/">
         Home
       </b-navbar-item>
-      <b-navbar-dropdown type="is-primary" label="Teams" v-if="userId" style="color: white;">
-        <b-navbar-item class="text"
+      <b-navbar-dropdown
+        type="is-primary"
+        label="Teams"
+        v-if="userId"
+        style="color: white"
+      >
+        <b-navbar-item
+          class="text"
           v-for="(team, index) in teamSelected"
           :key="index"
           @click="link(team.id)"
@@ -16,10 +22,27 @@
       <b-navbar-item class="text" href="#" tag="router-link" to="/contract">
         About Us
       </b-navbar-item>
-      <b-navbar-item href="/message" v-if="isAuthen()" class="text">Message</b-navbar-item>
-      <b-navbar-item href="/editCategory" v-if="auth.getters.user.role == 'ADMIN'" class="text">Edit Category</b-navbar-item>
-      <b-navbar-item href="/manageUser" v-if="auth.getters.user.role == 'ADMIN'" class="text">Manage Users</b-navbar-item>
-      <b-navbar-item href="/manageChallenge" v-if="auth.getters.user.role == 'ADMIN'" class="text">Manage Challenge</b-navbar-item>
+      <b-navbar-item href="/message" v-if="isAuthen()" class="text"
+        >Message</b-navbar-item
+      >
+      <b-navbar-item
+        href="/editCategory"
+        v-if="auth.getters.user.role == 'ADMIN'"
+        class="text"
+        >Edit Category</b-navbar-item
+      >
+      <b-navbar-item
+        href="/manageUser"
+        v-if="auth.getters.user.role == 'ADMIN'"
+        class="text"
+        >Manage Users</b-navbar-item
+      >
+      <b-navbar-item
+        href="/manageChallenge"
+        v-if="auth.getters.user.role == 'ADMIN'"
+        class="text"
+        >Manage Challenge</b-navbar-item
+      >
     </template>
 
     <template #end>
@@ -109,13 +132,18 @@ export default {
       this.isLoading = true;
       await TeamApiStore.dispatch("fetchTeams");
       this.teams = await TeamApiStore.getters.teams;
-      let user_id = AuthUser.getters.user.id.toString();
-      this.teams.forEach((team) => {
-        if (team.users_id.includes(user_id)) {
+      let user_id = AuthUser.getters.user.id;
+      if (user_id) {
+        this.teams.forEach((team) => {
+        let array = team.users_id.split(', ')
+        if (array.includes(user_id.toString())) {
           this.teamSelected.push(team);
         }
-      });
+        });
+      }
+      
       this.isLoading = false;
+
     },
 
     link(id) {

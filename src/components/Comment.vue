@@ -1,14 +1,6 @@
-<template>
-
-  <div class="card">
-    <div id="commentwidth">
-      <div class="card-content">
-        <Post :post="post" id="commentwidth"></Post>
-      </div>
-
-    </div>
+<!--<template>
+<div class="card">
     <div class="card-content">
-
         <div v-for="(comment, index) in comments" :key="index">
           <div class="comment media">
             <div class="media-content wowrelative">
@@ -53,10 +45,62 @@
             >Comment</b-button
           >
         </div>
-        <!--user profile pic-->
       </div>
     </div>
     <b-loading v-model="isLoading" v-if="comments.length != 0"></b-loading>
+  </div>
+</template>-->
+
+<template>
+  <div>
+    <article class="media" v-for="(comment, index) in comments" :key="index">
+      <figure class="media-left">
+        <p class="image is-64x64">
+          <img :src="`http://localhost:8000${comment.user.imagePath}`" />
+        </p>
+      </figure>
+      <div class="media-content comment-content">
+        <div class="content">
+          <div class="comment-content">
+            <strong>{{ comment.user.name }}</strong>
+            <br />
+            {{ comment.message }}
+            <div class="x">
+              <button
+                class="delete"
+                @click="deleteComment(comment.id)"
+                v-if="comment.user.id === user_id"
+                style="margin"
+              ></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="media">
+      <figure class="media-left">
+        <p class="image is-64x64">
+          <img :src="`http://localhost:8000${user.imagePath}`" />
+        </p>
+      </figure>
+      <div class="media-content comment-content">
+        <div class="field">
+          <p class="control">
+            <textarea
+              class="textarea"
+              placeholder="Add a comment..."
+              v-model="message"
+            ></textarea>
+          </p>
+        </div>
+        <div class="field">
+          <p class="control">
+            <button class="button" @click="onClickComment">Post comment</button>
+          </p>
+        </div>
+      </div>
+    </article>
   </div>
 </template>
 
@@ -64,6 +108,7 @@
 import CommentStore from "@/store/Comment";
 import AuthUser from "@/store/AuthUser";
 import Post from "@/components/Post"
+import axios from 'axios';
 export default {
   components: {
     Post,
@@ -74,7 +119,8 @@ export default {
       message: null,
       isLoading: false,
       comments: [],
-      user_id: AuthUser.getters.user.id
+      user_id: AuthUser.getters.user.id,
+      user: AuthUser.getters.user
     };
   },
   props: {
@@ -82,8 +128,7 @@ export default {
   },
   async created() {
     await this.fetchCommentsByPostId(this.post.id);
-    this.comments = CommentStore.getters.comments;
-    // console.log(this.comments);
+    this.comments = await CommentStore.getters.comments;
   },
   methods: {
     async deleteComment(id) {
@@ -100,7 +145,6 @@ export default {
       });
     },
     onClickComment() {
-      // console.log(AuthUser.getters.user.id)
       const payload = {
         post_id: this.post.id,
         user_id: AuthUser.getters.user.id,
@@ -110,10 +154,13 @@ export default {
         message: "Comment?",
         onConfirm: async () => {
           this.isLoading = true;
-          await CommentStore.dispatch("newComment", payload);
+          console.log(payload);
+          //let res = await CommentStore.dispatch("newComment", payload);
+          await axios.post('http://localhost:8000/api/comments', payload)
+          await this.fetchCommentsByPostId(payload.post_id)
+          this.comments = await CommentStore.getters.comments;
           await this.$buefy.toast.open("Comment Success");
           this.isLoading = false;
-          this.$emit("closeEdit");
           this.message = null;
         },
       });
@@ -129,10 +176,13 @@ export default {
 </script>
     
 <style lang="scss">
-.comment {
-  margin-bottom: 10px;
-  //border-bottom: 0.5px solid;
-  padding: 10px;
+.comment-content {
+  position: relative;
+  word-break: break-word;
+  margin: 2%;
+  margin-top: 0%;
+  margin-left: 0%;
+  width: 98%;
 }
 .comment-input {
   margin: 10px;
@@ -141,15 +191,12 @@ export default {
   margin-top: 3%;
   margin-left: 83%;
 }
-.wowrelative{
-  position:relative;
+.delete{
+  text-align: right;
 }
-.wow {
+.x{
   position: absolute;
   top: 0px;
   right: 0px;
-}
-#commentwidth {
-  width: 100%;
 }
 </style>

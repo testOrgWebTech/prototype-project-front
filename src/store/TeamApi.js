@@ -37,82 +37,19 @@ export default new Vuex.Store({
             commit('fetch', { res })
         },
         async addTeam({ commit }, payload) {
-            try{
             let url = api_endpoint + '/api/teams'
             let body = {
                 name: payload.name,
                 user_id: payload.user_id,
             }
-            let res = await Axios.post(url, body)
-            if (res.status === 200) {
-                commit('add', res.data)
-                return {
-                    success: true
-                }
-            } else {
-                console.log("NOT 200", res)
-            }
-        } catch (e) {
-            if (e.response.status === 400) {
-                console.log(e)
-                console.log("ERROR  " + e.response.status + " |   " + e.response.statusText)
-                return {
-                    success: false,
-                    message: e.response.data,
-                }
-            } else {
-                console.error(e)
-                console.log("ERROR  " + e.response.status + " |   " + e.response.statusText)
-                return {
-                    success: false,
-                    message: e.response.data,
-                }
-            }
-        }
+            let res = await Axios.post(url, payload)
+            return res;
         },
         async editTeam({ commit }, payload) {
-            try{
-            let url = api_endpoint + '/api/teams/' + payload.id
-            let body = {
-                name: payload.name,
-                users: payload.users,
-                option: payload.option
-            }
-
-            let res = await Axios.put(url, body)
-            if (res.status === 200) {
-                let resData = {
-                    index: payload.index,
-                    response: res.date
-                }
-                // console.log("res", res)
-                commit('edit', resData)
-                return {
-                    success: true
-                }
-                
-            } else {
-                console.log("NOT 200", res)
-                
-            }
-        } catch (e) {
-            if (e.response.status === 400) {
-                console.log(e)
-                console.log("ERROR  " + e.response.status + " |   " + e.response.statusText)
-                return {
-                    success: false,
-                    message: e.response.data,
-                }
-            } else {
-                console.error(e)
-                console.log("ERROR  " + e.response.status + " |   " + e.response.statusText)
-                return {
-                    success: false,
-                    message: e.response.data,
-                }
-            }
+            let url = api_endpoint + '/api/teams/' + payload.id;
+            let res = await Axios.put(url, payload);
+            return res;
         }
-    }
     },
     modules: {}
 })

@@ -3,13 +3,10 @@
     <div class="card">
       <div class="card-content">
         <h1 class="title">Register</h1>
-        <div class="inputForm">
-          
+        <div class="inputForm" style="width: 50%; margin: auto">
           <b-field label="Name">
             <b-input
-              class="name"
-              name="name"
-              type="name"
+              class=""
               v-model="form.name"
               placeholder="Name"
               required
@@ -19,7 +16,6 @@
           <b-field label="E-mail">
             <b-input
               class=""
-              name="email"
               type="email"
               v-model="form.email"
               placeholder="Email"
@@ -31,7 +27,6 @@
           <b-field label="Password">
             <b-input
               class=""
-              name="password"
               v-model="form.password"
               type="password"
               password-reveal
@@ -45,7 +40,6 @@
           <b-field label="Confirm Password">
             <b-input
               class=""
-              name="password_confirm"
               v-model="form.password_confirmation"
               type="password"
               password-reveal
@@ -56,16 +50,23 @@
             </b-input>
           </b-field>
 
-          <div class="uploadImg file">
-            <label class="file-label">
-              <input class="file-input" name="photo" type="file" @change="onFileSelected" />
-              <span class="file-cta">
-                <span class="file-label">Upload a File</span>
-              </span>
-            </label>
-
-            <img class="image" :src="urlImage" />
-          </div>
+          <b-field label="Upload your profile img">
+            <div class="uploadImg file">
+              <label class="file-label">
+                <input
+                  class="file-input"
+                  type="file"
+                  @change="onFileSelected"
+                />
+                <span class="file-cta">
+                  <span class="file-label">Upload a File</span>
+                </span>
+              </label>
+              <p class="image is-64x64">
+                <img class="image" :src="urlImage" />
+              </p>
+            </div>
+          </b-field>
         </div>
 
         <section class="btn">
@@ -222,16 +223,10 @@ export default {
   text-align: center;
 }
 .uploadImg {
-  margin-top: 32px;
-  .inputFile {
-    margin-left: 37%;
-  }
+  //margin-top: 32px;
   .image {
-    margin-top: 20px;
     display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
+    margin: auto;
   }
 }
 body,
