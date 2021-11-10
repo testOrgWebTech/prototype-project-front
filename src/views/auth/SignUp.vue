@@ -7,6 +7,7 @@
           <b-field label="Name">
             <b-input
               class=""
+              name="name"
               v-model="form.name"
               placeholder="Name"
               required
@@ -16,6 +17,7 @@
           <b-field label="E-mail">
             <b-input
               class=""
+              name="email"
               type="email"
               v-model="form.email"
               placeholder="Email"
@@ -27,6 +29,7 @@
           <b-field label="Password">
             <b-input
               class=""
+              name="password"
               v-model="form.password"
               type="password"
               password-reveal
@@ -40,6 +43,7 @@
           <b-field label="Confirm Password">
             <b-input
               class=""
+              name="password_confirm"
               v-model="form.password_confirmation"
               type="password"
               password-reveal
@@ -54,6 +58,7 @@
             <div class="uploadImg file">
               <label class="file-label">
                 <input
+                  name="photo"
                   class="file-input"
                   type="file"
                   @change="onFileSelected"
